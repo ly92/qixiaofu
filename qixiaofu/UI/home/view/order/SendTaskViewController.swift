@@ -32,6 +32,7 @@ class SendTaskViewController: BaseTableViewController {
     @IBOutlet weak var priceTF: UITextField!
     @IBOutlet weak var goodsBrandTF: UITextField!
     @IBOutlet weak var priceInfoLbl: UILabel!
+    @IBOutlet weak var nextBtn: UIButton!
     
     fileprivate var sTime : Date?
     fileprivate var eTime : Date?
@@ -75,9 +76,10 @@ class SendTaskViewController: BaseTableViewController {
             self.navigationItem.title = "发单"
             
         }
+        self.nextBtn.layer.cornerRadius = 20.0
         
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title:"下一步" ,target:self,action:#selector(SendTaskViewController.rightItemAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image:#imageLiteral(resourceName: "notice_icon") ,target:self,action:#selector(SendTaskViewController.rightItemAction))
         
         //返回按钮
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(backTarget: self, action: #selector(SendTaskViewController.backClick))
@@ -109,6 +111,62 @@ class SendTaskViewController: BaseTableViewController {
             LYProgressHUD.dismiss()
         }) { (error) in
             LYProgressHUD.showError(error!)
+        }
+    }
+    
+    //下一步
+    @IBAction func nextAction() {
+        if self.isRedoOrder{
+            var redoParams : [String : Any] = [:]
+            redoParams["id"] = self.orderId
+            let count = self.countTF.text!
+            
+            if (self.sTime?.phpTimestamp().isEmpty)! {
+                LYProgressHUD.showError("请选择开始时间")
+                return
+            }
+            redoParams["service_stime"] = self.sTime?.phpTimestamp()
+            
+            if (self.eTime?.phpTimestamp().isEmpty)! {
+                LYProgressHUD.showError("请选择结束时间")
+                return
+            }
+            redoParams["service_etime"] = self.eTime?.phpTimestamp()
+            if (sTime?.isLaterThanDate(aDate: eTime!))!{
+                LYProgressHUD.showError("开始时间不可晚于结束时间！")
+                return
+            }
+            if count.isEmpty && count.intValue > 0 {
+                LYProgressHUD.showError("请输入数量")
+                return
+            }
+            redoParams["number"] = count
+            
+            let sendVC = SendTaskSureViewController.spwan()
+            sendVC.params = redoParams
+            sendVC.redoOrderDataJson = self.redoOrderDataJson
+            sendVC.isRedoOrder = self.isRedoOrder
+            sendVC.top_price = self.top_price
+            self.navigationController?.pushViewController(sendVC, animated: true)
+            
+        }else{
+            if self.setUpParams(true){
+                if self.isRepairOrder{
+                    params["is_compe"] = "1"//表示补单
+                    let payVC = PaySendTaskViewController.spwan()
+                    payVC.paymentJson = paymentJson
+                    payVC.isRepairOrder = true
+                    payVC.params = params
+                    self.navigationController?.pushViewController(payVC, animated: true)
+                }else{
+                    let sendVC = SendTaskSureViewController.spwan()
+                    sendVC.params = params
+                    sendVC.paymentJson = paymentJson
+                    sendVC.top_price = self.top_price
+                    self.navigationController?.pushViewController(sendVC, animated: true)
+                }
+                
+            }
         }
     }
     
@@ -370,60 +428,19 @@ class SendTaskViewController: BaseTableViewController {
         return true
     }
     
-    //下一步
+    //弹出
     @objc func rightItemAction() {
+        let image = #imageLiteral(resourceName: "send_task_step")
+        let h = kScreenW / image.size.width * image.size.height
+        let scroll = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH))
+        let imgV = UIImageView.init(image: image)
+        imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
+        scroll.addSubview(imgV)
+        scroll.contentSize = CGSize.init(width: kScreenW, height: h)
+        UIApplication.shared.keyWindow?.addSubview(scroll)
         
-        if self.isRedoOrder{
-            var redoParams : [String : Any] = [:]
-            redoParams["id"] = self.orderId
-            let count = self.countTF.text!
-            
-            if (self.sTime?.phpTimestamp().isEmpty)! {
-                LYProgressHUD.showError("请选择开始时间")
-                return
-            }
-            redoParams["service_stime"] = self.sTime?.phpTimestamp()
-            
-            if (self.eTime?.phpTimestamp().isEmpty)! {
-                LYProgressHUD.showError("请选择结束时间")
-                return
-            }
-            redoParams["service_etime"] = self.eTime?.phpTimestamp()
-            if (sTime?.isLaterThanDate(aDate: eTime!))!{
-                LYProgressHUD.showError("开始时间不可晚于结束时间！")
-                return
-            }
-            if count.isEmpty && count.intValue > 0 {
-                LYProgressHUD.showError("请输入数量")
-                return
-            }
-            redoParams["number"] = count
-            
-            let sendVC = SendTaskSureViewController.spwan()
-            sendVC.params = redoParams
-            sendVC.redoOrderDataJson = self.redoOrderDataJson
-            sendVC.isRedoOrder = self.isRedoOrder
-            sendVC.top_price = self.top_price
-            self.navigationController?.pushViewController(sendVC, animated: true)
-            
-        }else{
-            if self.setUpParams(true){
-                if self.isRepairOrder{
-                    params["is_compe"] = "1"//表示补单
-                    let payVC = PaySendTaskViewController.spwan()
-                    payVC.paymentJson = paymentJson
-                    payVC.isRepairOrder = true
-                    payVC.params = params
-                    self.navigationController?.pushViewController(payVC, animated: true)
-                }else{
-                    let sendVC = SendTaskSureViewController.spwan()
-                    sendVC.params = params
-                    sendVC.paymentJson = paymentJson
-                    sendVC.top_price = self.top_price
-                    self.navigationController?.pushViewController(sendVC, animated: true)
-                }
-                
-            }
+        scroll.addTapActionBlock {
+            scroll.removeFromSuperview()
         }
     }
     

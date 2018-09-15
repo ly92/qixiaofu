@@ -107,9 +107,23 @@ class TaskReceiveDetailViewController: BaseTableViewController {
     
     
     @IBAction func showDescAction() {
-        let dict1 = ["title" : "直接报名", "desc" : "表示对价格满意"]
-        let dict2 = ["title" : "报价报名", "desc" : "表示对价格不满意，可以输入自己接受的价格每个账号只有一次报价机会，报价报名后不可改为直接报名，或者选择报更低的价格来提高自己的竞争力"]
-        NoticeView.showWithText("提示",[dict1,dict2])
+        let image = #imageLiteral(resourceName: "eng_receive")
+        let h = kScreenW / image.size.width * image.size.height
+        let scroll = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH))
+        let imgV = UIImageView.init(image: image)
+        imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
+        scroll.addSubview(imgV)
+        scroll.contentSize = CGSize.init(width: kScreenW, height: h)
+        UIApplication.shared.keyWindow?.addSubview(scroll)
+        
+        scroll.addTapActionBlock {
+            scroll.removeFromSuperview()
+        }
+        
+        
+//        let dict1 = ["title" : "直接报名", "desc" : "表示对价格满意"]
+//        let dict2 = ["title" : "报价报名", "desc" : "表示对价格不满意，可以输入自己接受的价格每个账号只有一次报价机会，报价报名后不可改为直接报名，或者选择报更低的价格来提高自己的竞争力"]
+//        NoticeView.showWithText("提示",[dict1,dict2])
     }
     
     @IBAction func changePriceAction() {

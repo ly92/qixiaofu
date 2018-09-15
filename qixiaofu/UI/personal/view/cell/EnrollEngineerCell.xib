@@ -98,8 +98,8 @@
                                     <constraint firstAttribute="width" constant="62" id="yPM-lJ-oPi"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1243567890" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Au0-j3-YFc">
-                                <rect key="frame" x="65.5" y="58" width="73" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Au0-j3-YFc">
+                                <rect key="frame" x="8" y="58" width="0.0" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="irk-p1-9hz"/>
                                 </constraints>
@@ -107,8 +107,8 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceq-61-qW8">
-                                <rect key="frame" x="8" y="56" width="57.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceq-61-qW8">
+                                <rect key="frame" x="8" y="56" width="0.0" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2a8-5E-R5P"/>
                                 </constraints>
@@ -116,22 +116,28 @@
                                 <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zoA-Cs-J4l">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zoA-Cs-J4l">
                                 <rect key="frame" x="0.0" y="73.5" width="160" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="g2c-eT-67Y"/>
                                 </constraints>
-                                <state key="normal" title="联系工程师"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title=" 联系工程师" image="enro_icon2">
+                                    <color key="titleColor" red="1" green="0.40392156862745099" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="chatAction" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NSk-gW-U5b"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXr-XD-fEb">
-                                <rect key="frame" x="160" y="73" width="160" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXr-XD-fEb">
+                                <rect key="frame" x="160" y="73.5" width="160" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="ug9-7i-xbA"/>
                                 </constraints>
-                                <state key="normal" title="工程师详情"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="工程师详情" image="enro_icon1">
+                                    <color key="titleColor" red="1" green="0.4039215686" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="engDetailAction" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dY0-32-d9A"/>
                                 </connections>
@@ -187,5 +193,7 @@
     <resources>
         <image name="btn_checkbox_n" width="21" height="21"/>
         <image name="btn_checkbox_s" width="21" height="21"/>
+        <image name="enro_icon1" width="12" height="12"/>
+        <image name="enro_icon2" width="15" height="15"/>
     </resources>
 </document>
