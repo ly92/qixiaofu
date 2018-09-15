@@ -1385,6 +1385,27 @@ extension MySendOrderDetailViewController{
     }
     
     
+    //订单跟踪记录
+    func createNoteView(_ time : String, _ title : String, _ index : Int) -> UIView{
+        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW, height: 60))
+        let timeLbl = UILabel.init(frame: CGRect.init(x: 30, y: 0, width: kScreenW-60, height: 20))
+        timeLbl.textColor = UIColor.RGBS(s: 70)
+        timeLbl.font = UIFont.systemFont(ofSize: 12.0)
+        timeLbl.text = Date.dateStringFromDate(format: Date.datesFormatString(), timeStamps: time)
+        let size = title.sizeFit(width: kScreenW-60, height: CGFloat(MAXFLOAT), fontSize: 14.0)
+        let titleLbl = UILabel.init(frame: CGRect.init(x: 30, y: 25, width: kScreenW-60, height: size.height))
+        titleLbl.numberOfLines = 0
+        titleLbl.textColor = UIColor.RGBS(s: 70)
+        titleLbl.font = UIFont.systemFont(ofSize: 12.0)
+        titleLbl.text = title
+        
+        view.addSubview(timeLbl)
+        view.addSubview(titleLbl)
+        
+        return view
+    }
+    
+    
     //聊天以及看轨迹
     func setRightItem() {
         //如果有工程师开始工作时间则可以展示工作轨迹
@@ -1431,6 +1452,9 @@ extension MySendOrderDetailViewController : UIAlertViewDelegate{
         }
     }
 }
+
+
+
 
 /*
  {
