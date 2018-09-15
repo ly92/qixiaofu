@@ -50,6 +50,25 @@ class MySendOrderDetailViewController: UITableViewController {
     @IBOutlet weak var changePriceImgsView: UIView!
     @IBOutlet weak var sureChangePriceBtn: UIButton!
     
+    //0915
+    @IBOutlet weak var engIcon: UIImageView!
+    @IBOutlet weak var engNameLbl: UILabel!
+    @IBOutlet weak var levelImgV1: UIImageView!
+    @IBOutlet weak var levelImgV2: UIImageView!
+    @IBOutlet weak var levelImgV3: UIImageView!
+    @IBOutlet weak var levelLbl: UILabel!
+    @IBOutlet weak var taskNoteImg1: UIImageView!
+    @IBOutlet weak var taskNoteImg2: UIImageView!
+    @IBOutlet weak var taskNoteImg3: UIImageView!
+    @IBOutlet weak var taskNoteImg4: UIImageView!
+    @IBOutlet weak var taskNoteImg5: UIImageView!
+    @IBOutlet weak var taskNoteView1: UIView!
+    @IBOutlet weak var taskNoteView2: UIView!
+    @IBOutlet weak var taskNoteView3: UIView!
+    @IBOutlet weak var taskNoteView4: UIView!
+    @IBOutlet weak var noteView: UIView!
+    
+    
     fileprivate var projectImgsVH : CGFloat = 0//项目详情中图片高度
     fileprivate var changePriceImgsVH : CGFloat = 0//调价时图片高度
     fileprivate var projectPhotoView = LYPhotoBrowseView.init(frame: CGRect())
@@ -158,6 +177,15 @@ class MySendOrderDetailViewController: UITableViewController {
             customAlertView.show()
         }
     }
+    
+    //联系工程师
+    @IBAction func chatEngAction() {
+    }
+    
+    //工程师详情
+    @IBAction func engDetailAction() {
+    }
+    
     
     //刷新列表和详情的通知
     func refreshData(type : Int) {
@@ -587,40 +615,50 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0{
-            return 44
-        }else if indexPath.row == 1{
-            return 70
-        }else if indexPath.row == 12{
-            return self.projectPhotoView.heightValue
-        }else if indexPath.row == 13{
-            return 44
-        }else if indexPath.row == 14{
-            if self.isChangePrice{
-                return self.changePricePhotoView.heightValue + 134
-            }else{
-                return 0
+        if indexPath.section == 0{
+            if indexPath.row == 0{
+                return 44
+            }else if indexPath.row == 1{
+                return 70
+            }else if indexPath.row == 12{
+                return self.projectPhotoView.heightValue
+            }else if indexPath.row == 13{
+                return 44
+            }else if indexPath.row == 14{
+                if self.isChangePrice{
+                    return self.changePricePhotoView.heightValue + 134
+                }else{
+                    return 0
+                }
             }
-        }
-        if indexPath.row == 3{
-            let desc = modelJson["service_sector"].stringValue
-            let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
-            if height > 25 {
-                return height
+            if indexPath.row == 3{
+                let desc = modelJson["service_sector"].stringValue
+                let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+                if height > 25 {
+                    return height
+                }
             }
-        }
-        if indexPath.row == 9{
-            let desc = modelJson["service_address"].stringValue
-            let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
-            if height > 25 {
-                return height
+            if indexPath.row == 9{
+                let desc = modelJson["service_address"].stringValue
+                let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+                if height > 25 {
+                    return height
+                }
             }
-        }
-        if indexPath.row == 10{
-            let desc = modelJson["bill_desc"].stringValue
-            let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
-            if height > 25 {
-                return height
+            if indexPath.row == 10{
+                let desc = modelJson["bill_desc"].stringValue
+                let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+                if height > 25 {
+                    return height
+                }
+            }
+        }else if indexPath.section == 1{
+            if indexPath.row == 0{
+                return 95
+            }else if indexPath.row == 1{
+                return 130
+            }else if indexPath.row == 2{
+                return 100
             }
         }
         return 21
