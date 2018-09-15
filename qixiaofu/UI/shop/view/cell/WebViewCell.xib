@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="111" id="KGk-i7-Jjw" customClass="WebViewCell" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="111"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="110.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nNs-Kv-yVs">
+                        <rect key="frame" x="10" y="37" width="300" height="72.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <dataDetectorType key="dataDetectorTypes"/>
+                        <connections>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="Fuz-fq-kKq"/>
+                        </connections>
+                    </webView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tnQ-9D-xMC">
+                        <rect key="frame" x="0.0" y="18" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1.5" id="KfZ-uY-MBX"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="规格参数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cr8-sW-dpe">
+                        <rect key="frame" x="120" y="8" width="80" height="21"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="3yh-Qk-sry"/>
+                            <constraint firstAttribute="width" constant="80" id="CQs-VJ-fzb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="cr8-sW-dpe" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="0KV-Lw-MPI"/>
+                    <constraint firstItem="nNs-Kv-yVs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="73b-0c-USt"/>
+                    <constraint firstItem="cr8-sW-dpe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Huc-5t-LiC"/>
+                    <constraint firstItem="cr8-sW-dpe" firstAttribute="centerY" secondItem="tnQ-9D-xMC" secondAttribute="centerY" id="JWk-AV-tcg"/>
+                    <constraint firstAttribute="bottom" secondItem="nNs-Kv-yVs" secondAttribute="bottom" constant="1" id="Lkq-u4-ZMV"/>
+                    <constraint firstItem="nNs-Kv-yVs" firstAttribute="top" secondItem="cr8-sW-dpe" secondAttribute="bottom" constant="8" id="fgb-oT-eTe"/>
+                    <constraint firstAttribute="trailing" secondItem="tnQ-9D-xMC" secondAttribute="trailing" id="i6m-QR-Won"/>
+                    <constraint firstItem="tnQ-9D-xMC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qId-Ss-vlT"/>
+                    <constraint firstAttribute="trailing" secondItem="nNs-Kv-yVs" secondAttribute="trailing" constant="10" id="w2p-rv-UaG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="webView" destination="nNs-Kv-yVs" id="vWJ-rK-YBo"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="47.5"/>
+        </tableViewCell>
+    </objects>
+</document>

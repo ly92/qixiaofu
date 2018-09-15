@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LYSelectePhotoCell" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="155" height="126"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="155" height="126"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tcr-px-qey">
+                        <rect key="frame" x="0.0" y="0.0" width="155" height="126"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6F-wS-TVB">
+                        <rect key="frame" x="113" y="2" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="a6d-tH-zVV"/>
+                            <constraint firstAttribute="height" constant="40" id="hhn-3F-5z5"/>
+                        </constraints>
+                        <state key="normal" image="photo_select"/>
+                        <connections>
+                            <action selector="selecteAction" destination="gTV-IL-0wX" eventType="touchUpInside" id="jOJ-CG-OnX"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ls-mL-2LV">
+                        <rect key="frame" x="132" y="2" width="21" height="21"/>
+                        <color key="backgroundColor" red="0.9882352941176471" green="0.43137254901960786" blue="0.12941176470588234" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Ziv-OF-u96"/>
+                            <constraint firstAttribute="width" constant="21" id="kFA-3N-9oX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.98039215690000003" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="4ls-mL-2LV" firstAttribute="trailing" secondItem="i6F-wS-TVB" secondAttribute="trailing" id="4nm-Pd-fKE"/>
+                <constraint firstAttribute="trailing" secondItem="i6F-wS-TVB" secondAttribute="trailing" constant="2" id="Ese-GW-32a"/>
+                <constraint firstItem="tcr-px-qey" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PiN-D5-r5E"/>
+                <constraint firstItem="4ls-mL-2LV" firstAttribute="top" secondItem="i6F-wS-TVB" secondAttribute="top" id="SIw-mV-ZVG"/>
+                <constraint firstAttribute="trailing" secondItem="tcr-px-qey" secondAttribute="trailing" id="Ss9-bR-pwX"/>
+                <constraint firstItem="i6F-wS-TVB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="Z7H-x2-pMQ"/>
+                <constraint firstItem="tcr-px-qey" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="m5I-xZ-74c"/>
+                <constraint firstAttribute="bottom" secondItem="tcr-px-qey" secondAttribute="bottom" id="u4Q-g4-BiF"/>
+            </constraints>
+            <size key="customSize" width="155" height="126"/>
+            <connections>
+                <outlet property="imgV" destination="tcr-px-qey" id="yxy-4T-gqL"/>
+                <outlet property="numLbl" destination="4ls-mL-2LV" id="ZZP-QN-CTk"/>
+                <outlet property="selectedBtn" destination="i6F-wS-TVB" id="2eG-7I-ECT"/>
+            </connections>
+            <point key="canvasLocation" x="86.5" y="16"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="photo_select" width="21" height="21"/>
+    </resources>
+</document>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="LogisticsCell" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FnS-3F-YhU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="42.5"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入物流编号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EM9-eE-ZGu">
+                                <rect key="frame" x="10" y="13" width="230" height="17"/>
+                                <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KGk-i7-Jjw" id="KKW-1o-4Yt"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0J5-Ct-SWi">
+                                <rect key="frame" x="250" y="6" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="5r0-tT-Bkk"/>
+                                    <constraint firstAttribute="height" constant="30" id="zT3-Q8-E3v"/>
+                                </constraints>
+                                <state key="normal" image="service_bill_icon15"/>
+                                <connections>
+                                    <action selector="plusAction" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Si0-QT-I6O"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1jZ-6r-Z2p">
+                                <rect key="frame" x="280" y="6.5" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="U47-HJ-pCc"/>
+                                    <constraint firstAttribute="width" constant="30" id="pRd-xq-wez"/>
+                                </constraints>
+                                <state key="normal" image="service_bill_icon16"/>
+                                <connections>
+                                    <action selector="minusAction" destination="KGk-i7-Jjw" eventType="touchUpInside" id="YQl-jz-umU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1jZ-6r-Z2p" firstAttribute="centerY" secondItem="FnS-3F-YhU" secondAttribute="centerY" id="3ZP-MX-Oez"/>
+                            <constraint firstItem="EM9-eE-ZGu" firstAttribute="leading" secondItem="FnS-3F-YhU" secondAttribute="leading" constant="10" id="BiE-dM-IZc"/>
+                            <constraint firstItem="0J5-Ct-SWi" firstAttribute="leading" secondItem="EM9-eE-ZGu" secondAttribute="trailing" constant="10" id="FgX-zl-khV"/>
+                            <constraint firstItem="EM9-eE-ZGu" firstAttribute="centerY" secondItem="FnS-3F-YhU" secondAttribute="centerY" id="Ibi-dU-emC"/>
+                            <constraint firstAttribute="trailing" secondItem="1jZ-6r-Z2p" secondAttribute="trailing" constant="10" id="Kab-rb-5O3"/>
+                            <constraint firstItem="0J5-Ct-SWi" firstAttribute="centerY" secondItem="FnS-3F-YhU" secondAttribute="centerY" id="KoA-Zd-hn4"/>
+                            <constraint firstItem="1jZ-6r-Z2p" firstAttribute="leading" secondItem="0J5-Ct-SWi" secondAttribute="trailing" id="ZDO-wi-POf"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="FnS-3F-YhU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="98A-le-mu4"/>
+                    <constraint firstAttribute="trailing" secondItem="FnS-3F-YhU" secondAttribute="trailing" id="FgN-84-D9y"/>
+                    <constraint firstAttribute="bottom" secondItem="FnS-3F-YhU" secondAttribute="bottom" constant="1" id="lTT-Lw-VDJ"/>
+                    <constraint firstItem="FnS-3F-YhU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="plR-DL-6S2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="logisticsTF" destination="EM9-eE-ZGu" id="9Xj-je-Div"/>
+                <outlet property="minusBtn" destination="1jZ-6r-Z2p" id="cG0-4g-k4d"/>
+                <outlet property="plusBtn" destination="0J5-Ct-SWi" id="Vxp-QW-wIx"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="service_bill_icon15" width="11" height="11"/>
+        <image name="service_bill_icon16" width="11" height="11"/>
+    </resources>
+</document>

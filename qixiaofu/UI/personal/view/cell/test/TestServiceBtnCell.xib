@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="KGk-i7-Jjw" customClass="TestServiceBtnCell" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbA-eb-Wcy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="35.5"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvs-Vu-V5h">
+                                <rect key="frame" x="300" y="5" width="10" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="HDO-5m-BxP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" backgroundImage="img_bg_top">
+                                    <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btn3Action" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Z58-hu-9e1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4i-6J-aNz">
+                                <rect key="frame" x="282" y="5" width="10" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Bmi-XO-VIT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" backgroundImage="img_bg_top">
+                                    <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btn2Action" destination="KGk-i7-Jjw" eventType="touchUpInside" id="c7K-6D-M18"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzs-PA-Jfe">
+                                <rect key="frame" x="264" y="5" width="10" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="ODZ-Y3-apw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" backgroundImage="img_bg_top">
+                                    <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btn1Action" destination="KGk-i7-Jjw" eventType="touchUpInside" id="2BG-rn-pyk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z4i-6J-aNz" firstAttribute="centerY" secondItem="yzs-PA-Jfe" secondAttribute="centerY" id="6LB-hp-3Hk"/>
+                            <constraint firstAttribute="trailing" secondItem="yvs-Vu-V5h" secondAttribute="trailing" constant="10" id="Dk1-Ta-qGv"/>
+                            <constraint firstItem="yvs-Vu-V5h" firstAttribute="leading" secondItem="z4i-6J-aNz" secondAttribute="trailing" constant="8" id="Ng9-Vc-Afs"/>
+                            <constraint firstItem="z4i-6J-aNz" firstAttribute="centerY" secondItem="cbA-eb-Wcy" secondAttribute="centerY" id="UWs-q8-wue"/>
+                            <constraint firstItem="z4i-6J-aNz" firstAttribute="leading" secondItem="yzs-PA-Jfe" secondAttribute="trailing" constant="8" id="WTO-V0-ggL"/>
+                            <constraint firstItem="yvs-Vu-V5h" firstAttribute="centerY" secondItem="cbA-eb-Wcy" secondAttribute="centerY" id="aap-hn-KlO"/>
+                            <constraint firstItem="yvs-Vu-V5h" firstAttribute="centerY" secondItem="z4i-6J-aNz" secondAttribute="centerY" id="hSo-GY-PQ6"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="cbA-eb-Wcy" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="7mX-I9-jtf"/>
+                    <constraint firstAttribute="bottom" secondItem="cbA-eb-Wcy" secondAttribute="bottom" constant="8" id="M0t-vr-9uo"/>
+                    <constraint firstAttribute="trailing" secondItem="cbA-eb-Wcy" secondAttribute="trailing" id="Xxk-01-zfE"/>
+                    <constraint firstItem="cbA-eb-Wcy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xsT-X0-GlK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btn1" destination="yzs-PA-Jfe" id="R7z-1H-AUf"/>
+                <outlet property="btn2" destination="z4i-6J-aNz" id="Mur-fg-abv"/>
+                <outlet property="btn3" destination="yvs-Vu-V5h" id="nPn-PA-7Oz"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="img_bg_top" width="6" height="6"/>
+    </resources>
+</document>

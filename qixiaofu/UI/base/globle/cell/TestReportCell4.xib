@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="82" id="KGk-i7-Jjw" customClass="TestReportCell4" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="307" height="82"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="307" height="81.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0Q-fa-sJO">
+                        <rect key="frame" x="-419" y="10" width="1145" height="2"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="YH7-mK-ruU"/>
+                        </constraints>
+                        <string key="text">------------------------------------------------------------------------------------------------------------------------------------------------------</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试时间：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Enz-FM-psN">
+                        <rect key="frame" x="118" y="22" width="71.5" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="gw2-Lh-40J"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oiM-F9-06s">
+                        <rect key="frame" x="10" y="53" width="287" height="18.5"/>
+                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <connections>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="yPy-1h-LkA"/>
+                        </connections>
+                    </webView>
+                </subviews>
+                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="Enz-FM-psN" firstAttribute="top" secondItem="K0Q-fa-sJO" secondAttribute="bottom" constant="10" id="0SM-41-Y0u"/>
+                    <constraint firstItem="K0Q-fa-sJO" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Ugz-eA-Elh"/>
+                    <constraint firstAttribute="trailing" secondItem="oiM-F9-06s" secondAttribute="trailing" constant="10" id="VZi-am-dkS"/>
+                    <constraint firstAttribute="bottom" secondItem="oiM-F9-06s" secondAttribute="bottom" constant="10" id="bKw-MF-xcx"/>
+                    <constraint firstItem="oiM-F9-06s" firstAttribute="top" secondItem="Enz-FM-psN" secondAttribute="bottom" constant="10" id="hNq-ux-eXD"/>
+                    <constraint firstItem="Enz-FM-psN" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="mEw-BT-uH8"/>
+                    <constraint firstItem="oiM-F9-06s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="sfv-Xw-iUb"/>
+                    <constraint firstItem="K0Q-fa-sJO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="tQ1-8Y-a1c"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="timeLbl" destination="Enz-FM-psN" id="t3i-bA-u7F"/>
+                <outlet property="webView" destination="oiM-F9-06s" id="n8v-4J-aLQ"/>
+            </connections>
+            <point key="canvasLocation" x="70.5" y="1"/>
+        </tableViewCell>
+    </objects>
+</document>
