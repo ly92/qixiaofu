@@ -88,6 +88,7 @@ class MySendOrderDetailViewController: UITableViewController {
         
         self.sureChangePriceBtn.layer.cornerRadius = 20
         self.iconImgV.layer.cornerRadius = 20
+        self.engIcon.layer.cornerRadius = 22.5
         
         self.changePricePhotoView = LYMultiplePhotoBrowseView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW - 10, height: self.changePriceImgsView.h), superVC: self)
         self.changePricePhotoView.maxPhotoNum = 9
@@ -180,10 +181,22 @@ class MySendOrderDetailViewController: UITableViewController {
     
     //联系工程师
     @IBAction func chatEngAction() {
+        //聊天
+        DispatchQueue.global().async {
+            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+        }
+        let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
+        //保存聊天页面数据
+        LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
+        chatVC?.title = self.modelJson["call_nik_name"].stringValue
+        self.navigationController?.pushViewController(chatVC!, animated: true)
     }
     
     //工程师详情
     @IBAction func engDetailAction() {
+        let engineerDetailVC = EngineerDetailViewController()
+        engineerDetailVC.member_id = self.modelJson["ot_user_id"].stringValue
+        self.navigationController?.pushViewController(engineerDetailVC, animated: true)
     }
     
     
@@ -311,6 +324,13 @@ class MySendOrderDetailViewController: UITableViewController {
             self.receiveOrderUI(resultDict: resultDict)
         }else{
             self.sendOrderUI(resultDict: resultDict)
+        }
+        
+        
+        //接单工程师
+        if !self.modelJson["ot_user_id"].stringValue.isEmpty{
+            self.engIcon.setImageUrlStr(self.modelJson["ot_user_id"].stringValue)
+            self.engNameLbl.text = self.modelJson["ot_user_id"].stringValue
         }
         
         self.tableView.reloadData()
@@ -984,7 +1004,6 @@ extension MySendOrderDetailViewController{
                 self.centerBtn.isHidden = false
                 self.centerBtn.setTitle(" 确认完成 ", for: .normal)
             }else if resultDict["t_state"].stringValue.intValue == 1{
-                
                 self.rightBtn.isHidden = false
                 self.rightBtn.setTitle(" 等待客户确认完成 ", for: .normal)
                 self.rightBtn.isSelected = true
@@ -1074,14 +1093,7 @@ extension MySendOrderDetailViewController{
                     self.rightBtn.isHidden = true
                     self.centerBtn.isHidden = true
                 }
-            }
-                //            else if resultDict["move_state"].stringValue.intValue == 0{
-                //                self.stateLbl.text = "来自订单转移"
-                //                self.rightBtn.isHidden = true
-                //                self.centerBtn.isHidden = true
-                //                self.leftBtn.isHidden = true
-                //            }
-            else{
+            }else{
                 self.stateLbl.text = "已接单"
                 self.setRightItem()
                 self.rightBtn.isHidden = false
@@ -1310,7 +1322,6 @@ extension MySendOrderDetailViewController{
             self.stateLbl.text = "已撤销"
             self.rightBtn.isHidden = false
             self.rightBtn.setTitle(" 删除 ", for: .normal)
-            
         case 1:
             if resultDict["pay_statu"].stringValue.intValue == 0{
                 self.stateLbl.text = "待支付"
@@ -1318,6 +1329,7 @@ extension MySendOrderDetailViewController{
                 self.rightBtn.setTitle(" 去支付 ", for: .normal)
                 self.centerBtn.isHidden = false
                 self.centerBtn.setTitle(" 取消订单 ", for: .normal)
+                self.setUpTaskStep(0)
             }else{
                 self.stateLbl.text = "报名中"
                 self.enrollNumLbl.text = "已报名" + self.enrollNum + "人"
@@ -1327,6 +1339,7 @@ extension MySendOrderDetailViewController{
                 self.centerBtn.setTitle(" 调价 ", for: .normal)
                 self.leftBtn.isHidden = false
                 self.leftBtn.setTitle(" 指定接单人 ", for: .normal)
+                self.setUpTaskStep(1)
             }
             
         case 2:
@@ -1337,12 +1350,21 @@ extension MySendOrderDetailViewController{
                 self.rightBtn.setTitle(" 取消订单 ", for: .normal)
                 self.centerBtn.isHidden = false
                 self.centerBtn.setTitle(" 调价 ", for: .normal)
+                if resultDict["t_state"].stringValue.intValue == 4{
+                    self.setUpTaskStep(3)
+                }else{
+                    self.setUpTaskStep(2)
+                }
             }else if resultDict["t_state"].stringValue.intValue == 1{
                 self.rightBtn.isHidden = false
                 self.rightBtn.setTitle(" 确认完成 ", for: .normal)
                 self.centerBtn.isHidden = false
                 self.centerBtn.setTitle(" 未完成 ", for: .normal)
+                self.setUpTaskStep(4)
+            }else{
+                self.setUpTaskStep(2)
             }
+            
             
         case 3:
             self.rightBtn.isHidden = false
@@ -1386,16 +1408,52 @@ extension MySendOrderDetailViewController{
             
         case 7:
             self.stateLbl.text = "补单"
-            //            case 8:
-        //                return "工作中"
         default:
             self.stateLbl.text = "未知状态"
         }
     }
     
-    //订单记录
-    func setTaskNote() {
-        
+    //订单流程步骤
+    func setUpTaskStep(_ index : Int) {
+        switch index {
+        case 0:
+            //发单未成功
+            self.taskNoteImg1.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView1.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg2.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView2.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg3.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView3.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg4.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView4.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg5.image = #imageLiteral(resourceName: "task_icon2")
+        case 1:
+            //发单
+            self.taskNoteImg2.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView2.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg3.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView3.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg4.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView4.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg5.image = #imageLiteral(resourceName: "task_icon2")
+        case 2:
+            //工程师开始工作
+            self.taskNoteImg3.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView3.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg4.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView4.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg5.image = #imageLiteral(resourceName: "task_icon2")
+        case 3:
+            //工程师完成工作
+            self.taskNoteImg4.image = #imageLiteral(resourceName: "task_icon2")
+            self.taskNoteView4.backgroundColor = UIColor.colorHex(hex: "c1c1c1")
+            self.taskNoteImg5.image = #imageLiteral(resourceName: "task_icon2")
+        case 4:
+            //完成
+            self.taskNoteImg5.image = #imageLiteral(resourceName: "task_icon2")
+        default:
+            print("123")
+        }
     }
     
     
