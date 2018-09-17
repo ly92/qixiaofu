@@ -90,7 +90,13 @@ class HomeTaskListCell: UITableViewCell {
                 self.serverPriceLbl.isHidden = true
             }
             
-            self.stateLbl.text = "已报名"
+            if jsonModel["is_apply"].stringValue.intValue == 1{
+                self.stateLbl.text = "已报名"
+            }else{
+                self.stateLbl.text = "报名中"
+            }
+            
+            
         }
     }
     

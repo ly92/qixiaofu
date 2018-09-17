@@ -363,7 +363,7 @@
                                                                 <constraint firstAttribute="height" constant="40" id="mcg-Bb-HJV"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QN4-8U-Tuv">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QN4-8U-Tuv">
                                                             <rect key="frame" x="55" y="10" width="234" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="SMH-5j-GLm"/>
@@ -372,8 +372,8 @@
                                                             <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kra-3k-pia">
-                                                            <rect key="frame" x="339" y="21" width="60" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kra-3k-pia">
+                                                            <rect key="frame" x="339" y="10" width="60" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="GZJ-QZ-Jdr"/>
                                                                 <constraint firstAttribute="height" constant="21" id="MaD-Cv-nTR"/>
@@ -382,7 +382,7 @@
                                                             <color key="textColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zea-s1-ADl">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zea-s1-ADl">
                                                             <rect key="frame" x="55" y="31" width="274" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="d4F-rs-pLC"/>
@@ -391,8 +391,8 @@
                                                             <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXL-2O-ejh">
-                                                            <rect key="frame" x="299" y="10" width="100" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXL-2O-ejh">
+                                                            <rect key="frame" x="299" y="31" width="100" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="FWT-Bh-x4m"/>
                                                                 <constraint firstAttribute="width" constant="100" id="uLd-3o-L1h"/>
@@ -405,14 +405,14 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="Kra-3k-pia" secondAttribute="trailing" constant="5" id="Bqv-R1-thK"/>
+                                                        <constraint firstItem="Kra-3k-pia" firstAttribute="centerY" secondItem="QN4-8U-Tuv" secondAttribute="centerY" id="Dcv-6b-qZI"/>
                                                         <constraint firstItem="ZXL-2O-ejh" firstAttribute="leading" secondItem="QN4-8U-Tuv" secondAttribute="trailing" constant="10" id="Jyt-Wt-vuK"/>
                                                         <constraint firstAttribute="trailing" secondItem="ZXL-2O-ejh" secondAttribute="trailing" constant="5" id="Q1v-YT-e1h"/>
-                                                        <constraint firstItem="Kra-3k-pia" firstAttribute="centerY" secondItem="zea-s1-ADl" secondAttribute="centerY" constant="-10" id="VRn-EG-N7m"/>
+                                                        <constraint firstItem="ZXL-2O-ejh" firstAttribute="centerY" secondItem="zea-s1-ADl" secondAttribute="centerY" id="QB3-T9-JCe"/>
                                                         <constraint firstItem="QN4-8U-Tuv" firstAttribute="top" secondItem="1Ms-tG-KLB" secondAttribute="top" constant="10" id="ah2-vz-4FM"/>
                                                         <constraint firstItem="kSa-J4-TXn" firstAttribute="centerY" secondItem="1Ms-tG-KLB" secondAttribute="centerY" id="bJX-6v-eig"/>
                                                         <constraint firstItem="Kra-3k-pia" firstAttribute="leading" secondItem="zea-s1-ADl" secondAttribute="trailing" constant="10" id="i1v-Ho-WWK"/>
                                                         <constraint firstItem="kSa-J4-TXn" firstAttribute="leading" secondItem="1Ms-tG-KLB" secondAttribute="leading" constant="5" id="jku-ht-MpC"/>
-                                                        <constraint firstItem="ZXL-2O-ejh" firstAttribute="centerY" secondItem="QN4-8U-Tuv" secondAttribute="centerY" id="n9q-VB-NiZ"/>
                                                         <constraint firstItem="zea-s1-ADl" firstAttribute="top" secondItem="QN4-8U-Tuv" secondAttribute="bottom" id="stA-cM-5zD"/>
                                                         <constraint firstItem="QN4-8U-Tuv" firstAttribute="leading" secondItem="kSa-J4-TXn" secondAttribute="trailing" constant="10" id="uzT-9C-zxF"/>
                                                         <constraint firstItem="zea-s1-ADl" firstAttribute="leading" secondItem="kSa-J4-TXn" secondAttribute="trailing" constant="10" id="vzH-Id-Avz"/>

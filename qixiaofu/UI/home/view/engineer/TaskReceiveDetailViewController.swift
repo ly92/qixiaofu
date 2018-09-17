@@ -229,7 +229,8 @@ extension TaskReceiveDetailViewController{
         
         self.task_user_id = resultDict["bill_user_id"].stringValue
         
-        self.visitLbl.text = resultDict["visit_count"].stringValue + "浏览"
+//        self.visitLbl.text = resultDict["visit_count"].stringValue + "浏览"
+        self.visitLbl.text = "已报名" + resultDict["willnum"].stringValue + "人"
         
         //是否可接单//接单按钮是否可点击 1：可点击
         if resultDict["bill_statu"].stringValue.intValue == 1{

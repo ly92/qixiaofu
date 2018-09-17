@@ -298,6 +298,8 @@ class MySendOrderDetailViewController: UITableViewController {
         self.memoLbl.text = resultDict["bill_desc"].stringValue
         self.serverPriceLbl.text = "¥" + resultDict["service_price"].stringValue
         
+        //报名人数
+        self.enrollNum = self.modelJson["willnum"].stringValue
         self.rechargePriceLbl.text = "我的报价:¥" + self.modelJson["offer_price"].stringValue
         self.rechargeDescLbl.text = "剩余" + self.modelJson["offer_num"].stringValue + "次报价机会"
         
@@ -329,8 +331,8 @@ class MySendOrderDetailViewController: UITableViewController {
         
         //接单工程师
         if !self.modelJson["ot_user_id"].stringValue.isEmpty{
-            self.engIcon.setImageUrlStr(self.modelJson["ot_user_id"].stringValue)
-            self.engNameLbl.text = self.modelJson["ot_user_id"].stringValue
+            self.engIcon.setImageUrlStr(self.modelJson["ot_user_avatar"].stringValue)
+            self.engNameLbl.text = self.modelJson["call_nik_name"].stringValue
         }
         
         self.tableView.reloadData()
@@ -684,11 +686,9 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                 }else if indexPath.row == 1{
                     return 130
                 }else if indexPath.row == 2{
-                    return 100
+                    return 0
                 }
             }
-            
-            
         }
         return 21
     }
