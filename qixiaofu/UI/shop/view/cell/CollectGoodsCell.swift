@@ -15,7 +15,12 @@ class CollectGoodsCell: UITableViewCell {
         didSet{
             self.imgV.setImageUrlStr(subJson["goods_image_url"].stringValue)
             self.nameLbl.text = subJson["goods_name"].stringValue
-            self.priceLbl.text = "¥" + subJson["goods_price"].stringValue
+            if subJson["goods_price"].stringValue.floatValue > 0{
+                self.priceLbl.text = "¥" + subJson["goods_price"].stringValue
+            }else{
+                self.priceLbl.text = ""
+            }
+            
 //            self.inventoryLbl.text = "商品库存：" + subJson["goods_storage"].stringValue
             self.inventoryLbl.text = "销售量：" + subJson["goods_salenum"].stringValue
             self.areaLbl.text = subJson["area_name"].stringValue
@@ -44,7 +49,12 @@ class CollectGoodsCell: UITableViewCell {
         didSet{
             self.imgV.setImageUrlStr(epSubJson["goods_image"].stringValue)
             self.nameLbl.text = epSubJson["goods_name"].stringValue
-            self.priceLbl.text = "¥" + epSubJson["goods_price"].stringValue
+            if epSubJson["goods_price"].stringValue.floatValue > 0{
+                self.priceLbl.text = "¥" + epSubJson["goods_price"].stringValue
+            }else{
+                self.priceLbl.text = ""
+            }
+            
             //            self.inventoryLbl.text = "商品库存：" + subJson["goods_storage"].stringValue
 //            self.inventoryLbl.text = "销售量：" + epSubJson["goods_salenum"].stringValue
             self.areaLbl.text = epSubJson["area"].stringValue

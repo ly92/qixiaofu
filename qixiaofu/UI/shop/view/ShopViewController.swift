@@ -489,19 +489,6 @@ extension ShopViewController : LYAnimateBannerViewDelegate,UISearchBarDelegate{
         
         let searchVC = GoodsSearchListViewController.spwan()
         self.navigationController?.pushViewController(searchVC, animated: true)
-        
-        //        let searchVC = SearchViewController.spwan()
-        //        searchVC.callBackBlock {(keyWord) in
-        //            print(keyWord)
-        //            if !keyWord.isEmpty{
-        //                let vc = CollectListViewController()
-        //                vc.titleStr = keyWord
-        //                vc.gc_id = self.gcId
-        //                self.navigationController?.pushViewController(vc, animated: true)
-        //            }
-        //        }
-        //        let nav = LYNavigationController.init(rootViewController: searchVC)
-        //        self.present(nav, animated: true, completion: nil)
         return false
     }
 }

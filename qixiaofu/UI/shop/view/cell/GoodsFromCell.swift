@@ -61,13 +61,13 @@ class GoodsFromCell: UITableViewCell {
                 }
             }
             if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-                if resultJson["is_discount"].stringValue.intValue == 1{
+                if resultJson["is_discount"].stringValue.intValue == 1 || resultJson["goods_price"].stringValue.floatValue == 0{
                     self.priceLbl.text = ""
                 }else{
                     self.priceLbl.text = "¥ " + resultJson["goods_price"].stringValue
                 }
             }else{
-                if resultJson["goods_info"]["is_discount"].stringValue.intValue == 1{
+                if resultJson["goods_info"]["is_discount"].stringValue.intValue == 1 || resultJson["goods_info"]["goods_price"].stringValue.floatValue == 0{
                     self.priceLbl.text = ""
                 }else{
                     self.priceLbl.text = "¥ " + resultJson["goods_info"]["goods_price"].stringValue

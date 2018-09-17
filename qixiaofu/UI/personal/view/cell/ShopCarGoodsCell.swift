@@ -31,11 +31,20 @@ class ShopCarGoodsCell: UITableViewCell {
         didSet{
             if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                 self.iconImgV.setImageUrlStr(subJson["goods_image"].stringValue)
-                self.priceLbl.text = "¥ " + subJson["goods_price"].stringValue
+                if subJson["goods_price"].stringValue.floatValue > 0{
+                    self.priceLbl.text = "¥ " + subJson["goods_price"].stringValue
+                }else{
+                    self.priceLbl.text = ""
+                }
                 self.countLbl.text = subJson["goods_num"].stringValue
                 self.nameLbl.text = subJson["goods_name"].stringValue
             }else{
                 self.iconImgV.setImageUrlStr(subJson["goods_image_url"].stringValue)
+                if subJson["goods_price"].stringValue.floatValue > 0{
+                    self.priceLbl.text = "¥ " + subJson["goods_price"].stringValue
+                }else{
+                    self.priceLbl.text = ""
+                }
                 self.priceLbl.text = "¥ " + subJson["goods_price"].stringValue
                 self.countLbl.text = subJson["goods_num"].stringValue
                 self.nameLbl.text = subJson["goods_name"].stringValue
