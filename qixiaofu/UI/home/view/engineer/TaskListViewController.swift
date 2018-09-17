@@ -651,7 +651,7 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
         if tableView == self.tableView{
             if self.dataArray.count > indexPath.row{
                 let jsonModel = self.dataArray[indexPath.row] as! JSON
-                if jsonModel[""].stringValue.intValue != 0{
+                if jsonModel[""].stringValue.intValue == 0{
                     let orderDetailVC = MySendOrderDetailViewController.spwan()
                     orderDetailVC.orderId = jsonModel["id"].stringValue
                     orderDetailVC.isMyReceive = true

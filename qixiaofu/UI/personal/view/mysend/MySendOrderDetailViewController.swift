@@ -653,13 +653,22 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                 }
             }
         }else if indexPath.section == 1{
-            if indexPath.row == 0{
-                return 95
-            }else if indexPath.row == 1{
-                return 130
-            }else if indexPath.row == 2{
-                return 100
+            if self.isMyReceive{
+                return 0
+            }else{
+                if indexPath.row == 0{
+                    if self.modelJson["ot_user_id"].stringValue.isEmpty{
+                        return 0
+                    }
+                    return 95
+                }else if indexPath.row == 1{
+                    return 130
+                }else if indexPath.row == 2{
+                    return 100
+                }
             }
+            
+            
         }
         return 21
     }
@@ -1382,6 +1391,11 @@ extension MySendOrderDetailViewController{
         default:
             self.stateLbl.text = "未知状态"
         }
+    }
+    
+    //订单记录
+    func setTaskNote() {
+        
     }
     
     
