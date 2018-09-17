@@ -47,6 +47,7 @@ class SendTaskViewController: BaseTableViewController {
     fileprivate var rangeJson : JSON = []
     fileprivate var paymentJson : JSON = []
     fileprivate var serverTypeJson : JSON = []
+    fileprivate var facilityData : JSON = []
     fileprivate var top_price : String = "100"
     
     fileprivate var redoOrderDataJson : JSON = []//重新发单时的订单信息
@@ -65,7 +66,7 @@ class SendTaskViewController: BaseTableViewController {
         super.viewDidLoad()
         //加载必要条件数据
         self.loadEssentialData()
-        
+        self.loadFacilityData()
         
         if self.isRedoOrder{
             self.loadRedoOrderData()
@@ -111,6 +112,15 @@ class SendTaskViewController: BaseTableViewController {
             LYProgressHUD.dismiss()
         }) { (error) in
             LYProgressHUD.showError(error!)
+        }
+    }
+    
+    //分类和型号数据
+    func loadFacilityData(){
+        NetTools.requestData(type: .post, urlString: SendTaskFacilityTypeApi, succeed: { (resultJson, msg) in
+            self.facilityData = resultJson
+        }) { (error) in
+            LYProgressHUD.showError(error ?? "分类型号数据加载失败，可手动输入")
         }
     }
     
@@ -275,19 +285,6 @@ class SendTaskViewController: BaseTableViewController {
         if params.keys.contains("service_sector") && params.keys.contains("title"){
             service_sector = params["service_sector"] as! String
             self.serverRangeLbl.text = params["title"] as? String
-//            let str = (params["service_sector"] as! String)
-//            let arr = str.components(separatedBy: ",")
-//            var arrM = Array<String>()
-//            self.selectedServerRangeIndex = arr
-//            for subJson in self.rangeJson.arrayValue {
-//                for str2 in arr {
-//                    if str2.intValue == subJson["gc_id"].stringValue.intValue{
-//                        arrM.append(subJson["gc_name"].stringValue)
-//                    }
-//                }
-//            }
-//            self.serverRangeLbl.text = arrM.joined(separator: ",")
-            
         }
         if params.keys.contains("service_brand"){
             self.goodsBrandTF.text = (params["service_brand"] as! String)
@@ -422,9 +419,6 @@ class SendTaskViewController: BaseTableViewController {
         }
         params["service_price"] = price
         
-//        params["title"] = serverRangeStr + "-" + brand
-        
-        
         return true
     }
     
@@ -503,19 +497,10 @@ extension SendTaskViewController{
                     self.lat = dict["lat"]!
                     self.lon = dict["lon"]!
                     self.address = dict["province"]!
-//                    self.city = dict["city"]!
                     self.city = dict["address"]!
                     self.serverAreaLbl.text = dict["province"]! + self.city
                 }
                 self.navigationController?.pushViewController(editVC, animated: true)
-//                let mapSearchVC = MapSearchViewController()
-//                mapSearchVC.selectedLocation = {(poi) in
-//                    self.serverAreaLbl.text = poi.name
-//                    self.lon = "\(poi.location.longitude)"
-//                    self.lat = "\(poi.location.latitude)"
-//                }
-//                self.navigationController?.pushViewController(mapSearchVC, animated: true)
-                
             case 4:
                 //预约开始时间
                 let datePicker = LYDatePicker.init(component: 4)
@@ -549,20 +534,16 @@ extension SendTaskViewController{
                     self?.selectedServerRangeIndex = ids
                     self?.service_sector = ids.joined(separator: ",")
                 }
-                
-                //                var arrM = Array<String>()
-                //                if self.rangeJson.arrayValue.count > 0{
-                //                    for subJson in self.rangeJson.arrayValue {
-                //                        arrM.append(subJson["gc_name"].stringValue)
-                //                    }
-                //                }else{
-                //                    arrM = ["UNIX服务器","X86服务器","存储设备","网络交换设备","监控设备","虚拟化","桌面设备","数据库","安全设备","其他设备"]
-                //                }
                 serverRangeVC.dataArray = self.rangeJson.arrayValue
                 self.navigationController?.pushViewController(serverRangeVC, animated: true)
             case 1:
                 //品牌型号
-                LYBrandPickerView.show()
+                let picker = LYBrandPickerView()
+                picker.show(facilityData)
+                picker.pickerViewBlock = {(brand,type,model) in
+                    self.goodsBrandTF.text = brand + " " + type + " " + model
+                }
+                
             default:
                 break
             }

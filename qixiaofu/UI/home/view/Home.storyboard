@@ -1412,14 +1412,14 @@
                                                     <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_next" translatesAutoresizingMaskIntoConstraints="NO" id="G6r-Ad-pDj">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_next" translatesAutoresizingMaskIntoConstraints="NO" id="G6r-Ad-pDj">
                                                     <rect key="frame" x="376" y="14.666666666666664" width="8" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="8" id="0eS-Ej-MtN"/>
                                                         <constraint firstAttribute="height" constant="15" id="TjY-s7-gOs"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="品牌与型号间用空格区分" textAlignment="right" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="TPk-aL-ZWv">
+                                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请选择或输入品牌与型号" textAlignment="right" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="TPk-aL-ZWv">
                                                     <rect key="frame" x="105" y="7" width="261" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="a8y-o4-y8w"/>
@@ -2095,7 +2095,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="x0w-AL-grb">
-                                        <rect key="frame" x="357" y="4.3333333333333428" width="51" height="30"/>
+                                        <rect key="frame" x="357" y="3.6666666666666572" width="51" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="CW6-Pj-CTQ"/>
                                             <constraint firstAttribute="height" constant="30" id="MlQ-NT-uWh"/>
@@ -2105,21 +2105,21 @@
                                         </connections>
                                     </switch>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azc-w6-qD7">
-                                        <rect key="frame" x="0.0" y="36.333333333333343" width="414" height="1"/>
+                                        <rect key="frame" x="0.0" y="35.666666666666657" width="414" height="1"/>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="bD0-qQ-JzW"/>
                                         </constraints>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Alipay" translatesAutoresizingMaskIntoConstraints="NO" id="8QK-M0-JE0">
-                                        <rect key="frame" x="8" y="45.333333333333343" width="40" height="40"/>
+                                        <rect key="frame" x="8" y="44.666666666666657" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="Gzw-lo-BbB"/>
                                             <constraint firstAttribute="height" constant="40" id="Pnd-tg-2jm"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFW-T5-KuH">
-                                        <rect key="frame" x="58" y="54.666666666666657" width="306" height="21"/>
+                                        <rect key="frame" x="58" y="54" width="306" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="84W-GN-4L1"/>
                                         </constraints>
@@ -2128,7 +2128,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ke-2T-g7b">
-                                        <rect key="frame" x="374" y="50.666666666666657" width="30" height="30"/>
+                                        <rect key="frame" x="374" y="50" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="XHe-HS-mp6"/>
                                             <constraint firstAttribute="width" constant="30" id="Xdh-XG-tq3"/>
@@ -2140,17 +2140,17 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Abf-AY-V1L">
-                                        <rect key="frame" x="0.0" y="85.333333333333314" width="414" height="69.666666666666686"/>
+                                        <rect key="frame" x="0.0" y="84.666666666666686" width="414" height="70.333333333333314"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wechat_pay" translatesAutoresizingMaskIntoConstraints="NO" id="UV9-jB-1CJ">
-                                                <rect key="frame" x="10" y="14.666666666666686" width="40" height="40"/>
+                                                <rect key="frame" x="10" y="15" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="40" id="ZhL-81-5lu"/>
                                                     <constraint firstAttribute="height" constant="40" id="s63-IQ-8cR"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1vs-gN-pd9">
-                                                <rect key="frame" x="60" y="24.666666666666686" width="304" height="21"/>
+                                                <rect key="frame" x="60" y="25" width="304" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="8Py-ZW-xzC"/>
                                                 </constraints>
@@ -2159,7 +2159,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn4-nw-FXb">
-                                                <rect key="frame" x="374" y="19.666666666666686" width="30" height="30"/>
+                                                <rect key="frame" x="374" y="20" width="30" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="3fc-ZO-LpQ"/>
                                                     <constraint firstAttribute="width" constant="30" id="c4W-GH-PUU"/>
