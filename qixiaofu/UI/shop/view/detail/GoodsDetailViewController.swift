@@ -275,7 +275,7 @@ class GoodsDetailViewController: BaseViewController {
                 self.buyView.isHidden = false
                 self.isBuying = false
             }else{
-                LYProgressHUD.showInfo("商品库存不足！")
+                LYProgressHUD.showInfo("商品库存不足,请联系客服购买！")
             }
         }else if sender.tag == 22{
             //购买
@@ -283,7 +283,7 @@ class GoodsDetailViewController: BaseViewController {
                 self.buyView.isHidden = false
                 self.isBuying = true
             }else{
-                LYProgressHUD.showInfo("商品库存不足！")
+                LYProgressHUD.showInfo("商品库存不足,请联系客服购买！")
             }
         }else if sender.tag == 33{
             //聊天
@@ -568,6 +568,17 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "GoodsOtherPriceCell", for: indexPath) as! GoodsOtherPriceCell
                 cell.priceLbl1.text = "¥ " + self.price2
                 cell.priceLbl2.text = "¥ " + self.price3
+                
+                if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                    if self.resultJson["is_discount"].stringValue.intValue == 1 || self.resultJson["goods_price"].stringValue.floatValue == 0{
+                        cell.isHidden = true
+                    }
+                }else{
+                    if self.resultJson["goods_info"]["is_discount"].stringValue.intValue == 1 || self.resultJson["goods_info"]["goods_price"].stringValue.floatValue == 0{
+                        cell.isHidden = true
+                    }
+                }
+                
                 return cell
             }else if indexPath.row == 5{
                 //描述
@@ -686,16 +697,25 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
 //                    if resultJson["goods_info"]["is_discount"].stringValue.intValue == 1{
 //                        return 0
 //                    }
-//                }
+                //                }
                 return 30
             }else if indexPath.row == 4{
                 //三方比价
+                if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                    if self.resultJson["is_discount"].stringValue.intValue == 1 || self.resultJson["goods_price"].stringValue.floatValue == 0{
+                        return 0
+                    }
+                }else{
+                    if self.resultJson["goods_info"]["is_discount"].stringValue.intValue == 1 || self.resultJson["goods_info"]["goods_price"].stringValue.floatValue == 0{
+                        return 0
+                    }
+                }
                 return 50
             }else if indexPath.row == 5{
                 //描述
                 var str = ""
                 if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-                    str = resultJson["goods_body"].stringValue
+                    str = resultJson["good  s_body"].stringValue
                 }else{
                     str = resultJson["goods_info"]["mobile_body"].stringValue
                     str = str.replacingOccurrences(of: "<div>", with: "")

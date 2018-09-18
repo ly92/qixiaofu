@@ -47,6 +47,12 @@ class HomeTaskListCell: UITableViewCell {
             }
             
             self.visitLbl.text = jsonModel["visit_count"].stringValue + "浏览"
+            if jsonModel["is_apply"].stringValue.intValue == 1{
+                self.stateLbl.text = "已报名"
+            }else{
+                self.stateLbl.text = "报名中"
+            }
+            
             
             if jsonModel["bill_statu"].stringValue.intValue == 1{
                 self.nameLbl.textColor = UIColor.RGBS(s: 33)
@@ -79,6 +85,8 @@ class HomeTaskListCell: UITableViewCell {
                 self.lbl3.textColor = UIColor.RGBS(s: 150)
                 self.lbl4.textColor = UIColor.RGBS(s: 150)
                 self.lbl5.textColor = UIColor.RGBS(s: 150)
+                
+                self.stateLbl.text = ""
             }
             
             //价格为0的不显示价格
@@ -90,11 +98,7 @@ class HomeTaskListCell: UITableViewCell {
                 self.serverPriceLbl.isHidden = true
             }
             
-            if jsonModel["is_apply"].stringValue.intValue == 1{
-                self.stateLbl.text = "已报名"
-            }else{
-                self.stateLbl.text = "报名中"
-            }
+
             
             
         }

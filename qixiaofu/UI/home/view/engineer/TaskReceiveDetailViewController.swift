@@ -422,6 +422,9 @@ extension TaskReceiveDetailViewController : UIAlertViewDelegate{
                     self.isEnrolled = true
                     self.tableView.reloadData()
                     LYProgressHUD.showSuccess("报名成功！")
+                    if self.dataChangeBlock != nil{
+                        self.dataChangeBlock!(1)
+                    }
                 }) { (error) in
                     LYProgressHUD.showError(error!)
                 }
@@ -441,6 +444,9 @@ extension TaskReceiveDetailViewController : UIAlertViewDelegate{
                     self.isEnrolled = true
                     self.tableView.reloadData()
                     LYProgressHUD.showSuccess("报名成功！")
+                    if self.dataChangeBlock != nil{
+                        self.dataChangeBlock!(1)
+                    }
                 }) { (error) in
                     LYProgressHUD.showError(error!)
                 }

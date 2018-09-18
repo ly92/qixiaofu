@@ -85,7 +85,6 @@ class MySendOrderDetailViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.sureChangePriceBtn.layer.cornerRadius = 20
         self.iconImgV.layer.cornerRadius = 20
         self.engIcon.layer.cornerRadius = 22.5
@@ -170,6 +169,22 @@ class MySendOrderDetailViewController: UITableViewController {
         window.addSubview(self.rechangePriceView)
         
         lbl2.addTapActionBlock {
+            if self.modelJson["offer_num"].stringValue.intValue == 0{
+                LYProgressHUD.showError("议价机会已用完！")
+                return
+            }
+            let customAlertView = UIAlertView.init(title: "我的报价", message: "请输入期望的报价，可高于或低于原价", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "确定")
+            customAlertView.alertViewStyle = .plainTextInput
+            let nameField = customAlertView.textField(at: 0)
+            nameField?.keyboardType = .default
+            nameField?.placeholder = "输入期望价格"
+            customAlertView.show()
+        }
+        imgV2.addTapActionBlock {
+            if self.modelJson["offer_num"].stringValue.intValue == 0{
+                LYProgressHUD.showError("议价机会已用完！")
+                return
+            }
             let customAlertView = UIAlertView.init(title: "我的报价", message: "请输入期望的报价，可高于或低于原价", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "确定")
             customAlertView.alertViewStyle = .plainTextInput
             let nameField = customAlertView.textField(at: 0)
@@ -993,6 +1008,7 @@ extension MySendOrderDetailViewController{
         case 1:
             self.stateLbl.text = "已报名"
             //展示报价
+            self.setRightItem()
             self.prepareRechangePriceView()
             self.enrollNumLbl.text = "已报名" + self.enrollNum + "人"
         case 2:
@@ -1484,9 +1500,9 @@ extension MySendOrderDetailViewController{
         if self.modelJson["bill_start_time"].stringValue.isEmpty{
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: #imageLiteral(resourceName: "icon_chat_red"), target: self, action: #selector(MySendOrderDetailViewController.chatItemAction))
         }else{
-            var chatItem = UIBarButtonItem()
-            chatItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon_chat_red"), target: self, action: #selector(MySendOrderDetailViewController.chatItemAction))
-            let trackItem = UIBarButtonItem(image: #imageLiteral(resourceName: "map_track"), target: self, action: #selector(MySendOrderDetailViewController.trackItemAction))
+//            var chatItem = UIBarButtonItem()
+//            chatItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon_chat_red"), target: self, action: #selector(MySendOrderDetailViewController.chatItemAction))
+//            let trackItem = UIBarButtonItem(image: #imageLiteral(resourceName: "map_track"), target: self, action: #selector(MySendOrderDetailViewController.trackItemAction))
             //            self.navigationItem.rightBarButtonItems = [chatItem,trackItem]
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon_chat_red"), target: self, action: #selector(MySendOrderDetailViewController.chatItemAction))
         }
