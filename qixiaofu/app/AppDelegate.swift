@@ -120,6 +120,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if LocalData.getYesOrNotValue(key: IsLogin){
             LocalData.saveYesOrNotValue(value: "0", key: KEnterpriseVersion)
             self.window?.rootViewController = self.baseTabBar
+            
+            //未读消息数量
+            self.loadSysMessage()
         }else if LocalData.getYesOrNotValue(key: IsEPLogin){
             LocalData.saveYesOrNotValue(value: "1", key: KEnterpriseVersion)
             self.window?.rootViewController = self.epTabBar
@@ -518,6 +521,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //检查app更新
         self.checkAppUpdate()
         
+        //未读消息数量
+        self.loadSysMessage()
+        
         //百度地图
         let mapManager = BMKMapManager()
         let ret = mapManager.start(KBmapKey, generalDelegate: self)
@@ -744,6 +750,31 @@ extension AppDelegate{
         }
     }
     
+    
+    
+    //系统消息
+    func loadSysMessage() {
+        let params : [String : Any] = [
+            "op" : "message_sel",
+            "act" : "member_index",
+            "store_id" : "1"
+        ]
+        NetTools.requestData(type: .post, urlString: SysTermMessageApi, parameters: params, succeed: { (result, msg) in
+            guard let tabbar = self.window?.rootViewController as? LYTabBarController else{
+                return
+            }
+            var num = 0
+            for sub in result.arrayValue{
+                num += sub["unread_num"].stringValue.intValue
+            }
+            if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
+            }else{
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
+            }
+        }) { (error) in
+        }
+    }
     
 }
 
