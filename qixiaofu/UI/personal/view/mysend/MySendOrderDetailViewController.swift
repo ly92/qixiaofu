@@ -1212,6 +1212,8 @@ extension MySendOrderDetailViewController{
                     LYProgressHUD.showSuccess("设置成功！")
                     //刷新数据
                     self.refreshData(type: 2)
+                    
+                    self.loadSendDetailData()
                 }, failure: { (error) in
                     LYProgressHUD.showError(error!)
                 })
@@ -1300,7 +1302,7 @@ extension MySendOrderDetailViewController{
                             if self.refreshBlock != nil{
                                 self.refreshBlock!(1)
                             }
-                            //返回列表
+                            //刷新数据
                             self.loadSendDetailData()
                         }
                         self.navigationController?.pushViewController(addCommentVC, animated: true)
