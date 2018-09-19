@@ -133,8 +133,51 @@ class LYBrandPickerView: UIView {
         }
     }
     
+    func setUpMainUI() {
+        //1.基础设置
+        self.backgroundColor = UIColor.clear
+        //2.背景按钮
+        self.addSubview(self.bgBtn)
+        //3.选择控件,按钮
+        self.subView.addSubview(self.btnView)
+        self.subView.addSubview(self.pickerView)
+        
+        //键盘监听
+        NotificationCenter.default.addObserver(self, selector: #selector(LYBrandPickerView.showKeyboard(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LYBrandPickerView.hideKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        
+        self.addSubview(self.subView)
+    }
+    
+    
+    @objc func showKeyboard(_ noti : Notification) {
+        let info = noti.userInfo
+        if info != nil{
+            let value = info![UIKeyboardFrameEndUserInfoKey] as? NSValue
+            if value != nil{
+               let keyboardRect = value!.cgRectValue
+
+                UIView.animate(withDuration: 0.25) {
+                    self.frame = CGRect.init(x: 0, y: -keyboardRect.size.height + 170, width: kScreenW, height: kScreenH)
+                }
+                return
+            }
+        }
+        UIView.animate(withDuration: 0.25) {
+            self.frame = CGRect.init(x: 0, y: -100, width: kScreenW, height: kScreenH)
+        }
+    }
+    
+    @objc func hideKeyboard() {
+        UIView.animate(withDuration: 0.25) {
+            self.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH)
+        }
+    }
+    
+    
+    
     @objc func hide() {
-        if self.brandTF.isFirstResponder || self.modelTF.isFirstResponder{
+        if self.brandTF.isFirstResponder || self.modelTF.isFirstResponder || self.typeTF.isFirstResponder{
             self.endEditing(true)
             return
         }
@@ -161,23 +204,6 @@ class LYBrandPickerView: UIView {
 
 
 
-}
-
-
-
-
-extension LYBrandPickerView{
-    func setUpMainUI() {
-        //1.基础设置
-        self.backgroundColor = UIColor.clear
-        //2.背景按钮
-        self.addSubview(self.bgBtn)
-        //3.选择控件,按钮
-        self.subView.addSubview(self.btnView)
-        self.subView.addSubview(self.pickerView)
-        
-        self.addSubview(self.subView)
-    }
 }
 
 
@@ -245,7 +271,7 @@ extension LYBrandPickerView : UIPickerViewDelegate,UIPickerViewDataSource{
             pickerLbl = UILabel()
         }
         pickerLbl?.adjustsFontSizeToFitWidth = true
-        pickerLbl?.textAlignment = .left
+        pickerLbl?.textAlignment = .center
         pickerLbl?.backgroundColor = UIColor.clear
         pickerLbl?.font = UIFont.systemFont(ofSize: 14.0)
         pickerLbl?.minimumScaleFactor = 0.8
