@@ -61,7 +61,7 @@ extension BaiDuMap : BMKLocationServiceDelegate{
                 "longitude" : userLocation.location.coordinate.longitude,
                 "latitude" : userLocation.location.coordinate.latitude
             ]
-            NetTools.requestData(type: .post, urlString: UpdateUserLocationApi,parameters: params, succeed: { (result, msg) in
+            NetTools.requestData(type: .get, urlString: UpdateUserLocationApi,parameters: params, succeed: { (result, msg) in
             }) { (error) in
             }
         }

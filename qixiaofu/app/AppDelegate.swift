@@ -104,6 +104,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.setupJpush(launchOptions)
         }
         
+        //注册本地推送
+        let setting = UIUserNotificationSettings.init(types: UIUserNotificationType(rawValue: UIUserNotificationType.RawValue(UInt8(UIUserNotificationType.alert.rawValue)|UInt8(UIUserNotificationType.sound.rawValue)|UInt8(UIUserNotificationType.badge.rawValue))), categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(setting)
+        
         //注册环信
         self.configEasemob(application, launchOptions: launchOptions)
         
@@ -344,6 +348,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
         }
         
+        
         let advertisingId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         
         if DeBug{
@@ -373,6 +378,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //环信推送
         HChatClient.shared().add(self, delegateQueue: nil)
+        EMClient.shared().chatManager.add(self, delegateQueue: nil)
     }
     
     func registerJpush() {
@@ -514,7 +520,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //环信
         HChatClient.shared().applicationDidEnterBackground(application)
-        
+        EMClient.shared().applicationDidEnterBackground(application)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -535,6 +541,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //环信
         HChatClient.shared().applicationWillEnterForeground(application)
+        EMClient.shared().applicationWillEnterForeground(application)
         //环信//登录环信
         self.loginEasemob()
         
@@ -556,6 +563,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.global().async {
             JPUSHService.registerDeviceToken(deviceToken)
             HChatClient.shared().bindDeviceToken(deviceToken)
+            EMClient.shared().bindDeviceToken(deviceToken)
         }
     }
     
@@ -581,6 +589,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        //环信推送内容
+        guard let tabbar = self.window?.rootViewController as? LYTabBarController else{
+            return
+        }
+        guard let nav = tabbar.selectedViewController as? LYNavigationController else{
+            return
+        }
+        //消息发送方的环信 ID
+        guard let conversationId = notification.userInfo?["conversationId"] as? String else{
+            return
+        }
+        var name = "对方"
+        var icon = ""
+        let dict = LocalData.getChatUserInfo(key: conversationId)
+        name = dict["name"]!
+        icon = dict["icon"]!
+        DispatchQueue.global().async {
+            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+        }
+        if conversationId.hasPrefix("kefu"){
+            let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
+            nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+        }else{
+            let chatVC = EaseMessageViewController.init(conversationChatter: conversationId, conversationType: EMConversationType.init(0))
+            //保存聊天页面数据
+            LocalData.saveChatUserInfo(name: name, icon: icon, key: conversationId)
+            chatVC?.title = name
+            nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+        }
+    }
     
     
 }
@@ -763,6 +803,7 @@ extension AppDelegate{
             "act" : "member_index",
             "store_id" : "1"
         ]
+        
         NetTools.requestData(type: .post, urlString: SysTermMessageApi, parameters: params, succeed: { (result, msg) in
             guard let tabbar = self.window?.rootViewController as? LYTabBarController else{
                 return
@@ -771,6 +812,22 @@ extension AppDelegate{
             for sub in result.arrayValue{
                 num += sub["unread_num"].stringValue.intValue
             }
+            
+            
+            guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
+                if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                    tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
+                }else{
+                    tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
+                }
+                return
+            }
+            
+            for converstion in conversations{
+                let con = converstion
+                num += Int(con.unreadMessagesCount)
+            }
+            
             if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                 tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
             }else{
@@ -779,12 +836,11 @@ extension AppDelegate{
         }) { (error) in
         }
     }
-    
 }
 
 
 //MARK: - 环信和推送的代理
-extension AppDelegate : HChatClientDelegate,JPUSHRegisterDelegate{
+extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterDelegate{
     
     //环信//登录环信
     func loginEasemob() {
@@ -807,12 +863,27 @@ extension AppDelegate : HChatClientDelegate,JPUSHRegisterDelegate{
         LYAlertView.show("提示", "此账号已在其他设备登陆，如非本人操作，请修改密码","知道了")
     }
     
-    //
-    func messagesDidReceive(aMessage : Array<HMessage>) {
-        print("-----------------------------------------")
-        print(aMessage.count)
+    func messagesDidReceive(_ aMessages: [Any]!) {
+        if UIApplication.shared.applicationState == .active{
+            //前台
+        }else if UIApplication.shared.applicationState == .background{
+            //后台
+            if aMessages.count > 0{
+                guard let message = aMessages[0] as? EMMessage else{
+                    return
+                }
+                let localNotification = UILocalNotification()
+                localNotification.alertBody = "您有新的未读消息！"
+                localNotification.applicationIconBadgeNumber = 1
+                localNotification.userInfo = ["conversationId":message.conversationId]
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                UIApplication.shared.scheduleLocalNotification(localNotification)
+            }
+        }else{
+            //收到通知
+        }
     }
-    
+
     
     
     //jpush
@@ -883,13 +954,13 @@ extension AppDelegate : HChatClientDelegate,JPUSHRegisterDelegate{
             }
             if conversationId.hasPrefix("kefu"){
                 let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                nav.navigationController?.pushViewController(chatVC!, animated: true)
+                nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
             }else{
                 let chatVC = EaseMessageViewController.init(conversationChatter: conversationId, conversationType: EMConversationType.init(0))
                 //保存聊天页面数据
                 LocalData.saveChatUserInfo(name: name, icon: icon, key: conversationId)
                 chatVC?.title = name
-                nav.navigationController?.pushViewController(chatVC!, animated: true)
+                nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
             }
         }else{
             //极光推送内容

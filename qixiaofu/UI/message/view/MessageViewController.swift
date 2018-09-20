@@ -29,23 +29,22 @@ class MessageViewController: BaseTableViewController {
         self.tableView.register(UINib.init(nibName: "SysMessageCell", bundle: Bundle.main), forCellReuseIdentifier: "SysMessageCell")
         
         self.tableView.es.addPullToRefresh {
-            self.loadSysMessage()
             //环信聊天消息列表
             self.esmobChatList()
             
+            self.loadSysMessage()
             self.tableView.es.stopPullToRefresh()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadSysMessage()
         //环信聊天消息列表
         self.esmobChatList()
+        
+        self.loadSysMessage()
     }
-    
-    
-    
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -60,13 +59,28 @@ class MessageViewController: BaseTableViewController {
             "act" : "member_index",
             "store_id" : "1"
         ]
-//        LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: SysTermMessageApi, parameters: params, succeed: { (result, msg) in
             self.systermJson = result
-            
             self.tableView.reloadData()
-            
             LYProgressHUD.dismiss()
+            
+            guard let tabbar = AppDelegate.sharedInstance.window?.rootViewController as? LYTabBarController else{
+                return
+            }
+            var num = 0
+            for sub in result.arrayValue{
+                num += sub["unread_num"].stringValue.intValue
+            }
+            for converstion in self.chatArray{
+                let con = converstion
+                num += Int(con.unreadMessagesCount)
+            }
+            if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
+            }else{
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
+            }
+            
         }) { (error) in
             LYProgressHUD.showError(error!)
         }
@@ -136,6 +150,14 @@ extension MessageViewController{
                 cell.nameLbl.text = dict["name"]
                 cell.iconImgV.setHeadImageUrlStr(dict["icon"]!)
                 
+                //未读数量
+                let unReadNum = Int(model.unreadMessagesCount)
+                if unReadNum > 0{
+                    cell.unReadNumLbl.isHidden = false
+                    cell.unReadNumLbl.text = "\(model.unreadMessagesCount)"
+                }
+                
+                
                 var latestMessageTitle = ""
                 if model.latestMessage != nil{
                     switch model.latestMessage.body.type {
@@ -199,6 +221,10 @@ extension MessageViewController{
                 DispatchQueue.global().async {
                     HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
                 }
+                
+                //全部标为已读
+                model.markAllMessages(asRead: nil)
+                
                 if model.conversationId.hasPrefix("kefu"){
                     let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
                     self.navigationController?.pushViewController(chatVC!, animated: true)
