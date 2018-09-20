@@ -561,10 +561,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         JPUSHService.handleRemoteNotification(userInfo)
+        //接到通知发送位置
+        BaiDuMap.default.startLocation()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         JPUSHService.handleRemoteNotification(userInfo)
+        //接到通知发送位置
+        BaiDuMap.default.startLocation()
         completionHandler(UIBackgroundFetchResult.newData)
         guard let jump_type = userInfo["jump_type"] as? String else{
             return

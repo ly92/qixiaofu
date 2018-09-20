@@ -37,6 +37,8 @@ let iOSVersionApi = "tp.php/Home/Member/iOSVersion"
 let ThirdLoginApi = "api/index.php?act=login&op=third_partylogin&type=1"
 //绑定第三方账户
 let BinDingThirdAccountApi = "api/index.php?act=login&op=party_newlogin&type=1"
+//位置上传
+let UpdateUserLocationApi = "tp.php/Home/My/user_location"
 
 
 /************************************ 首页 ********************************************/
