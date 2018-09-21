@@ -690,6 +690,7 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                 }
             }
         }else if indexPath.section == 1{
+            //发单状态【0 撤销】【1 待接单】【2 已接单】【3 已完成】【4 已过期 or 已失效】【5 已取消】【6 调价中】【7 补单】
             if self.isMyReceive{
                 return 0
             }else{
@@ -699,7 +700,10 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                     }
                     return 95
                 }else if indexPath.row == 1{
-                    return 130
+                    if self.modelJson["bill_statu"].stringValue.intValue == 1 || self.modelJson["bill_statu"].stringValue.intValue == 2 || self.modelJson["bill_statu"].stringValue.intValue == 3 || self.modelJson["bill_statu"].stringValue.intValue == 6{
+                        return 130
+                    }
+                    return 0
                 }else if indexPath.row == 2{
                     return 0
                 }

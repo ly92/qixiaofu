@@ -377,8 +377,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //环信推送
-        HChatClient.shared().add(self, delegateQueue: nil)
-        EMClient.shared().chatManager.add(self, delegateQueue: nil)
+        DispatchQueue.main.async {
+            HChatClient.shared().add(self, delegateQueue: nil)
+            EMClient.shared().chatManager.add(self, delegateQueue: nil)
+        }
+        
     }
     
     func registerJpush() {
