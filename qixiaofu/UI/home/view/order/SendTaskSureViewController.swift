@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Speech
+import AudioToolbox
 
 
 class SendTaskSureViewController: BaseTableViewController {
@@ -356,6 +357,7 @@ extension SendTaskSureViewController : SFSpeechRecognizerDelegate {
             self.startRecording()
             self.voiceBtn.setImage(#imageLiteral(resourceName: "voice_icon2"), for: .normal)
             self.voiceLbl.text = "录入中..."
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         case .cancelled:
             //取消
             print("cancelled")

@@ -432,7 +432,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mj2-nV-Bl3" userLabel="Viewleft">
-                                                <rect key="frame" x="10" y="15" width="394" height="151"/>
+                                                <rect key="frame" x="10" y="60" width="394" height="151"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search_hot" translatesAutoresizingMaskIntoConstraints="NO" id="6Eg-nY-tuh">
                                                         <rect key="frame" x="10" y="10" width="30" height="30"/>
@@ -480,7 +480,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JxF-EI-lNt" userLabel="Viewright">
-                                                <rect key="frame" x="10" y="226" width="394" height="256"/>
+                                                <rect key="frame" x="10" y="271" width="394" height="256"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="搜索历史" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIN-FQ-gI1">
                                                         <rect key="frame" x="50" y="10" width="70" height="22"/>
@@ -553,13 +553,27 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eY3-V5-caJ">
-                                                <rect key="frame" x="10" y="166" width="394" height="60"/>
+                                                <rect key="frame" x="10" y="211" width="394" height="60"/>
                                                 <state key="normal" title="  未找到？问问客服吧">
                                                     <color key="titleColor" red="0.98823529409999999" green="0.58823529409999997" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="chatAction" destination="sNI-ll-Ls8" eventType="touchUpInside" id="RMT-os-q2z"/>
                                                 </connections>
+                                            </button>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录入中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aR7-Cd-Tbe">
+                                                <rect key="frame" x="85" y="23.666666666666671" width="55" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uk-O6-MNG">
+                                                <rect key="frame" x="20" y="10" width="45" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="Gnz-C3-CnJ"/>
+                                                    <constraint firstAttribute="width" constant="45" id="qco-W6-6oy"/>
+                                                </constraints>
+                                                <state key="normal" image="voice_icon1"/>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -569,10 +583,14 @@
                                             <constraint firstItem="eY3-V5-caJ" firstAttribute="top" secondItem="Mj2-nV-Bl3" secondAttribute="bottom" id="5dX-WI-6hY"/>
                                             <constraint firstAttribute="trailing" secondItem="eY3-V5-caJ" secondAttribute="trailing" constant="10" id="Exo-dG-P4E"/>
                                             <constraint firstAttribute="trailing" secondItem="JxF-EI-lNt" secondAttribute="trailing" constant="10" id="JX7-iS-xKc"/>
+                                            <constraint firstItem="8uk-O6-MNG" firstAttribute="top" secondItem="auE-al-xso" secondAttribute="top" constant="10" id="Qnk-hs-0tW"/>
                                             <constraint firstItem="JxF-EI-lNt" firstAttribute="top" secondItem="Mj2-nV-Bl3" secondAttribute="bottom" constant="60" id="VuM-PS-idP"/>
-                                            <constraint firstItem="Mj2-nV-Bl3" firstAttribute="top" secondItem="auE-al-xso" secondAttribute="top" constant="15" id="Xar-rP-Caq"/>
+                                            <constraint firstItem="Mj2-nV-Bl3" firstAttribute="top" secondItem="auE-al-xso" secondAttribute="top" constant="60" id="Xar-rP-Caq"/>
                                             <constraint firstItem="JxF-EI-lNt" firstAttribute="leading" secondItem="auE-al-xso" secondAttribute="leading" constant="10" id="hHj-lz-N2q"/>
                                             <constraint firstItem="Mj2-nV-Bl3" firstAttribute="leading" secondItem="auE-al-xso" secondAttribute="leading" constant="10" id="k6r-3n-oMe"/>
+                                            <constraint firstItem="8uk-O6-MNG" firstAttribute="leading" secondItem="auE-al-xso" secondAttribute="leading" constant="20" id="mVD-ww-kTa"/>
+                                            <constraint firstItem="aR7-Cd-Tbe" firstAttribute="centerY" secondItem="8uk-O6-MNG" secondAttribute="centerY" id="qIS-dZ-Ngi"/>
+                                            <constraint firstItem="aR7-Cd-Tbe" firstAttribute="leading" secondItem="8uk-O6-MNG" secondAttribute="trailing" constant="20" id="s8A-6d-SjM"/>
                                             <constraint firstItem="JxF-EI-lNt" firstAttribute="top" secondItem="eY3-V5-caJ" secondAttribute="bottom" id="vtq-vz-iE0"/>
                                         </constraints>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
@@ -609,6 +627,8 @@
                         <outlet property="hotViewH" destination="C3Y-ew-Nfg" id="GdF-oE-kxZ"/>
                         <outlet property="subControl" destination="auE-al-xso" id="b8j-Ph-q8i"/>
                         <outlet property="tabbleView" destination="LfW-zf-YlM" id="iPo-0M-cqA"/>
+                        <outlet property="voiceBtn" destination="8uk-O6-MNG" id="tH8-Pp-IG0"/>
+                        <outlet property="voiceLbl" destination="aR7-Cd-Tbe" id="alw-wS-4l2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ylz-a6-qoE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1240,5 +1260,6 @@
         <image name="search_hot" width="20" height="20"/>
         <image name="shopcar_btn_add_n" width="22" height="22"/>
         <image name="shopcar_btn_minus_n" width="22" height="22"/>
+        <image name="voice_icon1" width="30" height="30"/>
     </resources>
 </document>
