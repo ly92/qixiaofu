@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftyJSON
+import Photos
+
 
 class ShopViewController: BaseViewController ,WXApiDelegate{
     class func spwan() -> ShopViewController{
@@ -93,7 +95,7 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         
         self.addRefresh()
         if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-           self.gcId = "266"
+            self.gcId = "266"
         }
         
         self.setUpSearchNavView()
@@ -114,46 +116,8 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     }
     
     @objc func rightItemAction(){
-        self.ocrVC = AipGeneralVC.viewController { (image) in
-            LYProgressHUD.showLoading()
-            let options = ["language_type":"CHN_ENG","detect_direction":"true"]
-            AipOcrService.shard().detectTextBasic(from: image, withOptions: options, successHandler: { (result) in
-                print(result ?? "-------------------------")
-                if result != nil{
-                    let resultJson = JSON.init(result as Any)
-                    if resultJson["words_result_num"].intValue == 0{
-                        LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-                    }else{
-                        let keys = self.getKeywordString(resultJson)
-                        print(keys)
-                        if keys.isEmpty{
-                           LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
-                        }else{
-                            DispatchQueue.main.async {
-                                let searchVC = GoodsSearchListViewController.spwan()
-                                searchVC.ocrKeys = keys
-                                self.navigationController?.pushViewController(searchVC, animated: true)
-                                self.dismissVC()
-                            }
-                        }
-                    }
-                }else{
-                    LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-                }
-            }, failHandler: { (error) in
-                LYProgressHUD.showError("图片识别失败，请重试！")
-            })
-        }
-        if self.ocrVC != nil{
-            self.present(self.ocrVC!, animated: true, completion: nil)
-        }
-    }
-    
-    
-    func dismissVC() {
-        if self.ocrVC != nil{
-            self.ocrVC?.dismiss(animated: true, completion: nil)
-        }
+        let sheet = UIActionSheet.init(title: "识别图片", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "相册", "拍照")
+        sheet.show(in: self.view)
     }
     
     
@@ -178,7 +142,7 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         }else{
             self.navigationItem.leftBarButtonItem = nil
         }
-
+        
         
     }
     
@@ -211,11 +175,11 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
             self.suspendTableH.constant = CGFloat(self.suspendDataArray.count * 55)
         }
         self.leftTableView.contentSize = CGSize.init(width: self.leftTableView.contentSize.width, height: CGFloat(55 * (self.selectedLeftRow + 1 + self.suspendDataArray.count)))
-//        if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-//            self.leftTableView.contentSize = CGSize.init(width: self.leftTableView.contentSize.width, height: CGFloat(55 * (self.epClassicJson.arrayValue.count + self.suspendDataArray.count)))
-//        }else{
-//            self.leftTableView.contentSize = CGSize.init(width: self.leftTableView.contentSize.width, height: CGFloat(55 * (self.leftDataArray.count + self.suspendDataArray.count)))
-//        }
+        //        if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+        //            self.leftTableView.contentSize = CGSize.init(width: self.leftTableView.contentSize.width, height: CGFloat(55 * (self.epClassicJson.arrayValue.count + self.suspendDataArray.count)))
+        //        }else{
+        //            self.leftTableView.contentSize = CGSize.init(width: self.leftTableView.contentSize.width, height: CGFloat(55 * (self.leftDataArray.count + self.suspendDataArray.count)))
+        //        }
     }
 }
 
@@ -293,19 +257,19 @@ extension ShopViewController {
             }
         }
         
-//        self.rightTableView.es.addInfiniteScrolling {
-//            [weak self] in
-//            self?.curPage += 1
-//            if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-//                self?.loadEpGoodsList()
-//            }else{
-//                if (self?.isPlugInShow)!{
-//                    self?.loadPluginData()
-//                }else{
-//                    self?.loadRightData()
-//                }
-//            }
-//        }
+        //        self.rightTableView.es.addInfiniteScrolling {
+        //            [weak self] in
+        //            self?.curPage += 1
+        //            if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+        //                self?.loadEpGoodsList()
+        //            }else{
+        //                if (self?.isPlugInShow)!{
+        //                    self?.loadPluginData()
+        //                }else{
+        //                    self?.loadRightData()
+        //                }
+        //            }
+        //        }
     }
     
     //3.右侧列表数据
@@ -509,8 +473,8 @@ extension ShopViewController : UITableViewDelegate,UITableViewDataSource{
                 return self.leftDataArray.arrayValue.count + 1
             }
             
-//            return self.leftDataArray.arrayValue.count + 2
-//            return self.leftDataArray.arrayValue.count + 3
+            //            return self.leftDataArray.arrayValue.count + 2
+            //            return self.leftDataArray.arrayValue.count + 3
         }else if tableView == self.rightTableView{
             if self.isPlugInShow{
                 return self.pluginDataArray.count
@@ -787,7 +751,129 @@ extension ShopViewController{
     
 }
 
-extension ShopViewController{
+extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
+
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == 1{
+            //相册
+            self.photoAlbum()
+        }else if buttonIndex == 2{
+            //相机
+            self.camera()
+        }
+    }
+    
+    //相机
+    func camera() {
+        //是否允许使用相机
+        self.ocrVC = AipGeneralVC.viewController { (image) in
+            LYProgressHUD.showLoading()
+            let options = ["language_type":"CHN_ENG","detect_direction":"true"]
+            AipOcrService.shard().detectTextBasic(from: image, withOptions: options, successHandler: { (result) in
+                print(result ?? "-------------------------")
+                if result != nil{
+                    let resultJson = JSON.init(result as Any)
+                    if resultJson["words_result_num"].intValue == 0{
+                        LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
+                    }else{
+                        let keys = self.getKeywordString(resultJson)
+                        print(keys)
+                        if keys.isEmpty{
+                            LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
+                        }else{
+                            DispatchQueue.main.async {
+                                let searchVC = GoodsSearchListViewController.spwan()
+                                searchVC.ocrKeys = keys
+                                self.navigationController?.pushViewController(searchVC, animated: true)
+                                self.dismissVC()
+                            }
+                        }
+                    }
+                }else{
+                    LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
+                }
+            }, failHandler: { (error) in
+                LYProgressHUD.showError("图片识别失败，请重试！")
+            })
+        }
+        if self.ocrVC != nil{
+            self.present(self.ocrVC!, animated: true, completion: nil)
+        }
+    }
+    
+    //相册
+    func photoAlbum() {
+        //是否允许使用相册
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .restricted,.denied:
+            LYAlertView.show("提示", "请允许App访问相册", "取消", "去设置", {
+                //打开设置页面
+                let url = URL(string:UIApplicationOpenSettingsURLString)
+                if UIApplication.shared.canOpenURL(url!){
+                    UIApplication.shared.openURL(url!)
+                }
+            })
+            return
+        case .authorized,.notDetermined:
+            break
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let picker : UIImagePickerController = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.delegate = self
+            picker.navigationBar.tintColor = UIColor.RGBS(s: 33)
+            self.present(picker, animated: true, completion: nil)
+        }else{
+            LYProgressHUD.showError("不允许访问相册")
+        }
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let img = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let options = ["language_type":"CHN_ENG","detect_direction":"true"]
+        AipOcrService.shard().detectTextBasic(from: img, withOptions: options, successHandler: { (result) in
+            print(result ?? "-------------------------")
+            if result != nil{
+                let resultJson = JSON.init(result as Any)
+                if resultJson["words_result_num"].intValue == 0{
+                    LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
+                }else{
+                    let keys = self.getKeywordString(resultJson)
+                    print(keys)
+                    if keys.isEmpty{
+                        LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
+                    }else{
+                        DispatchQueue.main.async {
+                            let searchVC = GoodsSearchListViewController.spwan()
+                            searchVC.ocrKeys = keys
+                            self.navigationController?.pushViewController(searchVC, animated: true)
+                            self.dismissVC()
+                        }
+                    }
+                }
+            }else{
+                LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
+            }
+        }, failHandler: { (error) in
+            LYProgressHUD.showError("图片识别失败，请重试！")
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func dismissVC() {
+        if self.ocrVC != nil{
+            self.ocrVC?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    
     func getKeywordString(_ resultJson : JSON) -> String {
         var keys : Array<String> = []
         //内部函数
@@ -901,7 +987,6 @@ extension ShopViewController{
                 }
             }
         }
-        
         if keys.count > 0{
             return keys.joined(separator: ",")
         }else{
@@ -917,7 +1002,6 @@ extension ShopViewController{
             //108-00205+B2 三位数字-五位数字+字母数字 
             //291A-R5 三位数字字母-字母数字 第一位可以以X开始 X306A-R5
             //一般是5-6位 数字和字母混合
-            
             for words in resultJson["words_result"].arrayValue{
                 let stepTwoResult = stepTwo(words["words"].stringValue.lowercased())
                 if !stepTwoResult.isEmpty{
@@ -927,7 +1011,5 @@ extension ShopViewController{
             return keys.joined(separator: ",")
         }
     }
-    
-
 }
 
