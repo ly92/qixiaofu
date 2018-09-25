@@ -109,6 +109,8 @@
 	<string>App需要获取您的位置以便于发单时定位以及向工程师推荐附近订单</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App需要您的同意,才能访问麦克风</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>App需要您的同意,才能访问语音识别权限</string>
 	<key>NSMotionUsageDescription</key>
 	<string>App需要您的同意,才能访问运动与健身</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
