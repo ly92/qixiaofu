@@ -89,14 +89,8 @@ class MessageViewController: BaseTableViewController {
     //环信聊天消息列表
     func esmobChatList() {
         self.chatArray.removeAll()
-//        if !HChatClient.shared().isLoggedInBefore{
-        DispatchQueue.global().async {
-            let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            if loginError != nil{
-                print("-------------------------------环信登录失败-------------------------------")
-            }
-        }
-//        }
+        //登录环信
+        esmobLogin()
         
         guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
             return
@@ -218,9 +212,8 @@ extension MessageViewController{
                 let dict = LocalData.getChatUserInfo(key: model.conversationId)
                 name = dict["name"]!
                 icon = dict["icon"]!
-                DispatchQueue.global().async {
-                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                }
+                //登录环信
+                esmobLogin()
                 
                 //全部标为已读
                 model.markAllMessages(asRead: nil)

@@ -146,7 +146,7 @@ extension RegisterEnterpriseViewController{
         
         DispatchQueue.global().async {
             //注册环信
-            HChatClient.shared().register(withUsername: account, password: "11")
+            esmobRegister(account)
         }
         
         let params : [String:Any] = ["phone" : account, "verif" : code, "company_password" : pwd.md5String()]

@@ -334,7 +334,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //环信//登录环信
-        self.loginEasemob()
+        esmobLogin()
     
     }
     
@@ -546,7 +546,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         HChatClient.shared().applicationWillEnterForeground(application)
         EMClient.shared().applicationWillEnterForeground(application)
         //环信//登录环信
-        self.loginEasemob()
+        esmobLogin()
         
         //清理通知数量
         application.applicationIconBadgeNumber = 0
@@ -610,9 +610,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dict = LocalData.getChatUserInfo(key: conversationId)
         name = dict["name"]!
         icon = dict["icon"]!
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
         if conversationId.hasPrefix("kefu"){
             let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
             nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
@@ -845,20 +844,7 @@ extension AppDelegate{
 //MARK: - 环信和推送的代理
 extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterDelegate{
     
-    //环信//登录环信
-    func loginEasemob() {
-        //get a global queue
-        DispatchQueue.global().async {
-            if !LocalData.getUserPhone().isEmpty{
-                let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                if loginError != nil{
-                    //注册环信
-                    HChatClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
-                    print("-------------------------------环信登录失败-------------------------------")
-                }
-            }
-        }
-    }
+    
     //其他设备登录
     func userAccountDidLoginFromOtherDevice() {
         //重新登录
@@ -952,9 +938,8 @@ extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterD
             let dict = LocalData.getChatUserInfo(key: conversationId)
             name = dict["name"]!
             icon = dict["icon"]!
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
+            //登录环信
+            esmobLogin()
             if conversationId.hasPrefix("kefu"){
                 let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
                 nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)

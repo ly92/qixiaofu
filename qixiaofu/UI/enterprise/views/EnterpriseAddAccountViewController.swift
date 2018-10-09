@@ -76,7 +76,7 @@ class EnterpriseAddAccountViewController: BaseViewController {
             }else{
                 DispatchQueue.global().async {
                     //注册环信
-                    HChatClient.shared().register(withUsername: phone, password: "11")
+                    esmobRegister(phone)
                 }
                 LYAlertView.show("提示", "添加成功，初始密码8个0", "知道了","继续添加",{
                     self.nameTF.text = ""

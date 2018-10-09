@@ -84,7 +84,7 @@ class BindingAccountViewController: BaseViewController {
         NetTools.requestData(type: .post, urlString: BinDingThirdAccountApi, parameters: params, succeed: { (resultDict, error) in
             LYProgressHUD.dismiss()
             //登录环信
-            self.loginEasemob()
+            esmobLogin()
             //先记录环境
             LocalData.saveYesOrNotValue(value: "0", key: KEnterpriseVersion)
             //保存userid
@@ -102,12 +102,7 @@ class BindingAccountViewController: BaseViewController {
         }
     }
     
-    //环信//登录环信
-    func loginEasemob() {
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-    }
+
     
     //获取验证码
     @IBAction func codeBtnAction() {

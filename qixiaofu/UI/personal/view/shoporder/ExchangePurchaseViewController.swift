@@ -64,13 +64,8 @@ class ExchangePurchaseViewController: BaseViewController {
     
     @objc func rightItemAction() {
         //联系客服
-//        let chatVC = ChatViewController.init(conversationChatter: "kefu1", conversationName: "客服", conversationIcon: "")
-//        self.navigationController?.pushViewController(chatVC, animated: true)
-//        if !HChatClient.shared().isLoggedInBefore{
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-//        }
+        //登录环信
+        esmobLogin()
         let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
         self.navigationController?.pushViewController(chatVC!, animated: true)
     }

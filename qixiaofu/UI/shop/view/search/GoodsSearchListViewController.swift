@@ -231,9 +231,8 @@ class GoodsSearchListViewController: BaseViewController {
     
     @IBAction func chatAction() {
         //联系客服
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
         let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
         self.navigationController?.pushViewController(chatVC!, animated: true)
     }

@@ -137,23 +137,14 @@ class EPShopOrderCell: UITableViewCell {
                     }
                 }else if shipping_state == 3{
                     //部分发货
-                    DispatchQueue.global().async {
-                        HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                    }
+                    //登录环信
+                    esmobLogin()
                     let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
                     self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
                 }
             }
         }else if state == 4{
             //已完成
-//            if btn.tag == 11{
-//                //发起售后
-//                DispatchQueue.global().async {
-//                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-//                }
-//                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-//                self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
-//            }else
             if btn.tag == 22{
                 //删除
                 self.deleteOrderAction()

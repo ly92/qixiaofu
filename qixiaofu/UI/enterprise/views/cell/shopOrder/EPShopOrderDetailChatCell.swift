@@ -48,9 +48,8 @@ class EPShopOrderDetailChatCell: UITableViewCell {
 
     
     @IBAction func chatAction() {
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
         let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
         self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
     }

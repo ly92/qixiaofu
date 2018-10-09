@@ -208,9 +208,8 @@ extension MapMatchEngineerViewController : BMKMapViewDelegate{
     
     func mapView(_ mapView: BMKMapView!, annotationViewForBubble view: BMKAnnotationView!) {
         if view.isKind(of: BMKPinAnnotationView.self){
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
+            //登录环信
+            esmobLogin()
             let anno = view.annotation as! TagAnnotation
             let subJson = self.engListArray[anno.tag]
             let chatVC = EaseMessageViewController.init(conversationChatter: subJson["call_name"].stringValue, conversationType: EMConversationType.init(0))

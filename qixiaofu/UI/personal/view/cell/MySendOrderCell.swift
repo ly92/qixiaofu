@@ -76,9 +76,8 @@ class MySendOrderCell: UITableViewCell {
 //        let chatVC = ChatViewController.init(conversationChatter: self.subJson["call_name"].stringValue, conversationName: self.subJson["call_nik_name"].stringValue, conversationIcon: self.subJson["ot_user_avatar"].stringValue)
 //        self.parentVC.navigationController?.pushViewController(chatVC, animated: true)
         
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
         let chatVC = EaseMessageViewController.init(conversationChatter: self.subJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
         //保存聊天页面数据
         LocalData.saveChatUserInfo(name: self.subJson["call_nik_name"].stringValue, icon: self.subJson["ot_user_avatar"].stringValue, key: self.subJson["call_name"].stringValue)

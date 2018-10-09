@@ -149,12 +149,7 @@ class TaskReceiveDetailViewController: BaseTableViewController {
             nameField?.placeholder = "输入期望价格"
             customAlertView.show()
         }
-        
-        //        DispatchQueue.global().async {
-        //            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        //        }
-        //        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        //        self.navigationController?.pushViewController(chatVC!, animated: true)
+
     }
     
     @IBAction func receiveTaskAction() {

@@ -175,9 +175,8 @@ class AuthorizedEnrollerController: BaseTableViewController {
             
             cell.chatActionBlock = {() in
                 //聊天
-                DispatchQueue.global().async {
-                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                }
+                //登录环信
+                esmobLogin()
                 let chatVC = EaseMessageViewController.init(conversationChatter: subJson["phone_num"].stringValue, conversationType: EMConversationType.init(0))
                 //保存聊天页面数据
                 LocalData.saveChatUserInfo(name: subJson["ot_user_name"].stringValue, icon: subJson["ot_user_avatar"].stringValue, key: subJson["phone_num"].stringValue)
@@ -197,9 +196,8 @@ class AuthorizedEnrollerController: BaseTableViewController {
         if self.resultJson.arrayValue.count > indexPath.row{
             let subJson = self.resultJson.arrayValue[indexPath.row]
             //聊天
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
+            //登录环信
+            esmobLogin()
             let chatVC = EaseMessageViewController.init(conversationChatter: subJson["phone_num"].stringValue, conversationType: EMConversationType.init(0))
             //保存聊天页面数据
             LocalData.saveChatUserInfo(name: subJson["ot_user_name"].stringValue, icon: subJson["ot_user_avatar"].stringValue, key: subJson["phone_num"].stringValue)

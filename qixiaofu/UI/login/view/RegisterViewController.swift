@@ -142,7 +142,7 @@ extension RegisterViewController{
             self.navigationController?.popToRootViewController(animated: false)
             DispatchQueue.global().async {
                 //注册环信
-                HChatClient.shared().register(withUsername: userPhone.stringValue, password: "11")
+                esmobRegister(userPhone.stringValue)
             }
 
             

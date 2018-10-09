@@ -197,9 +197,9 @@ class MySendOrderDetailViewController: UITableViewController {
     //联系工程师
     @IBAction func chatEngAction() {
         //聊天
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
+        
         let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
         //保存聊天页面数据
         LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
@@ -356,9 +356,8 @@ class MySendOrderDetailViewController: UITableViewController {
     //导航栏按钮-聊天
     @objc func chatItemAction() {
         //聊天
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
+        //登录环信
+        esmobLogin()
         let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
         //保存聊天页面数据
         LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)

@@ -297,9 +297,8 @@ class GoodsDetailViewController: BaseViewController {
                     LYProgressHUD.showInfo("卖家没有留下联系方式！")
                     return
                 }
-                DispatchQueue.global().async {
-                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                }
+                //登录环信
+                esmobLogin()
                 let chatVC = EaseMessageViewController.init(conversationChatter: tempJson["buymobile"].stringValue, conversationType: EMConversationType.init(0))
                 //保存聊天页面数据
                 LocalData.saveChatUserInfo(name: tempJson["seller_nickname"].stringValue, icon: tempJson["seller_avatar"].stringValue, key: tempJson["buymobile"].stringValue)
@@ -330,9 +329,8 @@ class GoodsDetailViewController: BaseViewController {
                     goodsInfo["item_url"] = tempJson["share"].stringValue
                 }
                 goodsInfo["price"] = tempJson["goods_price"].stringValue
-                DispatchQueue.global().async {
-                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                }
+                //登录环信
+                esmobLogin()
                 let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
                 chatVC?.commodityInfo = goodsInfo
                 self.navigationController?.pushViewController(chatVC!, animated: true)

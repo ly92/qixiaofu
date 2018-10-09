@@ -82,11 +82,8 @@ extension EngineerInvetoryViewController{
         tableView.deselectRow(at: indexPath, animated: false)
         if self.engListArray.count > indexPath.row{
             let subJson = self.engListArray[indexPath.row]
-//            let chatVC = ChatViewController.init(conversationChatter: subJson["call_name"].stringValue, conversationName: subJson["call_nik_name"].stringValue, conversationIcon: subJson["duifangtouxiang"].stringValue)
-//            self.navigationController?.pushViewController(chatVC, animated: true)
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
+            //登录环信
+            esmobLogin()
             let chatVC = EaseMessageViewController.init(conversationChatter: subJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
             //保存聊天页面数据
             LocalData.saveChatUserInfo(name: subJson["call_nik_name"].stringValue, icon: subJson["duifangtouxiang"].stringValue, key: subJson["call_name"].stringValue)

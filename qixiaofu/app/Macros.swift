@@ -151,9 +151,7 @@ func showLoginController(){
         LocalData.saveYesOrNotValue(value: "0", key: IsLogin)
     }
     //退出环信
-    DispatchQueue.global().async {
-        HChatClient.shared().logout(true)
-    }
+    esmobLogout()
     //设置推送的通用标示
     JPUSHService.setAlias("000000", completion: { (isResCode, alias, seq) in
     }, seq:0)
@@ -199,6 +197,29 @@ func checkEpPwd(_ pwd : String) -> Bool {
     return pass
 }
 
+//环信注册
+func esmobRegister(_ phone : String){
+    HChatClient.shared().register(withUsername: phone, password: "11")
+}
+
+//环信登录
+func esmobLogin(){
+    DispatchQueue.global().async {
+        let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+        if loginError != nil{
+            //注册环信
+            HChatClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
+            print("-------------------------------环信登录失败-------------------------------")
+        }
+    }
+}
+
+//环信退出
+func esmobLogout(){
+    DispatchQueue.global().async {
+        HChatClient.shared().logout(true)
+    }
+}
 
 class Macros: NSObject {
     
