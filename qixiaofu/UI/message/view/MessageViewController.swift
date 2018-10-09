@@ -18,7 +18,7 @@ class MessageViewController: BaseTableViewController {
     fileprivate let systermIcons = [#imageLiteral(resourceName: "img_systemnesw"),#imageLiteral(resourceName: "wallet_message"),#imageLiteral(resourceName: "task_message")]
     fileprivate var systermJson : JSON = []
     
-    fileprivate var chatArray : Array<HConversation> = Array<HConversation>()
+//    fileprivate var chatArray : Array<HConversation> = Array<HConversation>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +71,10 @@ class MessageViewController: BaseTableViewController {
             for sub in result.arrayValue{
                 num += sub["unread_num"].stringValue.intValue
             }
-            for converstion in self.chatArray{
-                let con = converstion
-                num += Int(con.unreadMessagesCount)
-            }
+//            for converstion in self.chatArray{
+//                let con = converstion
+//                num += Int(con.unreadMessagesCount)
+//            }
             if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                 tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
             }else{
@@ -88,20 +88,20 @@ class MessageViewController: BaseTableViewController {
     
     //环信聊天消息列表
     func esmobChatList() {
-        self.chatArray.removeAll()
+//        self.chatArray.removeAll()
         //登录环信
         esmobLogin()
         
-        guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
-            return
-        }
+//        guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
+//            return
+//        }
         
-        for converstion in conversations{
-            let con = converstion
-            let _ = LocalData.getChatUserInfo(key: con.conversationId)
-            self.chatArray.append(con)
-            self.tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-        }
+//        for converstion in conversations{
+//            let con = converstion
+//            let _ = LocalData.getChatUserInfo(key: con.conversationId)
+//            self.chatArray.append(con)
+//            self.tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+//        }
     }
     
 }
@@ -115,7 +115,8 @@ extension MessageViewController{
         if section == 0{
             return self.systermJson.arrayValue.count
         }
-        return self.chatArray.count
+        return 0
+//        return self.chatArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -138,49 +139,49 @@ extension MessageViewController{
         }else{
             cell.timeLbl.isHidden = false
             cell.unReadNumLbl.isHidden = true
-            if self.chatArray.count > indexPath.row{
-                let model = self.chatArray[indexPath.row]
-                let dict = LocalData.getChatUserInfo(key: model.conversationId)
-                cell.nameLbl.text = dict["name"]
-                cell.iconImgV.setHeadImageUrlStr(dict["icon"]!)
-                
-                //未读数量
-                let unReadNum = Int(model.unreadMessagesCount)
-                if unReadNum > 0{
-                    cell.unReadNumLbl.isHidden = false
-                    cell.unReadNumLbl.text = "\(model.unreadMessagesCount)"
-                }
-                
-                
-                var latestMessageTitle = ""
-                if model.latestMessage != nil{
-                    switch model.latestMessage.body.type {
-                    case EMMessageBodyTypeImage:
-                        latestMessageTitle = "图片"
-                    case EMMessageBodyTypeText:
-                        //表情映射
-                        let didReceiveText = EaseConvertToCommonEmoticonsHelper.convert(toSystemEmoticons: (model.latestMessage.body as! EMTextMessageBody).text)
-                        latestMessageTitle = didReceiveText!
-                    case EMMessageBodyTypeVoice:
-                        latestMessageTitle = "语音"
-                    case EMMessageBodyTypeLocation:
-                        latestMessageTitle = "位置"
-                    case EMMessageBodyTypeVideo:
-                        latestMessageTitle = "视频"
-                    case EMMessageBodyTypeFile:
-                        latestMessageTitle = "文件"
-                    default:
-                        latestMessageTitle = "[富文本]"
-                    }
-                    if latestMessageTitle.isEmpty{
-                        latestMessageTitle = "[富文本]"
-                    }
-                    let attributedStr = NSAttributedString.init(string: latestMessageTitle)
-                    cell.descLbl.attributedText = attributedStr
-                    
-                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.messageTime)")
-                }
-            }
+//            if self.chatArray.count > indexPath.row{
+//                let model = self.chatArray[indexPath.row]
+//                let dict = LocalData.getChatUserInfo(key: model.conversationId)
+//                cell.nameLbl.text = dict["name"]
+//                cell.iconImgV.setHeadImageUrlStr(dict["icon"]!)
+//
+//                //未读数量
+//                let unReadNum = Int(model.unreadMessagesCount)
+//                if unReadNum > 0{
+//                    cell.unReadNumLbl.isHidden = false
+//                    cell.unReadNumLbl.text = "\(model.unreadMessagesCount)"
+//                }
+//
+//
+//                var latestMessageTitle = ""
+//                if model.latestMessage != nil{
+//                    switch model.latestMessage.body.type {
+//                    case EMMessageBodyTypeImage:
+//                        latestMessageTitle = "图片"
+//                    case EMMessageBodyTypeText:
+//                        //表情映射
+//                        let didReceiveText = EaseConvertToCommonEmoticonsHelper.convert(toSystemEmoticons: (model.latestMessage.body as! EMTextMessageBody).text)
+//                        latestMessageTitle = didReceiveText!
+//                    case EMMessageBodyTypeVoice:
+//                        latestMessageTitle = "语音"
+//                    case EMMessageBodyTypeLocation:
+//                        latestMessageTitle = "位置"
+//                    case EMMessageBodyTypeVideo:
+//                        latestMessageTitle = "视频"
+//                    case EMMessageBodyTypeFile:
+//                        latestMessageTitle = "文件"
+//                    default:
+//                        latestMessageTitle = "[富文本]"
+//                    }
+//                    if latestMessageTitle.isEmpty{
+//                        latestMessageTitle = "[富文本]"
+//                    }
+//                    let attributedStr = NSAttributedString.init(string: latestMessageTitle)
+//                    cell.descLbl.attributedText = attributedStr
+//
+//                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.messageTime)")
+//                }
+//            }
         }
         return cell
     }
@@ -205,30 +206,24 @@ extension MessageViewController{
                 self.navigationController?.pushViewController(messageVC, animated: true)
             }
         }else{
-            if self.chatArray.count > indexPath.row{
-                let model = self.chatArray[indexPath.row]
-                var name = "对方"
-                var icon = ""
-                let dict = LocalData.getChatUserInfo(key: model.conversationId)
-                name = dict["name"]!
-                icon = dict["icon"]!
-                //登录环信
-                esmobLogin()
-                
-                //全部标为已读
-                model.markAllMessages(asRead: nil)
-                
-                if model.conversationId.hasPrefix("kefu"){
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
-                }else{
-                    let chatVC = EaseMessageViewController.init(conversationChatter: model.conversationId, conversationType: EMConversationType.init(0))
-                    //保存聊天页面数据
-                    LocalData.saveChatUserInfo(name: name, icon: icon, key: model.conversationId)
-                    chatVC?.title = name
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
-                }
-            }
+//            if self.chatArray.count > indexPath.row{
+//                let model = self.chatArray[indexPath.row]
+//                var name = "对方"
+//                var icon = ""
+//                let dict = LocalData.getChatUserInfo(key: model.conversationId)
+//                name = dict["name"]!
+//                icon = dict["icon"]!
+//                //登录环信
+//                esmobLogin()
+//
+//                //全部标为已读
+//                model.markAllMessages(asRead: nil)
+//                if conversationId.hasPrefix("kefu"){
+//                    esmobChat(self, "kefu1", 1)
+//                }else{
+//                    esmobChat(self, model.conversationId, 2, name, icon)
+//                }
+//            }
         }
         
     }

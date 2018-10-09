@@ -299,12 +299,7 @@ class GoodsDetailViewController: BaseViewController {
                 }
                 //登录环信
                 esmobLogin()
-                let chatVC = EaseMessageViewController.init(conversationChatter: tempJson["buymobile"].stringValue, conversationType: EMConversationType.init(0))
-                //保存聊天页面数据
-                LocalData.saveChatUserInfo(name: tempJson["seller_nickname"].stringValue, icon: tempJson["seller_avatar"].stringValue, key: tempJson["buymobile"].stringValue)
-                chatVC?.title = tempJson["seller_nickname"].stringValue
-                self.navigationController?.pushViewController(chatVC!, animated: true)
-                
+                esmobChat(self, tempJson["buymobile"].stringValue, 2, tempJson["seller_nickname"].stringValue, tempJson["seller_avatar"].stringValue)
             }else{
                 //客服
                 /**商品信息*/
@@ -331,9 +326,10 @@ class GoodsDetailViewController: BaseViewController {
                 goodsInfo["price"] = tempJson["goods_price"].stringValue
                 //登录环信
                 esmobLogin()
-                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                chatVC?.commodityInfo = goodsInfo
-                self.navigationController?.pushViewController(chatVC!, animated: true)
+                esmobChat(self, "kefu1", 1)
+//                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
+//                chatVC?.commodityInfo = goodsInfo
+//                self.navigationController?.pushViewController(chatVC!, animated: true)
             }
         }else if sender.tag == 44{
             //call phone

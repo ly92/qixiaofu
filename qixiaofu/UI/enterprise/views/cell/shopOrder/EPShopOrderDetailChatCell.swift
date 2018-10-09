@@ -50,8 +50,7 @@ class EPShopOrderDetailChatCell: UITableViewCell {
     @IBAction func chatAction() {
         //登录环信
         esmobLogin()
-        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self.parentVC, "kefu1", 1)
     }
     
 }

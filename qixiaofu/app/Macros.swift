@@ -199,26 +199,40 @@ func checkEpPwd(_ pwd : String) -> Bool {
 
 //环信注册
 func esmobRegister(_ phone : String){
-    HChatClient.shared().register(withUsername: phone, password: "11")
+//    HChatClient.shared().register(withUsername: phone, password: "11")
 }
 
 //环信登录
 func esmobLogin(){
     DispatchQueue.global().async {
-        let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        if loginError != nil{
-            //注册环信
-            HChatClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
-            print("-------------------------------环信登录失败-------------------------------")
-        }
+//        let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+//        if loginError != nil{
+//            //注册环信
+//            HChatClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
+//            print("-------------------------------环信登录失败-------------------------------")
+//        }
     }
 }
 
 //环信退出
 func esmobLogout(){
     DispatchQueue.global().async {
-        HChatClient.shared().logout(true)
+//        HChatClient.shared().logout(true)
     }
+}
+
+//发起聊天
+func esmobChat(_ vc : UIViewController, _ to : String, _ type : Int, _ name : String="", _ icon : String=""){
+//    if type == 1{
+//        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
+//        vc.navigationController?.pushViewController(chatVC!, animated: true)
+//    }else{
+//        let chatVC = EaseMessageViewController.init(conversationChatter: to, conversationType: EMConversationType.init(0))
+//        //保存聊天页面数据
+//        LocalData.saveChatUserInfo(name: name, icon: icon, key: conversationId)
+//        chatVC?.title = name
+//        vc.navigationController?.pushViewController(chatVC!, animated: true)
+//    }
 }
 
 class Macros: NSObject {

@@ -138,7 +138,7 @@ public class LYProgressHUD : NSObject {
 
     static var windows = Array<UIWindow?>()
     static var angle: Double {
-            return [0, 0, 180, 270, 90][UIApplication.shared.statusBarOrientation.hashValue] as Double
+        return [0, 0, 180, 270, 90][UIApplication.shared.statusBarOrientation.rawValue] as Double
     }
     static public func showWaitWithImages(images : Array<UIImage>, timeInterval : TimeInterval, autoRemove: Bool = true) {
         self.dismiss()

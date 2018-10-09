@@ -133,8 +133,7 @@ class EPShopOrderDetailViewController: BaseViewController {
                     //部分发货
                     //登录环信
                     esmobLogin()
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, "kefu1", 1)
                 }
             }
         }else if state == 4{

@@ -50,13 +50,7 @@
 #import <AdSupport/AdSupport.h>
 
 
-#import "NSString+Valid.h"
-#import "UIResponder+HRouter.h"
-#import <HelpDesk/HelpDesk.h>
-#import <HyphenateLite/HyphenateLite.h>
-#import "HelpDeskUI.h"
-#import "EaseUI.h"
-#import "HDChatViewController.h"
+
 
 //下载
 #import "ZFDownloadManager.h"

@@ -177,11 +177,7 @@ class AuthorizedEnrollerController: BaseTableViewController {
                 //聊天
                 //登录环信
                 esmobLogin()
-                let chatVC = EaseMessageViewController.init(conversationChatter: subJson["phone_num"].stringValue, conversationType: EMConversationType.init(0))
-                //保存聊天页面数据
-                LocalData.saveChatUserInfo(name: subJson["ot_user_name"].stringValue, icon: subJson["ot_user_avatar"].stringValue, key: subJson["phone_num"].stringValue)
-                chatVC?.title = subJson["ot_user_name"].stringValue
-                self.navigationController?.pushViewController(chatVC!, animated: true)
+                esmobChat(self, subJson["phone_num"].stringValue, 2, subJson["ot_user_name"].stringValue, subJson["ot_user_avatar"].stringValue)
             }
         }
         return cell
@@ -198,11 +194,7 @@ class AuthorizedEnrollerController: BaseTableViewController {
             //聊天
             //登录环信
             esmobLogin()
-            let chatVC = EaseMessageViewController.init(conversationChatter: subJson["phone_num"].stringValue, conversationType: EMConversationType.init(0))
-            //保存聊天页面数据
-            LocalData.saveChatUserInfo(name: subJson["ot_user_name"].stringValue, icon: subJson["ot_user_avatar"].stringValue, key: subJson["phone_num"].stringValue)
-            chatVC?.title = subJson["ot_user_name"].stringValue
-            self.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(self, subJson["phone_num"].stringValue, 2, subJson["ot_user_name"].stringValue, subJson["ot_user_avatar"].stringValue)
         }
     }
 

@@ -79,7 +79,7 @@ extension UIView{
     //            center = tempCenter
     //        }
     //    }
-    var center_x : CGFloat {
+    var centerX : CGFloat {
         get {
             return self.center.x
         }
@@ -89,7 +89,7 @@ extension UIView{
             center = tempCenter
         }
     }
-    var center_y : CGFloat {
+    var centerY : CGFloat {
         get {
             return self.center.y
         }
@@ -119,7 +119,16 @@ extension UIView{
             frame = tempFrame
         }
     }
-    
+    var size : CGSize!{
+        get {
+            return self.frame.size
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.size = newValue
+            frame = tempFrame
+        }
+    }
     
     func loadFromNib(nibName:String){
         let shadow = UIView.loadFromNibName(nibName: nibName)
