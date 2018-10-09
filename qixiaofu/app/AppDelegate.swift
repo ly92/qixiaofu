@@ -323,19 +323,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //环信//注册环信
     func configEasemob(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?){
-        //        let options = EMOptions.init(appkey: KEasemobKey)
-//        let options = HOptions()
-//        options.apnsCertName = KEasemobCertName
-//        options.tenantId = KEasemobId
-//        options.appkey = KEasemobKey
-//        let initError = HChatClient.shared().initializeSDK(with: options)
-//        if initError != nil{
-//            print("-------------------------------环信初始化失败----------------------------------")
-//        }
+        guard let options = EMOptions.init(appkey: KEasemobKey) else{
+            return
+        }
+        options.apnsCertName = KEasemobCertName
+        let initError = EMClient.shared()?.initializeSDK(with: options)
+        if initError != nil{
+            print("-------------------------------环信初始化失败----------------------------------")
+        }
         
         //环信//登录环信
         esmobLogin()
     
+        //环信代理方法
+        DispatchQueue.main.async {
+            EMClient.shared()?.chatManager.add(self, delegateQueue: nil)
+            EMClient.shared()?.add(self, delegateQueue: nil)
+        }
+        
     }
     
     
@@ -376,17 +381,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        //环信推送
-        DispatchQueue.main.async {
-//            HChatClient.shared().add(self, delegateQueue: nil)
-//            EMClient.shared().chatManager.add(self, delegateQueue: nil)
-        }
+
         
     }
     
-    func registerJpush() {
-        
-    }
     
     //MARK: - 网页打开app
     //iOS 9以下的回调
@@ -523,7 +521,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //环信
 //        HChatClient.shared().applicationDidEnterBackground(application)
-//        EMClient.shared().applicationDidEnterBackground(application)
+        EMClient.shared().applicationDidEnterBackground(application)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -544,7 +542,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //环信
 //        HChatClient.shared().applicationWillEnterForeground(application)
-//        EMClient.shared().applicationWillEnterForeground(application)
+        EMClient.shared().applicationWillEnterForeground(application)
         //环信//登录环信
         esmobLogin()
         
@@ -566,7 +564,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.global().async {
             JPUSHService.registerDeviceToken(deviceToken)
 //            HChatClient.shared().bindDeviceToken(deviceToken)
-//            EMClient.shared().bindDeviceToken(deviceToken)
+            EMClient.shared().bindDeviceToken(deviceToken)
         }
     }
     
@@ -809,20 +807,19 @@ extension AppDelegate{
             for sub in result.arrayValue{
                 num += sub["unread_num"].stringValue.intValue
             }
-            
-            
-//            guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
-//                if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-//                    tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
-//                }else{
-//                    tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
-//                }
-//                return
-//            }
-//            for converstion in conversations{
-//                let con = converstion
-//                num += Int(con.unreadMessagesCount)
-//            }
+
+            guard let conversations : Array<EMConversation> = EMClient.shared().chatManager.getAllConversations() as? Array<EMConversation> else {
+                if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                    tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
+                }else{
+                    tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
+                }
+                return
+            }
+            for converstion in conversations{
+                let con = converstion
+                num += Int(con.unreadMessagesCount)
+            }
             
             if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                 tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
@@ -836,8 +833,7 @@ extension AppDelegate{
 
 
 //MARK: - 环信和推送的代理
-extension AppDelegate : JPUSHRegisterDelegate{
-//    HChatClientDelegate,EMChatManagerDelegate,
+extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDelegate{
     
     //其他设备登录
     func userAccountDidLoginFromOtherDevice() {
@@ -852,15 +848,16 @@ extension AppDelegate : JPUSHRegisterDelegate{
         }else if UIApplication.shared.applicationState == .background{
             //后台
             if aMessages.count > 0{
-//                guard let message = aMessages[0] as? EMMessage else{
-//                    return
-//                }
-//                let localNotification = UILocalNotification()
-//                localNotification.alertBody = "您有新的未读消息！"
-//                localNotification.applicationIconBadgeNumber = 1
-//                localNotification.userInfo = ["conversationId":message.conversationId]
-//                localNotification.soundName = UILocalNotificationDefaultSoundName
-//                UIApplication.shared.scheduleLocalNotification(localNotification)
+                guard let message = aMessages[0] as? EMMessage else{
+                    return
+                }
+                //https://www.cnblogs.com/code-Officer/p/5957455.html
+                let localNotification = UILocalNotification()
+                localNotification.alertBody = "您有新的未读消息！"
+                localNotification.applicationIconBadgeNumber = 1
+                localNotification.userInfo = ["conversationId":message.conversationId]
+                localNotification.soundName = UILocalNotificationDefaultSoundName
+                UIApplication.shared.scheduleLocalNotification(localNotification)
             }
         }else{
             //收到通知

@@ -49,7 +49,9 @@
 #import <UserNotifications/UserNotifications.h>
 #import <AdSupport/AdSupport.h>
 
-
+//环信
+#import <HyphenateLite/HyphenateLite.h>
+#import "EaseUI.h"
 
 
 //下载

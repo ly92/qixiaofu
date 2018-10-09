@@ -199,12 +199,20 @@ func checkEpPwd(_ pwd : String) -> Bool {
 
 //环信注册
 func esmobRegister(_ phone : String){
+    EMClient.shared()?.register(withUsername: phone, password: "11")
 //    HChatClient.shared().register(withUsername: phone, password: "11")
 }
 
 //环信登录
 func esmobLogin(){
     DispatchQueue.global().async {
+        let loginError = EMClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+        if loginError != nil{
+            //注册环信
+            EMClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
+            print("-------------------------------环信登录失败-------------------------------")
+        }
+        
 //        let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
 //        if loginError != nil{
 //            //注册环信
@@ -223,6 +231,11 @@ func esmobLogout(){
 
 //发起聊天
 func esmobChat(_ vc : UIViewController, _ to : String, _ type : Int, _ name : String="", _ icon : String=""){
+    let chatVC = EaseMessageViewController.init(conversationChatter: to, conversationType: EMConversationType.init(0))
+    chatVC?.title = name
+    vc.navigationController?.pushViewController(chatVC!, animated: true)
+    
+    
 //    if type == 1{
 //        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
 //        vc.navigationController?.pushViewController(chatVC!, animated: true)
