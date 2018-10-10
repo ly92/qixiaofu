@@ -72,7 +72,12 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         return bannerView
     }()
     
-    
+    //隐藏状态栏
+    fileprivate var isStatusBarHidden = false{
+        didSet{
+            self.setNeedsStatusBarAppearanceUpdate()
+        }
+    }
     
     fileprivate var photoView : LYPhotoBrowseView!
     
@@ -105,6 +110,10 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         AipOcrService.shard().auth(withAK: "nGMwZNOcsVQIUkdbpkHShXUm", andSK: "iiUto12cC9cNmwrwDtlyzGOUAaujCDD4")
     }
     
+    //隐藏状态栏
+    override var prefersStatusBarHidden: Bool{
+        return self.isStatusBarHidden
+    }
     
     func setUpSearchNavView() {
         searchBar.placeholder = "请输入品牌、名称、类别等搜索"
@@ -766,6 +775,10 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
     
     //相机
     func camera() {
+        
+        //隐藏状态栏
+        self.isStatusBarHidden = true
+        
         //是否允许使用相机
         self.ocrVC = AipGeneralVC.viewController { (image) in
             LYProgressHUD.showLoading()
@@ -794,6 +807,8 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
                     LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
                 }
             }, failHandler: { (error) in
+                //展示状态栏
+                self.isStatusBarHidden = false
                 LYProgressHUD.showError("图片识别失败，请重试！")
             })
         }
@@ -869,6 +884,9 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
     
     
     func dismissVC() {
+        //展示状态栏
+        self.isStatusBarHidden = false
+        
         if self.ocrVC != nil{
             self.ocrVC?.dismiss(animated: true, completion: nil)
         }
