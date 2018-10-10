@@ -8,7 +8,7 @@
 
 #import "EsmobHelper.h"
 #import "SDImageCache.h"
-#import <HelpDesk/HelpDesk.h>
+#import <HelpDeskLite/HelpDeskLite.h>
 
 @implementation EsmobHelper
 

@@ -15,7 +15,7 @@
 #import "EaseConversationModel.h"
 #import "EaseConversationCell.h"
 
-#import <Hyphenate/Hyphenate.h>
+#import <HyphenateLite/HyphenateLite.h>
 
 typedef NS_ENUM(int, DXDeleteConvesationType) {
     DXDeleteConvesationOnly,

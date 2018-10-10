@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <HelpDesk/HelpDesk.h>
+#import <HelpDeskLite/HelpDeskLite.h>
 //#import "EMSDK.h"
 
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"

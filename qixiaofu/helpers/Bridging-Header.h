@@ -50,8 +50,8 @@
 #import <AdSupport/AdSupport.h>
 
 //环信
-#import <Hyphenate/Hyphenate.h>
-#import <HelpDesk/HelpDesk.h>
+#import <HyphenateLite/HyphenateLite.h>
+#import <HelpDeskLite/HelpDeskLite.h>
 #import "EaseUI.h"
 #import "HelpDeskUI.h"
 #import "HDChatViewController.h"

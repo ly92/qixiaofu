@@ -180,6 +180,11 @@
 		082993BD2099684F0033FC19 /* EPShopPayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082993BC2099684E0033FC19 /* EPShopPayWayViewController.swift */; };
 		082993C0209985B90033FC19 /* EPShopOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082993BF209985B90033FC19 /* EPShopOrderListViewController.swift */; };
 		082993C62099BAB80033FC19 /* EPShopOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082993C52099BAB80033FC19 /* EPShopOrderDetailViewController.swift */; };
+		0829BF2F216E3B7B003A4DE6 /* BaiduTraceSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08952D8220C90BB5001D2BE4 /* BaiduTraceSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0829BF31216E3B91003A4DE6 /* HyphenateLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0829BF30216E3B91003A4DE6 /* HyphenateLite.framework */; };
+		0829BF32216E3B9D003A4DE6 /* HyphenateLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0829BF30216E3B91003A4DE6 /* HyphenateLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0829BF34216E3D45003A4DE6 /* HelpDeskLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0829BF33216E3D45003A4DE6 /* HelpDeskLite.framework */; };
+		0829BF35216E3D61003A4DE6 /* HelpDeskLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0829BF33216E3D45003A4DE6 /* HelpDeskLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		082A68BD1EF2644C004CEB69 /* LYBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A68BC1EF2644C004CEB69 /* LYBannerView.swift */; };
 		082A8BF7206DEBF40070C993 /* MyMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A8BF6206DEBF40070C993 /* MyMoneyViewController.swift */; };
 		082A8BFA206DEEFE0070C993 /* MyMoneyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082A8BF8206DEEFE0070C993 /* MyMoneyCell.swift */; };
@@ -448,7 +453,6 @@
 		0893FC6620944BFD0081C230 /* EPShopPayWalletCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0893FC6420944BFD0081C230 /* EPShopPayWalletCell.xib */; };
 		08952D8320C90BB6001D2BE4 /* BaiduTraceSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08952D8220C90BB5001D2BE4 /* BaiduTraceSDK.framework */; };
 		08952D8420C90C91001D2BE4 /* BaiduTraceSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08952D8220C90BB5001D2BE4 /* BaiduTraceSDK.framework */; };
-		08952D8520C90C91001D2BE4 /* BaiduTraceSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08952D8220C90BB5001D2BE4 /* BaiduTraceSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08955210209A9B2F006E1A1F /* StandardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0895520F209A9B2F006E1A1F /* StandardListViewController.swift */; };
 		08955214209A9CF3006E1A1F /* EPShopOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08955212209A9CF3006E1A1F /* EPShopOrderCell.swift */; };
 		08955215209A9CF3006E1A1F /* EPShopOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08955213209A9CF3006E1A1F /* EPShopOrderCell.xib */; };
@@ -591,10 +595,6 @@
 		089E4A85216CA0C5003C6583 /* product_details_zh_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 089E49C5216CA0C4003C6583 /* product_details_zh_4.png */; };
 		089E4A86216CA0C5003C6583 /* Shape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 089E49C6216CA0C4003C6583 /* Shape@2x.png */; };
 		089E4A87216CA0C5003C6583 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 089E49C7216CA0C4003C6583 /* Triangle@2x.png */; };
-		089E4A8A216CA10A003C6583 /* HelpDesk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089E4A88216CA10A003C6583 /* HelpDesk.framework */; };
-		089E4A8B216CA10A003C6583 /* Hyphenate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089E4A89216CA10A003C6583 /* Hyphenate.framework */; };
-		089E4A8C216CA1D5003C6583 /* HelpDesk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 089E4A88216CA10A003C6583 /* HelpDesk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		089E4A8D216CA1D5003C6583 /* Hyphenate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 089E4A89216CA10A003C6583 /* Hyphenate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		089E4D04216CA6DE003C6583 /* hdamrFileCodec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 089E4CE6216CA6DD003C6583 /* hdamrFileCodec.mm */; };
 		089E4D05216CA6DE003C6583 /* hdwav.mm in Sources */ = {isa = PBXBuildFile; fileRef = 089E4CE8216CA6DD003C6583 /* hdwav.mm */; };
 		089E4D06216CA6DE003C6583 /* HDVoiceConverter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 089E4CEA216CA6DD003C6583 /* HDVoiceConverter.mm */; };
@@ -752,9 +752,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				089E4A8C216CA1D5003C6583 /* HelpDesk.framework in Embed Frameworks */,
-				089E4A8D216CA1D5003C6583 /* Hyphenate.framework in Embed Frameworks */,
-				08952D8520C90C91001D2BE4 /* BaiduTraceSDK.framework in Embed Frameworks */,
+				0829BF35216E3D61003A4DE6 /* HelpDeskLite.framework in Embed Frameworks */,
+				0829BF32216E3B9D003A4DE6 /* HyphenateLite.framework in Embed Frameworks */,
+				0829BF2F216E3B7B003A4DE6 /* BaiduTraceSDK.framework in Embed Frameworks */,
 				08417E5F211B33820042DFD6 /* AipOcrSdk.framework in Embed Frameworks */,
 				08417E5D211B33770042DFD6 /* AipBase.framework in Embed Frameworks */,
 				08417E63211B39C30042DFD6 /* IdcardQuality.framework in Embed Frameworks */,
@@ -1074,6 +1074,8 @@
 		082993BC2099684E0033FC19 /* EPShopPayWayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPShopPayWayViewController.swift; sourceTree = "<group>"; };
 		082993BF209985B90033FC19 /* EPShopOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPShopOrderListViewController.swift; sourceTree = "<group>"; };
 		082993C52099BAB80033FC19 /* EPShopOrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPShopOrderDetailViewController.swift; sourceTree = "<group>"; };
+		0829BF30216E3B91003A4DE6 /* HyphenateLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyphenateLite.framework; sourceTree = "<group>"; };
+		0829BF33216E3D45003A4DE6 /* HelpDeskLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDeskLite.framework; sourceTree = "<group>"; };
 		082A68BC1EF2644C004CEB69 /* LYBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LYBannerView.swift; sourceTree = "<group>"; };
 		082A8BF6206DEBF40070C993 /* MyMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoneyViewController.swift; sourceTree = "<group>"; };
 		082A8BF8206DEEFE0070C993 /* MyMoneyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoneyCell.swift; sourceTree = "<group>"; };
@@ -1648,8 +1650,6 @@
 		089E49C5216CA0C4003C6583 /* product_details_zh_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = product_details_zh_4.png; sourceTree = "<group>"; };
 		089E49C6216CA0C4003C6583 /* Shape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shape@2x.png"; sourceTree = "<group>"; };
 		089E49C7216CA0C4003C6583 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
-		089E4A88216CA10A003C6583 /* HelpDesk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HelpDesk.framework; sourceTree = "<group>"; };
-		089E4A89216CA10A003C6583 /* Hyphenate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Hyphenate.framework; sourceTree = "<group>"; };
 		089E4CE1216CA6DD003C6583 /* HDCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		089E4CE2216CA6DD003C6583 /* HDCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		089E4CE5216CA6DD003C6583 /* hdamrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hdamrFileCodec.h; sourceTree = "<group>"; };
@@ -1822,6 +1822,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0887D60E1F7A59030099CC2C /* Social.framework in Frameworks */,
+				0829BF34216E3D45003A4DE6 /* HelpDeskLite.framework in Frameworks */,
 				08417E5B211B32FF0042DFD6 /* AipBase.framework in Frameworks */,
 				08669C411F7A1F07007E746E /* MessageUI.framework in Frameworks */,
 				083C34581F14B76F00A7F1D2 /* libWeChatSDK.a in Frameworks */,
@@ -1833,9 +1834,9 @@
 				089E4D07216CA6DE003C6583 /* hdlibopencore-amrnb.a in Frameworks */,
 				080822F8216C97470091EF3F /* libopencore-amrwb.a in Frameworks */,
 				08952D8420C90C91001D2BE4 /* BaiduTraceSDK.framework in Frameworks */,
+				0829BF31216E3B91003A4DE6 /* HyphenateLite.framework in Frameworks */,
 				08952D8320C90BB6001D2BE4 /* BaiduTraceSDK.framework in Frameworks */,
 				08497B291F0F55A400339D77 /* Foundation.framework in Frameworks */,
-				089E4A8A216CA10A003C6583 /* HelpDesk.framework in Frameworks */,
 				08497B271F0F556A00339D77 /* CFNetwork.framework in Frameworks */,
 				080822F7216C97470091EF3F /* libopencore-amrnb.a in Frameworks */,
 				08497B251F0F555300339D77 /* CoreGraphics.framework in Frameworks */,
@@ -1843,7 +1844,6 @@
 				08497B211F0F554000339D77 /* QuartzCore.framework in Frameworks */,
 				08497B1F1F0F553800339D77 /* CoreTelephony.framework in Frameworks */,
 				08497B1D1F0F552C00339D77 /* SystemConfiguration.framework in Frameworks */,
-				089E4A8B216CA10A003C6583 /* Hyphenate.framework in Frameworks */,
 				08497B1B1F0F552400339D77 /* libz.tbd in Frameworks */,
 				08497B191F0F551A00339D77 /* libc++.tbd in Frameworks */,
 				089E4D08216CA6DE003C6583 /* hdlibopencore-amrwb.a in Frameworks */,
@@ -4196,8 +4196,8 @@
 		46E86A47E5D6FDABD5CDE739 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				089E4A88216CA10A003C6583 /* HelpDesk.framework */,
-				089E4A89216CA10A003C6583 /* Hyphenate.framework */,
+				0829BF33216E3D45003A4DE6 /* HelpDeskLite.framework */,
+				0829BF30216E3B91003A4DE6 /* HyphenateLite.framework */,
 				08417E60211B39B70042DFD6 /* IdcardQuality.framework */,
 				08417E59211B32FF0042DFD6 /* AipBase.framework */,
 				08417E58211B32FE0042DFD6 /* AipOcrSdk.framework */,
