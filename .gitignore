@@ -26,7 +26,7 @@ AipBase.framework
 AipOcrSdk.framework
 BaiduTraceSDK.framework
 HelpDeskLite.framework
-HyphenatekLite.framework
+HyphenateLite.framework
 qixiaofu.xcodeproj/xcuserdata
 qixiaofu.xcworkspace/xcuserdata
 qixiaofu.xcodeproj/project.xcworkspace
