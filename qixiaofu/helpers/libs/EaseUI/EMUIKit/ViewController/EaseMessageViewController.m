@@ -26,7 +26,7 @@
 #import "UIImage+EMGIF.h"
 #import "EaseLocalDefine.h"
 #import "EaseSDKHelper.h"
-
+#import "LocalDataOC.h"
 #define KHintAdjustY    50
 
 #define IOS_VERSION [[UIDevice currentDevice] systemVersion]>=9.0
@@ -1011,8 +1011,12 @@ typedef enum : NSUInteger {
     };
     
     [self.conversation loadMessagesStartFromId:messageId count:(int)count searchDirection:EMMessageSearchDirectionUp completion:^(NSArray *aMessages, EMError *aError) {
-        if (!aError && [aMessages count]) {
-            refresh(aMessages);
+        if (!aError){
+            if (aMessages && [aMessages count] > 0){
+                refresh(aMessages);
+            }
+        }else{
+            [self tableViewDidTriggerHeaderRefresh];
         }
     }];
 }
@@ -1139,6 +1143,16 @@ typedef enum : NSUInteger {
         sendCell = [[EaseBaseMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
         sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
         sendCell.delegate = self;
+    }
+    
+    if (model.isSender){
+        NSDictionary *userDict = [LocalDataOC getChatUserInfo:[LocalDataOC getUserPhone]];
+        model.nickname = [userDict objectForKey:@"name"];
+        model.avatarURLPath = [userDict objectForKey:@"icon"];
+    }else{
+        NSDictionary *userDict = [LocalDataOC getChatUserInfo:model.message.conversationId];
+        model.nickname = [userDict objectForKey:@"name"];
+        model.avatarURLPath = [userDict objectForKey:@"icon"];
     }
     
     sendCell.model = model;

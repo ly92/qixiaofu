@@ -131,8 +131,6 @@ class EPShopOrderDetailViewController: BaseViewController {
                     }
                 }else if shipping_state == 3{
                     //部分发货
-                    //登录环信
-                    esmobLogin()
                     esmobChat(self, "kefu1", 1)
                 }
             }

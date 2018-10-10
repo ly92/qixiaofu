@@ -433,6 +433,7 @@ class SendTaskViewController: BaseTableViewController {
         let image = #imageLiteral(resourceName: "send_task_step")
         let h = kScreenW / image.size.width * image.size.height
         let scroll = UIScrollView.init(frame: CGRect.init(x: kScreenW-40, y: 50, width: 0, height: 0))
+//        scroll.backgroundColor = UIColor.colorHexWithAlpha(hex: "000000", alpha: 0.5)
         let imgV = UIImageView.init(image: image)
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)

@@ -208,8 +208,6 @@ extension MapMatchEngineerViewController : BMKMapViewDelegate{
     
     func mapView(_ mapView: BMKMapView!, annotationViewForBubble view: BMKAnnotationView!) {
         if view.isKind(of: BMKPinAnnotationView.self){
-            //登录环信
-            esmobLogin()
             let anno = view.annotation as! TagAnnotation
             let subJson = self.engListArray[anno.tag]
             esmobChat(self, subJson["call_name"].stringValue, 2, subJson["call_nik_name"].stringValue, subJson["duifangtouxiang"].stringValue)           

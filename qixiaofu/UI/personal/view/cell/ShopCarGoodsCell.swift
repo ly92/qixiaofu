@@ -64,8 +64,6 @@ class ShopCarGoodsCell: UITableViewCell {
         
         self.invalidationDescLbl.addTapActionBlock {
             //客服
-            //登录环信
-            esmobLogin()
             esmobChat(self.parentVC, "kefu1", 1)
         }
     }

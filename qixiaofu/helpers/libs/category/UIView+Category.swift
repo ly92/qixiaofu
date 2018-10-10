@@ -79,7 +79,7 @@ extension UIView{
     //            center = tempCenter
     //        }
     //    }
-    var centerX : CGFloat {
+    var center_x : CGFloat {
         get {
             return self.center.x
         }
@@ -89,7 +89,7 @@ extension UIView{
             center = tempCenter
         }
     }
-    var centerY : CGFloat {
+    var center_y : CGFloat {
         get {
             return self.center.y
         }

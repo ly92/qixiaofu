@@ -323,14 +323,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //环信//注册环信
     func configEasemob(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?){
-        guard let options = EMOptions.init(appkey: KEasemobKey) else{
-            return
-        }
+        
+        let options = HDOptions()
         options.apnsCertName = KEasemobCertName
-        let initError = EMClient.shared()?.initializeSDK(with: options)
+        options.appkey = KEasemobKey
+        options.tenantId = KEasemobId
+        let initError = HDClient.shared()?.initializeSDK(with: options)
         if initError != nil{
             print("-------------------------------环信初始化失败----------------------------------")
         }
+
+//        guard let options = EMOptions.init(appkey: KEasemobKey) else{
+//            return
+//        }
+//        options.apnsCertName = KEasemobCertName
+//        let initError = EMClient.shared()?.initializeSDK(with: options)
+//        if initError != nil{
+//            print("-------------------------------环信初始化失败----------------------------------")
+//        }
         
         //环信//登录环信
         esmobLogin()
@@ -520,7 +530,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         
         //环信
-//        HChatClient.shared().applicationDidEnterBackground(application)
+        HDClient.shared().applicationDidEnterBackground(application)
         EMClient.shared().applicationDidEnterBackground(application)
     }
     
@@ -541,7 +551,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //环信
-//        HChatClient.shared().applicationWillEnterForeground(application)
+        HDClient.shared().applicationWillEnterForeground(application)
         EMClient.shared().applicationWillEnterForeground(application)
         //环信//登录环信
         esmobLogin()
@@ -563,7 +573,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         DispatchQueue.global().async {
             JPUSHService.registerDeviceToken(deviceToken)
-//            HChatClient.shared().bindDeviceToken(deviceToken)
+            HDClient.shared().bindDeviceToken(deviceToken)
             EMClient.shared().bindDeviceToken(deviceToken)
         }
     }
@@ -608,8 +618,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dict = LocalData.getChatUserInfo(key: conversationId)
         name = dict["name"]!
         icon = dict["icon"]!
-        //登录环信
-        esmobLogin()
         if conversationId.hasPrefix("kefu"){
             esmobChat(nav.viewControllers.first!, "kefu1", 1)
         }else{
@@ -808,7 +816,7 @@ extension AppDelegate{
                 num += sub["unread_num"].stringValue.intValue
             }
 
-            guard let conversations : Array<EMConversation> = EMClient.shared().chatManager.getAllConversations() as? Array<EMConversation> else {
+            guard let conversations : Array<HDConversation> = HDClient.shared().chatManager.loadAllConversations() as? Array<HDConversation> else {
                 if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                     tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
                 }else{
@@ -833,7 +841,7 @@ extension AppDelegate{
 
 
 //MARK: - 环信和推送的代理
-extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDelegate{
+extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDelegate,HDClientDelegate{
     
     //其他设备登录
     func userAccountDidLoginFromOtherDevice() {
@@ -929,8 +937,6 @@ extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDele
             let dict = LocalData.getChatUserInfo(key: conversationId)
             name = dict["name"]!
             icon = dict["icon"]!
-            //登录环信
-            esmobLogin()
             if conversationId.hasPrefix("kefu"){
                 esmobChat(nav.viewControllers.first!, "kefu1", 1)
             }else{

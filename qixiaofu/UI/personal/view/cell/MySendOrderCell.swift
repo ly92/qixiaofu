@@ -76,8 +76,6 @@ class MySendOrderCell: UITableViewCell {
 //        let chatVC = ChatViewController.init(conversationChatter: self.subJson["call_name"].stringValue, conversationName: self.subJson["call_nik_name"].stringValue, conversationIcon: self.subJson["ot_user_avatar"].stringValue)
 //        self.parentVC.navigationController?.pushViewController(chatVC, animated: true)
         
-        //登录环信
-        esmobLogin()
         esmobChat(self.parentVC, self.subJson["call_name"].stringValue, 2, self.subJson["call_nik_name"].stringValue, self.subJson["ot_user_avatar"].stringValue)
     }
     

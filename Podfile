@@ -38,7 +38,7 @@ target 'qixiaofu' do
     #pod 'LYTools'
     
     #环信
-    pod 'HyphenateLite'
+#    pod 'HyphenateLite'
 #    pod 'EaseUI', :git => 'https://github.com/easemob/easeui-ios-hyphenate-cocoapods.git'
 
     

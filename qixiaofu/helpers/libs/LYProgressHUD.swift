@@ -316,7 +316,7 @@ public class LYProgressHUD : NSObject {
         window.windowLevel = UIWindowLevelAlert
         window.transform = CGAffineTransform(rotationAngle: CGFloat(angle * Double.pi / 180))
         window.isHidden = false
-        window.center = getCenter()
+//        window.center = getCenter()
         view.center = window.center
         window.addSubview(view)
         windows.append(window)

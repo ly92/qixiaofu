@@ -116,8 +116,9 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     }
     
     @objc func rightItemAction(){
-        let sheet = UIActionSheet.init(title: "识别图片", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "相册", "拍照")
-        sheet.show(in: self.view)
+        self.camera()
+//        let sheet = UIActionSheet.init(title: "识别图片", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "相册", "拍照")
+//        sheet.show(in: self.view)
     }
     
     
@@ -982,6 +983,11 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
                 }
             }else if words["words"].stringValue.lowercased().contains("fc"){
                 let key = stepOne(words["words"].stringValue, "fc", sn: "--")
+                if !key.isEmpty{
+                    keys.append(key)
+                }
+            }else if words["words"].stringValue.lowercased().contains("spare"){
+                let key = stepOne(words["words"].stringValue, "spare", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }

@@ -64,8 +64,6 @@ class ExchangePurchaseViewController: BaseViewController {
     
     @objc func rightItemAction() {
         //联系客服
-        //登录环信
-        esmobLogin()
         esmobChat(self, "kefu1", 1)
     }
 

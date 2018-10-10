@@ -48,8 +48,6 @@ class EPShopOrderDetailChatCell: UITableViewCell {
 
     
     @IBAction func chatAction() {
-        //登录环信
-        esmobLogin()
         esmobChat(self.parentVC, "kefu1", 1)
     }
     

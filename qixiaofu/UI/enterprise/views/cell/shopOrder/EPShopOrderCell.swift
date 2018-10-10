@@ -137,8 +137,6 @@ class EPShopOrderCell: UITableViewCell {
                     }
                 }else if shipping_state == 3{
                     //部分发货
-                    //登录环信
-                    esmobLogin()
                     esmobChat(self.parentVC, "kefu1", 1)
                 }
             }

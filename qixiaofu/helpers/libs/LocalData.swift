@@ -330,6 +330,12 @@ class LocalData: NSObject {
     }
     class func getChatUserInfo(key:String) -> [String : String]{
         //客服
+        if key.isEmpty{
+            var dict2 : [String : String] = [String : String]()
+            dict2["name"] = "未知"
+            dict2["icon"] = ""
+            return dict2
+        }
         if key.hasPrefix("kefu"){
             var dict2 : [String : String] = [String : String]()
             dict2["name"] = "客服"
@@ -338,15 +344,21 @@ class LocalData: NSObject {
         }else{
             let dict = UserDefaults.standard.value(forKey:KEaseMobListKey+key)
             if (dict == nil){
+                var dict3 : [String : String] = [String : String]()
                 NetTools.requestData(type: .post, urlString: UserInfoApi, parameters: ["phone":key], succeed: { (result, msg) in
                     var name = result["member_nik_name"].stringValue
                     if name.isEmpty{
                         name = result["member_id"].stringValue
                     }
                     self.saveChatUserInfo(name: name, icon: result["touxiang"].stringValue, key: key)
+                    dict3["name"] = name
+                    dict3["icon"] = result["touxiang"].stringValue
                 }, failure: { (error) in
                 })
                 
+                if dict3.keys.count == 2{
+                    return dict3
+                }
                 var dict2 : [String : String] = [String : String]()
                 dict2["name"] = "未知"
                 dict2["icon"] = ""

@@ -175,8 +175,6 @@ class AuthorizedEnrollerController: BaseTableViewController {
             
             cell.chatActionBlock = {() in
                 //聊天
-                //登录环信
-                esmobLogin()
                 esmobChat(self, subJson["phone_num"].stringValue, 2, subJson["ot_user_name"].stringValue, subJson["ot_user_avatar"].stringValue)
             }
         }
@@ -192,8 +190,6 @@ class AuthorizedEnrollerController: BaseTableViewController {
         if self.resultJson.arrayValue.count > indexPath.row{
             let subJson = self.resultJson.arrayValue[indexPath.row]
             //聊天
-            //登录环信
-            esmobLogin()
             esmobChat(self, subJson["phone_num"].stringValue, 2, subJson["ot_user_name"].stringValue, subJson["ot_user_avatar"].stringValue)
         }
     }

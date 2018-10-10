@@ -36,6 +36,8 @@ class GoodsDetailViewController: BaseViewController {
     @IBOutlet weak var shopCarBtn: UIButton!
     @IBOutlet weak var buyBtn: UIButton!
     
+    fileprivate var popoverSourceView = UIView()
+    
     //三方比价的价格
     fileprivate var price2 = ""
     fileprivate var price3 = ""
@@ -79,6 +81,9 @@ class GoodsDetailViewController: BaseViewController {
         
         self.buyCountLbl.text = "1"
         // Do any additional setup after loading the view.
+        
+        self.popoverSourceView.backgroundColor = UIColor.red
+        self.view.addSubview(self.popoverSourceView)
     }
     
     override func didReceiveMemoryWarning() {
@@ -297,8 +302,6 @@ class GoodsDetailViewController: BaseViewController {
                     LYProgressHUD.showInfo("卖家没有留下联系方式！")
                     return
                 }
-                //登录环信
-                esmobLogin()
                 esmobChat(self, tempJson["buymobile"].stringValue, 2, tempJson["seller_nickname"].stringValue, tempJson["seller_avatar"].stringValue)
             }else{
                 //客服
@@ -324,12 +327,9 @@ class GoodsDetailViewController: BaseViewController {
                     goodsInfo["item_url"] = tempJson["share"].stringValue
                 }
                 goodsInfo["price"] = tempJson["goods_price"].stringValue
-                //登录环信
-                esmobLogin()
-                esmobChat(self, "kefu1", 1)
-//                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-//                chatVC?.commodityInfo = goodsInfo
-//                self.navigationController?.pushViewController(chatVC!, animated: true)
+                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
+                chatVC?.commodityInfo = goodsInfo
+                self.navigationController?.pushViewController(chatVC!, animated: true)
             }
         }else if sender.tag == 44{
             //call phone
@@ -546,6 +546,7 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
                 }else{
                     cell.textLabel?.text = resultJson["goods_info"]["goods_name"].stringValue
                 }
+                cell.selectionStyle = .none
                 
                 cell.textLabel?.textColor = UIColor.RGBS(s: 33)
                 let line = UIView(frame:CGRect.init(x: 0, y: 0, width: kScreenW, height: 1))
@@ -580,6 +581,7 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 14.0)
                 cell.textLabel?.textColor = UIColor.darkGray
+                cell.selectionStyle = .none
                 if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                     var str = resultJson["goods_body"].stringValue
                     str = str.replacingOccurrences(of: "<div>", with: "")
@@ -648,15 +650,13 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
             let goodsLocationVC = GoodsLocationViewController()
             goodsLocationVC.goodsId = self.goodsId
             self.navigationController?.pushViewController(goodsLocationVC, animated: true)
-        }else if indexPath.section == 0 && indexPath.row == 2 {
-            var name = ""
-            if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-                name = resultJson["goods_name"].stringValue
-            }else{
-                name = resultJson["goods_info"]["goods_name"].stringValue
-            }
-            UIPasteboard.general.string = name
-            LYProgressHUD.showInfo("复制成功")
+        }else if indexPath.section == 0 && (indexPath.row == 2 || indexPath.row == 5) {
+            
+            let cell = self.tableView(self.tableView, cellForRowAt: indexPath)
+            let cellRect = CGRect.init(origin: self.tableView.convert(self.tableView.rectForRow(at: indexPath).origin, to: self.view), size: self.tableView.rectForRow(at: indexPath).size)
+            self.popoverSourceView.frame = CGRect.init(x: kScreenW / 2.0, y: cellRect.origin.y, width: 0, height: 0)
+            self.createPopoverView(self.popoverSourceView,cell.textLabel!.text!)
+
         }
     }
     
@@ -709,7 +709,7 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
                 //描述
                 var str = ""
                 if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
-                    str = resultJson["good  s_body"].stringValue
+                    str = resultJson["goods_body"].stringValue
                 }else{
                     str = resultJson["goods_info"]["mobile_body"].stringValue
                     str = str.replacingOccurrences(of: "<div>", with: "")
@@ -760,4 +760,92 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
     }
     
 }
+
+
+extension GoodsDetailViewController : UIPopoverPresentationControllerDelegate{
+    func createPopoverView(_ sender : UIView, _ name : String) {
+        let copyVC = CopyShareViewController()
+        copyVC.preferredContentSize = CGSize.init(width: 121, height: 30)
+        copyVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        copyVC.popoverPresentationController?.sourceView = sender
+        copyVC.popoverPresentationController?.sourceRect = sender.bounds
+        copyVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
+        copyVC.popoverPresentationController?.delegate = self
+        copyVC.popoverPresentationController?.backgroundColor = UIColor.black
+        
+        var url = ""
+        if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+            url = self.resultJson["intransit_url"].stringValue
+        }else{
+            url = self.resultJson["goods_info"]["share"].stringValue
+        }
+        copyVC.url = url
+        copyVC.name = name
+        
+        
+        self.present(copyVC, animated: true, completion: nil)
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return true
+    }
+}
+
+
+
+class CopyShareViewController : UIViewController{
+    var name = ""
+    var url = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let btnView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 121, height: 30))
+        btnView.backgroundColor = UIColor.white
+        btnView.clipsToBounds = true
+//        btnView.layer.cornerRadius = 2
+        
+        
+        let leftBtn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 50, height: 30))
+        leftBtn.backgroundColor = UIColor.black
+        leftBtn.setTitleColor(UIColor.white, for: .normal)
+        leftBtn.setTitle("拷贝", for: .normal)
+        leftBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        leftBtn.clipsToBounds = true
+        
+        let rightBtn = UIButton.init(frame: CGRect.init(x: 51, y: 0, width: 70, height: 30))
+        rightBtn.backgroundColor = UIColor.black
+        rightBtn.setTitleColor(UIColor.white, for: .normal)
+        rightBtn.setTitle("拷贝链接", for: .normal)
+        rightBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        rightBtn.clipsToBounds = true
+        
+        leftBtn.addTarget(self, action: #selector(CopyShareViewController.copyName), for: .touchUpInside)
+        rightBtn.addTarget(self, action: #selector(CopyShareViewController.copyUrl), for: .touchUpInside)
+        
+        btnView.addSubview(leftBtn)
+        btnView.addSubview(rightBtn)
+        
+        self.view.addSubview(btnView)
+        
+    }
+    
+    @objc func copyName() {
+        UIPasteboard.general.string = self.name
+        LYProgressHUD.showInfo("复制成功!")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func copyUrl() {
+        UIPasteboard.general.string = self.url
+        LYProgressHUD.showInfo("复制成功!")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
 

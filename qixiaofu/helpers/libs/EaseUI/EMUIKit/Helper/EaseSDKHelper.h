@@ -14,7 +14,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-#import <HyphenateLite/HyphenateLite.h>
+#import <Hyphenate/Hyphenate.h>
 
 /** @brief 登录状态变更的通知 */
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"

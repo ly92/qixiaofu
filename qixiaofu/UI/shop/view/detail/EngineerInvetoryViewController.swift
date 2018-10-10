@@ -82,8 +82,6 @@ extension EngineerInvetoryViewController{
         tableView.deselectRow(at: indexPath, animated: false)
         if self.engListArray.count > indexPath.row{
             let subJson = self.engListArray[indexPath.row]
-            //登录环信
-            esmobLogin()
             esmobChat(self, subJson["call_name"].stringValue, 2, subJson["call_nik_name"].stringValue, subJson["duifangtouxiang"].stringValue)
         }
     }

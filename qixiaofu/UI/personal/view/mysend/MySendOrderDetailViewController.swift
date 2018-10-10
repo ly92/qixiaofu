@@ -197,8 +197,6 @@ class MySendOrderDetailViewController: UITableViewController {
     //联系工程师
     @IBAction func chatEngAction() {
         //聊天
-        //登录环信
-        esmobLogin()
         esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
     }
     
@@ -351,8 +349,6 @@ class MySendOrderDetailViewController: UITableViewController {
     //导航栏按钮-聊天
     @objc func chatItemAction() {
         //聊天
-        //登录环信
-        esmobLogin()
         esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
         
     }
