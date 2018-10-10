@@ -16,8 +16,8 @@ FOUNDATION_EXPORT const unsigned char HelpDeskVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <HelpDesk/PublicHeader.h>
 
-#import <HelpDesk/HChatClient.h>
-#import <HelpDesk/HCall.h>
-#import <HelpDesk/HChatClient+call.h>
+#import <HelpDesk/HDClient.h>
+#import <HelpDesk/HDCallManager.h>
+#import <HelpDesk/HDClient+call.h>
 
 
