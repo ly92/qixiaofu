@@ -260,13 +260,38 @@ class TaskListViewController: BaseViewController {
             return
         }
         if self.isFilteringPrice{
+            if maxStr.floatValue > 0 && minStr.floatValue > 0 && minStr.floatValue > maxStr.floatValue{
+                LYProgressHUD.showError("开始金额不得超过最高金额")
+                return
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue <= 0{
+                self.topLbl3.text = minStr + "以上"
+            }
+            if minStr.floatValue <= 0 && maxStr.floatValue > 0{
+                self.topLbl3.text = maxStr + "以下"
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue > 0{
+                self.topLbl3.text = minStr + "~" + maxStr
+            }
             self.service_sprice = minStr
             self.service_eprice = maxStr
-            self.topLbl3.text = minStr + "~" + maxStr
         }else{
+            if maxStr.floatValue > 0 && minStr.floatValue > 0 && minStr.floatValue > maxStr.floatValue{
+                LYProgressHUD.showError("开始时间不得超过结束时间")
+                return
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue <= 0{
+                self.topLbl2.text = minStr + "天以外"
+            }
+            if minStr.floatValue <= 0 && maxStr.floatValue > 0{
+                self.topLbl2.text = maxStr + "天以内"
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue > 0{
+                self.topLbl2.text = minStr + "~" + maxStr + "天"
+            }
+            
             self.service_stime = Date.dateWithDaysAfterNow(days: minStr.doubleValue).phpTimestamp()
             self.service_etime = Date.dateWithDaysAfterNow(days: maxStr.doubleValue).phpTimestamp()
-            self.topLbl2.text = minStr + "~" + maxStr + "天"
         }
         self.view.endEditing(true)
         self.curpage = 1
@@ -620,7 +645,7 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
                     case 2:
                         cell.titleLbl.text = "7～15天"
                     case 3:
-                        cell.titleLbl.text = "15天以上"
+                        cell.titleLbl.text = "15天以外"
                     default:
                         print("")
                     }
@@ -743,7 +768,7 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
                 case 3:
                     self.service_stime = Date.dateWithDaysAfterNow(days: 15).phpTimestamp()
                     self.service_etime = ""
-                    self.topLbl2.text = "15天以上"
+                    self.topLbl2.text = "15天以外"
                 default:
                     print("")
                 }
