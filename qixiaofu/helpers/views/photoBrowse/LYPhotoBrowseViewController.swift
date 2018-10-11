@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 typealias LYPhotoBrowseViewControllerBlock = (Array<UIImage>) -> Void
 
@@ -21,11 +22,20 @@ class LYPhotoBrowseViewController: UIViewController {
     var imgDescArray : Array<String> = Array<String>()
     var selectIndex : NSInteger = 0
     
+    //2018/10/11  -- 通过链接展示图片
+    var imgUrlArray : Array<String> = Array<String>()
+    var isByUrl = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setUpCollectionView()
-        self.navigationItem.title = "\(self.selectIndex + 1)/\(self.imgArray.count)"
+        if self.isByUrl{
+            self.navigationItem.title = "\(self.selectIndex + 1)/\(self.imgUrlArray.count)"
+        }else{
+            self.navigationItem.title = "\(self.selectIndex + 1)/\(self.imgArray.count)"
+        }
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(backTarget: self, action: #selector(LYPhotoBrowseViewController.backClick))
         if (self.showDeleteBtn){
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "删除", target: self, action: #selector(LYPhotoBrowseViewController.deleteImage))
@@ -33,27 +43,34 @@ class LYPhotoBrowseViewController: UIViewController {
     }
     
     @objc func deleteImage() {
-        if self.imgDescArray.count == self.imgArray.count{
-            self.imgDescArray.remove(at: self.selectIndex)
-        }
-        self.imgArray.remove(at: self.selectIndex)
-        if self.imgArray.count == 0{
-            if (self.backImgArrayBlock != nil && self.showDeleteBtn){
-                self.backImgArrayBlock!(self.imgArray)
+        if self.isByUrl{
+            
+        }else{
+            if self.imgDescArray.count == self.imgArray.count{
+                self.imgDescArray.remove(at: self.selectIndex)
             }
-            self.navigationController?.popViewController(animated: true)
+            self.imgArray.remove(at: self.selectIndex)
+            if self.imgArray.count == 0{
+                if (self.backImgArrayBlock != nil && self.showDeleteBtn){
+                    self.backImgArrayBlock!(self.imgArray)
+                }
+                self.navigationController?.popViewController(animated: true)
+            }
+            if self.selectIndex == self.imgArray.count{
+                self.selectIndex -= 1
+            }
+            self.navigationItem.title = "\(self.selectIndex + 1)/\(self.imgArray.count)"
+            self.collectionView.reloadData()
         }
-        if self.selectIndex == self.imgArray.count{
-            self.selectIndex -= 1
-        }
-        self.navigationItem.title = "\(self.selectIndex + 1)/\(self.imgArray.count)"
-        self.collectionView.reloadData()
-        
     }
     
     @objc func backClick() {
-        if (self.backImgArrayBlock != nil && self.showDeleteBtn){
-            self.backImgArrayBlock!(self.imgArray)
+        if self.isByUrl{
+            
+        }else{
+            if (self.backImgArrayBlock != nil && self.showDeleteBtn){
+                self.backImgArrayBlock!(self.imgArray)
+            }
         }
         self.navigationController?.popViewController(animated: true)
     }
@@ -95,35 +112,50 @@ extension LYPhotoBrowseViewController : UICollectionViewDelegate,UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imgArray.count
+        if self.isByUrl{
+            return self.imgUrlArray.count
+        }else{
+            return self.imgArray.count
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell : LYPhotoPreviewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "LYPhotoPreviewCell", for: indexPath) as! LYPhotoPreviewCell
         cell.delegate = self
-        if self.imgArray.count > indexPath.row{
-            if self.imgDescArray.count == self.imgArray.count{
-                cell.renderModel(image: self.imgArray[indexPath.row], desc: self.imgDescArray[indexPath.row])
-            }else{
-                cell.renderModel(image: self.imgArray[indexPath.row])
+        if self.isByUrl{
+            if self.imgUrlArray.count > indexPath.row{
+                cell.setImageUrl(self.imgUrlArray[indexPath.row])
             }
-            
+        }else{
+            if self.imgArray.count > indexPath.row{
+                if self.imgDescArray.count == self.imgArray.count{
+                    cell.renderModel(image: self.imgArray[indexPath.row], desc: self.imgDescArray[indexPath.row])
+                }else{
+                    cell.renderModel(image: self.imgArray[indexPath.row])
+                }
+                
+            }
         }
+        
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.imgArray.count > indexPath.row{
-            print(indexPath.row)
-        }
+        
+        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         var showIndex : NSInteger
         showIndex = NSInteger(scrollView.contentOffset.x / kScreenW)
-        self.navigationItem.title = "\(showIndex + 1)/\(self.imgArray.count)"
+        if self.isByUrl{
+            self.navigationItem.title = "\(showIndex + 1)/\(self.imgUrlArray.count)"
+        }else{
+            self.navigationItem.title = "\(showIndex + 1)/\(self.imgArray.count)"
+        }
         self.selectIndex = showIndex
     }
     
@@ -131,9 +163,34 @@ extension LYPhotoBrowseViewController : UICollectionViewDelegate,UICollectionVie
 }
 
 extension LYPhotoBrowseViewController : LYPhotoPreviewCellDelegate{
-    func onImageSingleTap() {
+    func onImageSingleTap(_ image: UIImage?) {
+        
+        if image != nil && self.imgSingleTapBlock == nil{
+            let alert = UIAlertController.init(title: "图片操作", message: nil, preferredStyle: .actionSheet)
+            let action1 = UIAlertAction.init(title: "保存到相册", style: .default) { (action) in
+                PHPhotoLibrary.shared().performChanges({
+                    let _ = PHAssetChangeRequest.creationRequestForAsset(from: image!)
+                }, completionHandler: { (success, error) in
+                    DispatchQueue.main.async {
+                        if success{
+                            LYProgressHUD.showSuccess("保存成功！")
+                        }else if error != nil{
+                            LYProgressHUD.showError("保存失败！")
+                        }
+                    }
+                })
+            }
+            let action2 = UIAlertAction.init(title: "取消", style: .cancel) { (action) in
+            }
+            
+            alert.addAction(action1)
+            alert.addAction(action2)
+            self.present(alert, animated: true, completion:nil)
+        }
+        
         if (self.imgSingleTapBlock != nil){
             self.imgSingleTapBlock!()
         }
     }
+    
 }

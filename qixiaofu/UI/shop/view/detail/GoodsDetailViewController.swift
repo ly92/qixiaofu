@@ -426,7 +426,12 @@ class GoodsDetailViewController: BaseViewController {
 
 extension GoodsDetailViewController : LYAnimateBannerViewDelegate, UIWebViewDelegate{
     func LY_AnimateBannerViewClick(banner: LYAnimateBannerView, index: NSInteger) {
-        
+        //查看图片
+        let photoBrowseVC = LYPhotoBrowseViewController()
+        photoBrowseVC.isByUrl = true
+        photoBrowseVC.imgUrlArray = self.bannerView.imageUrlArray
+        photoBrowseVC.showDeleteBtn = false
+        self.navigationController?.pushViewController(photoBrowseVC, animated: true)
     }
     
     

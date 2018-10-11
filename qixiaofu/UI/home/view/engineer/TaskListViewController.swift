@@ -575,8 +575,8 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
             if self.selectedClassifyIndex == 0{
                 return 1
             }else{
-                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex{
-                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex]
+                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex-1{
+                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
                     return json["list"].arrayValue.count + 1
                 }
             }
@@ -705,19 +705,34 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
             }
         }else if tableView == self.classifyLeftTableView{
             self.selectedClassifyIndex = indexPath.row
-            self.classifyRightTableView.reloadData()
-            self.classifyLeftTableView.reloadData()
-        }else if tableView == self.classifyRightTableView{
             if indexPath.row == 0{
-                if self.selectedClassifyIndex == 0{
-                    self.gc_id = ""
-                }else{
-                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
-                    self.gc_id = json["gc_id"].stringValue
-                }
+                self.gc_id = ""
+                self.curpage = 1
+                self.loadAllReceiveableTaskList()
+                self.setUpArrowAndLbl(0)
                 self.topLbl1.text = "全部"
             }else{
-                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex{
+                let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
+                if json["list"].arrayValue.count == 0{
+                    self.gc_id = json["gc_id"].stringValue
+                    self.curpage = 1
+                    self.loadAllReceiveableTaskList()
+                    self.setUpArrowAndLbl(0)
+                    self.topLbl1.text = json["gc_name"].stringValue
+                }else{
+                    self.classifyRightTableView.reloadData()
+                    self.classifyLeftTableView.reloadData()
+                }
+            }
+        }else if tableView == self.classifyRightTableView{
+            if indexPath.row == 0{
+                if self.selectedClassifyIndex > 0{
+                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
+                    self.gc_id = json["gc_id"].stringValue
+                    self.topLbl1.text = json["gc_name"].stringValue
+                }
+            }else{
+                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex-1{
                     let jsonArray = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]["list"].arrayValue
                     if jsonArray.count > indexPath.row{
                         let json = jsonArray[indexPath.row]
