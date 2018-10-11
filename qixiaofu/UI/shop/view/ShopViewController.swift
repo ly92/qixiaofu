@@ -904,37 +904,38 @@ extension ShopViewController {
         }
         
         for words in resultJson["words_result"].arrayValue{
-            if words["words"].stringValue.lowercased().contains("p/n"){
+            let word = words["words"].stringValue.lowercased()
+            if word.contains("p/n"){
                 let key = stepOne(words["words"].stringValue, "p/n", sn: "s/n")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-            if words["words"].stringValue.lowercased().contains("pn"){
+            if word.contains("pn"){
                 let key = stepOne(words["words"].stringValue, "pn", sn: "sn")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-            if words["words"].stringValue.lowercased().contains("fru"){
+            if word.contains("fru"){
                 let key = stepOne(words["words"].stringValue, "fru", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-            if words["words"].stringValue.lowercased().contains("fc"){
+            if word.contains("fc"){
                 let key = stepOne(words["words"].stringValue, "fc", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-            if words["words"].stringValue.lowercased().contains("spare"){
+            if word.contains("spare"){
                 let key = stepOne(words["words"].stringValue, "spare", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-            if words["words"].stringValue.lowercased().contains("ca"){
+            if word.contains("ca"){
                 let key = stepOne(words["words"].stringValue, "ca", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
@@ -943,10 +944,25 @@ extension ShopViewController {
             
             
             //同时进行正则表达式的匹配
-            let stepTwoResult = stepTwo(words["words"].stringValue.lowercased())
+            let stepTwoResult = stepTwo(word)
             if !stepTwoResult.isEmpty{
                 keys.append(stepTwoResult)
             }
+            
+            
+            //特殊处理  11S49Y7446Y0SSKFHH355R 其中11S开头，49Y7446是PN
+            if word.hasPrefix("11s"){
+                let s = word.index(word.startIndex, offsetBy: 3)
+                let e = word.index(word.startIndex, offsetBy: 10)
+                let key = String(word[s..<e])
+                //49Y7446 两位数字一位字母四位数字
+                if regexMach(key, "[0-9]{2}[A-Za-z][0-9]{4}"){
+                    keys.append((key)
+                }
+            }
+            
+            
+            
         }
         
         print("*************************************正则表达式匹配结果*******************************************")
