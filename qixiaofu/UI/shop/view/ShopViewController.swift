@@ -817,7 +817,7 @@ extension ShopViewController {
     
     func getKeywordString(_ resultJson : JSON) -> String {
         var keys : Array<String> = []
-        //内部函数
+        //第一步，字符串匹配
         func stepOne(_ orgStr : String,_ pn : String, sn : String) -> String{
             if orgStr.lowercased().contains(pn){
                 let word = orgStr.lowercased().replacingOccurrences(of: ":", with: "").replacingOccurrences(of: " ", with: "")
@@ -833,17 +833,19 @@ extension ShopViewController {
             }
             return ""
         }
-        func stepTwo(_ orgStr : String) -> String {
-            //正则匹配
-            func regexMach(_ str : String, _ reg : String) -> Bool{
-                let regex = try! NSRegularExpression(pattern: reg, options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                if results.count == 1{
-                    return true
-                }
-                return false
+        
+        //正则匹配
+        func regexMach(_ str : String, _ reg : String) -> Bool{
+            let regex = try! NSRegularExpression(pattern: reg, options: [NSRegularExpression.Options.dotMatchesLineSeparators])
+            let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
+            if results.count == 1{
+                return true
             }
-            
+            return false
+        }
+        
+        //第二部，正则匹配
+        func stepTwo(_ orgStr : String) -> String {
             var keys : Array<String> = []
             for pre_str in orgStr.components(separatedBy: " "){
                 print("-------------------------------------------------------------------------------")
@@ -957,10 +959,9 @@ extension ShopViewController {
                 let key = String(word[s..<e])
                 //49Y7446 两位数字一位字母四位数字
                 if regexMach(key, "[0-9]{2}[A-Za-z][0-9]{4}"){
-                    keys.append((key)
+                    keys.append(key)
                 }
             }
-            
             
             
         }
