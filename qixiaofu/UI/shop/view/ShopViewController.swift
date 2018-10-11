@@ -762,7 +762,7 @@ extension ShopViewController{
 }
 
 extension ShopViewController {
-
+    
     //相机
     func camera() {
         //隐藏状态栏
@@ -834,6 +834,16 @@ extension ShopViewController {
             return ""
         }
         func stepTwo(_ orgStr : String) -> String {
+            //正则匹配
+            func regexMach(_ str : String, _ reg : String) -> Bool{
+                let regex = try! NSRegularExpression(pattern: reg, options: [NSRegularExpression.Options.dotMatchesLineSeparators])
+                let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
+                if results.count == 1{
+                    return true
+                }
+                return false
+            }
+            
             var keys : Array<String> = []
             for pre_str in orgStr.components(separatedBy: " "){
                 print("-------------------------------------------------------------------------------")
@@ -860,43 +870,31 @@ extension ShopViewController {
                     
                 }else if str.count == 7{
                     //42D0638 两位数字一位字母四位数字
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{2}[A-Za-z][0-9]{4}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{2}[A-Za-z][0-9]{4}"){
                         keys.append(str)
                     }
                 }else if str.count == 9{
                     //CX VNX AX 系列硬盘是纯9位数字
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{9}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{9}"){
                         keys.append(str)
                     }
                     //HDS XP: PN 7位数字+字母
-                    let regex1 = try! NSRegularExpression(pattern: "[0-9]{7}-[A-Za-z]", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results1 = regex1.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results1.count == 1{
+                    if regexMach(str, "[0-9]{7}-[A-Za-z]"){
                         keys.append(str)
                     }
                 }else if str.count == 10{
                     //dell: 9FM066-057
-                    let regex = try! NSRegularExpression(pattern: "[0-9][A-Za-z]{2}[0-9]{3}-[0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9][A-Za-z]{2}[0-9]{3}-[0-9]{3}"){
                         keys.append(str)
                     }
                 }else if str.count == 11{
                     //DMX 系列是***—***—*** 9位数字之间有横杠；
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{3}-[0-9]{3}-[0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{3}-[0-9]{3}-[0-9]{3}"){
                         keys.append(str)
                     }
                 }else if str.count == 12{
                     //CA07237-E042  两位字母 五位数字-字母 3位数字
-                    let regex = try! NSRegularExpression(pattern: "[A-Za-z]{2}[0-9]{5}-[A-Za-z][0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[A-Za-z]{2}[0-9]{5}-[A-Za-z][0-9]{3}"){
                         keys.append(str)
                     }
                 }
@@ -911,51 +909,50 @@ extension ShopViewController {
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("pn"){
+            }
+            if words["words"].stringValue.lowercased().contains("pn"){
                 let key = stepOne(words["words"].stringValue, "pn", sn: "sn")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("fru"){
+            }
+            if words["words"].stringValue.lowercased().contains("fru"){
                 let key = stepOne(words["words"].stringValue, "fru", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("fc"){
+            }
+            if words["words"].stringValue.lowercased().contains("fc"){
                 let key = stepOne(words["words"].stringValue, "fc", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("spare"){
+            }
+            if words["words"].stringValue.lowercased().contains("spare"){
                 let key = stepOne(words["words"].stringValue, "spare", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-        }
-        if keys.count > 0{
-            return keys.joined(separator: ",")
-        }else{
-            //通过普通筛选未得到关键字，使用正则表达式
-            //42D0638 两位数字一位字母四位数字
-            //500203-061　六位数字横杠三位数字或者字母
-            //AB423-69001 一位或者两位大写字母开头 横杠五位数字
-            //CX VNX AX 系列硬盘是纯9位数字
-            //DMX 系列是***—***—*** 9位数字之间有横杠；
-            //HDS XP: PN 7位数字+字母
-            //540-7156-01 三位数字 - 四位数字-两位数字
-            //CA07237-E042  两位字母 五位数字-字母 3位数字
-            //108-00205+B2 三位数字-五位数字+字母数字 
-            //291A-R5 三位数字字母-字母数字 第一位可以以X开始 X306A-R5
-            //一般是5-6位 数字和字母混合
-            for words in resultJson["words_result"].arrayValue{
-                let stepTwoResult = stepTwo(words["words"].stringValue.lowercased())
-                if !stepTwoResult.isEmpty{
-                    keys.append(stepTwoResult)
+            if words["words"].stringValue.lowercased().contains("ca"){
+                let key = stepOne(words["words"].stringValue, "ca", sn: "--")
+                if !key.isEmpty{
+                    keys.append(key)
                 }
             }
-            return keys.joined(separator: ",")
+            
+            
+            //同时进行正则表达式的匹配
+            let stepTwoResult = stepTwo(words["words"].stringValue.lowercased())
+            if !stepTwoResult.isEmpty{
+                keys.append(stepTwoResult)
+            }
         }
+        
+        print("*************************************正则表达式匹配结果*******************************************")
+        print(keys.joined(separator: ","))
+        print("*************************************正则表达式匹配结果*******************************************")
+        return keys.joined(separator: ",")
     }
 }
 
