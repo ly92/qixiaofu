@@ -137,9 +137,9 @@ func functionSkipAction(type:String,controller:UIViewController){
 }
 
 func showLoginController(){
-    
-    
     LYProgressHUD.dismiss()
+    //退出环信
+    esmobLogout()
     //清除userid
     if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
         LocalData.saveEPUserId(userId: "")
@@ -150,8 +150,6 @@ func showLoginController(){
         //记录已退出
         LocalData.saveYesOrNotValue(value: "0", key: IsLogin)
     }
-    //退出环信
-    esmobLogout()
     //设置推送的通用标示
     JPUSHService.setAlias("000000", completion: { (isResCode, alias, seq) in
     }, seq:0)

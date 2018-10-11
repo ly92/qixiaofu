@@ -126,8 +126,6 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     
     @objc func rightItemAction(){
         self.camera()
-//        let sheet = UIActionSheet.init(title: "识别图片", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "相册", "拍照")
-//        sheet.show(in: self.view)
     }
     
     
@@ -145,6 +143,8 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //展示状态栏
+        self.isStatusBarHidden = false
         
         if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
             //返回按钮
@@ -761,24 +761,12 @@ extension ShopViewController{
     
 }
 
-extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
+extension ShopViewController {
 
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex == 1{
-            //相册
-            self.photoAlbum()
-        }else if buttonIndex == 2{
-            //相机
-            self.camera()
-        }
-    }
-    
     //相机
     func camera() {
-        
         //隐藏状态栏
         self.isStatusBarHidden = true
-        
         //是否允许使用相机
         self.ocrVC = AipGeneralVC.viewController { (image) in
             LYProgressHUD.showLoading()
@@ -816,72 +804,6 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
             self.present(self.ocrVC!, animated: true, completion: nil)
         }
     }
-    
-    //相册
-    func photoAlbum() {
-        //是否允许使用相册
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .restricted,.denied:
-            LYAlertView.show("提示", "请允许App访问相册", "取消", "去设置", {
-                //打开设置页面
-                let url = URL(string:UIApplicationOpenSettingsURLString)
-                if UIApplication.shared.canOpenURL(url!){
-                    UIApplication.shared.openURL(url!)
-                }
-            })
-            return
-        case .authorized,.notDetermined:
-            break
-        }
-        
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            let picker : UIImagePickerController = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.delegate = self
-            picker.navigationBar.tintColor = UIColor.RGBS(s: 33)
-            self.present(picker, animated: true, completion: nil)
-        }else{
-            LYProgressHUD.showError("不允许访问相册")
-        }
-        
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        let img = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let options = ["language_type":"CHN_ENG","detect_direction":"true"]
-        AipOcrService.shard().detectTextBasic(from: img, withOptions: options, successHandler: { (result) in
-            print(result ?? "-------------------------")
-            if result != nil{
-                let resultJson = JSON.init(result as Any)
-                if resultJson["words_result_num"].intValue == 0{
-                    LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-                }else{
-                    let keys = self.getKeywordString(resultJson)
-                    print(keys)
-                    if keys.isEmpty{
-                        LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
-                    }else{
-                        DispatchQueue.main.async {
-                            let searchVC = GoodsSearchListViewController.spwan()
-                            searchVC.ocrKeys = keys
-                            self.navigationController?.pushViewController(searchVC, animated: true)
-                            self.dismissVC()
-                        }
-                    }
-                }
-            }else{
-                LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-            }
-        }, failHandler: { (error) in
-            LYProgressHUD.showError("图片识别失败，请重试！")
-        })
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
     
     func dismissVC() {
         //展示状态栏

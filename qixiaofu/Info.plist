@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.1</string>
+	<string>1.6.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1610</string>
+	<string>1620</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>mqzone</string>
@@ -109,8 +109,6 @@
 	<string>App需要获取您的位置以便于发单时定位以及向工程师推荐附近订单</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App需要您的同意,才能访问麦克风</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>App需要您的同意,才能访问语音识别权限</string>
 	<key>NSMotionUsageDescription</key>
 	<string>App需要您的同意,才能访问运动与健身</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -119,6 +117,8 @@
 	<string>App需要您的同意,才能访问相册</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>App需要您的同意,才能访问提醒事项</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>App需要您的同意,才能访问语音识别权限</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
