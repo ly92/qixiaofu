@@ -220,7 +220,7 @@ class SettingTableViewController: BaseTableViewController {
                 }else{
                     let urlStr = "itms-apps://itunes.apple.com/cn/app/id1171281585?mt=8"
                     if UIApplication.shared.canOpenURL(URL(string:urlStr)!){
-                        UIApplication.shared.openURL(URL(string:urlStr)!)
+                        UIApplication.shared.open(URL(string:urlStr)!)
                     }else{
                         LYProgressHUD.showInfo("暂时无法评价！")
                     }
