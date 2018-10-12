@@ -84,7 +84,7 @@ class GoodsSearchListViewController: BaseViewController {
         
         self.addRefresh()
         
-        
+        LYProgressHUD.showLoading()
         //ocr请求数据
         if ocrKeys != ""{
             self.keyWord = ocrKeys

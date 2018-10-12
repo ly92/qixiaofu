@@ -779,7 +779,6 @@ extension ShopViewController {
                         LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
                     }else{
                         let keys = self.getKeywordString(resultJson)
-                        print(keys)
                         if keys.isEmpty{
                             LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
                         }else{
@@ -848,14 +847,16 @@ extension ShopViewController {
         func stepTwo(_ orgStr : String) -> String {
             var keys : Array<String> = []
             for pre_str in orgStr.components(separatedBy: " "){
-                print("-------------------------------------------------------------------------------")
-                print(pre_str)
                 var str = pre_str
                 if pre_str.hasPrefix("*") && pre_str.hasSuffix("x"){
                     str.remove(at: String.Index.init(encodedOffset: pre_str.count))
                 }
                 str = pre_str.replacingOccurrences(of: "*", with: "")
-                print(str)
+                
+                if str.hasPrefix("pn"){
+                    str = pre_str.replacingOccurrences(of: "pn", with: "")
+                }
+                
                 if str.count > 4 && str.count < 7{
                     //一般是5-6位 数字和字母混合
                     let regex1 = try! NSRegularExpression(pattern: "[A-Za-z]+", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
@@ -869,7 +870,6 @@ extension ShopViewController {
                             }
                         }
                     }
-                    
                 }else if str.count == 7{
                     //42D0638 两位数字一位字母四位数字
                     if regexMach(str, "[0-9]{2}[A-Za-z][0-9]{4}"){
@@ -900,21 +900,42 @@ extension ShopViewController {
                         keys.append(str)
                     }
                 }
+                
+                
+                //特殊处理
+                //SG-OYP778-12531-8C3-02A3-A00，可能会换行显示
+                if str.count > 9{
+                    let pre = String(str[str.startIndex...str.index(str.startIndex, offsetBy: 8)])
+                    if regexMach(pre, "[A-Za-z]{2}-[A-Za-z0-9]{6}"){
+                        keys.append(String(pre[pre.index(pre.startIndex, offsetBy: 3)..<pre.endIndex]))
+                    }
+                }
+                
             }
-            print(keys)
             return keys.joined(separator: ",")
         }
         
         for words in resultJson["words_result"].arrayValue{
-            let word = words["words"].stringValue.lowercased()
-            if word.contains("p/n"){
-                let key = stepOne(words["words"].stringValue, "p/n", sn: "s/n")
+            var word = words["words"].stringValue.lowercased()
+            
+            print("-------------------------------------------------------------------------------")
+            print(word)
+            
+            //根据固定词匹配
+            if word.contains("pnsn"){
+                let key = stepOne(words["words"].stringValue, "pnsn", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
             if word.contains("pn"){
                 let key = stepOne(words["words"].stringValue, "pn", sn: "sn")
+                if !key.isEmpty{
+                    keys.append(key)
+                }
+            }
+            if word.contains("p/n"){
+                let key = stepOne(words["words"].stringValue, "p/n", sn: "s/n")
                 if !key.isEmpty{
                     keys.append(key)
                 }
@@ -943,16 +964,9 @@ extension ShopViewController {
                     keys.append(key)
                 }
             }
-            
-            
-            //同时进行正则表达式的匹配
-            let stepTwoResult = stepTwo(word)
-            if !stepTwoResult.isEmpty{
-                keys.append(stepTwoResult)
-            }
-            
-            
-            //特殊处理  11S49Y7446Y0SSKFHH355R 其中11S开头，49Y7446是PN
+
+            /**特殊处理*/
+            //11S49Y7446Y0SSKFHH355R 其中11S开头，49Y7446是PN
             if word.hasPrefix("11s"){
                 let s = word.index(word.startIndex, offsetBy: 3)
                 let e = word.index(word.startIndex, offsetBy: 10)
@@ -961,6 +975,13 @@ extension ShopViewController {
                 if regexMach(key, "[0-9]{2}[A-Za-z][0-9]{4}"){
                     keys.append(key)
                 }
+            }else{
+                //进行正则表达式的匹配
+                let stepTwoResult = stepTwo(word)
+                if !stepTwoResult.isEmpty{
+                    keys.append(stepTwoResult)
+                }
+                
             }
             
             
