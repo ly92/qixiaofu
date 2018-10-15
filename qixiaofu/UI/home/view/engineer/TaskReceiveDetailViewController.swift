@@ -118,6 +118,7 @@ class TaskReceiveDetailViewController: BaseTableViewController {
         let image = #imageLiteral(resourceName: "eng_receive")
         let h = kScreenW / image.size.width * image.size.height
         let scroll = UIScrollView.init(frame: CGRect.init(x: point.x-self.noticeBtn.x , y: point.y-self.noticeBtn.y+64, width: 0, height: 0))
+//        scroll.backgroundColor = UIColor.colorHexWithAlpha(hex: "000000", alpha: 0.5)
         let imgV = UIImageView.init(image: image)
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)

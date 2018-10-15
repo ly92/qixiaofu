@@ -9,15 +9,15 @@
 import UIKit
 
 protocol LYPhotoPreviewCellDelegate: class{
-    func onImageSingleTap()
+    func onImageSingleTap( _ image : UIImage?)
 }
 
 class LYPhotoPreviewCell: UICollectionViewCell , UIScrollViewDelegate{
-    private var scrollView: UIScrollView?
-    private var imageContainerView = UIView()
-    private var imageView = UIImageView()
-    private var descView = UIView()
-    private var descLbl = UILabel()
+    fileprivate var scrollView: UIScrollView?
+    fileprivate var imageContainerView = UIView()
+    fileprivate var imageView = UIImageView()
+    fileprivate var descView = UIView()
+    fileprivate var descLbl = UILabel()
     
     weak var delegate: LYPhotoPreviewCellDelegate?
     
@@ -81,6 +81,11 @@ class LYPhotoPreviewCell: UICollectionViewCell , UIScrollViewDelegate{
         self.renderModel(image: image, desc: "")
     }
     
+    func setImageUrl(_ url: String) {
+        self.imageView.setImageUrlStr(url)
+        self.resizeImageView()
+    }
+    
     func renderModel(image: UIImage, desc: String) {
         self.imageView.image = image
         if desc.isEmpty{
@@ -129,7 +134,7 @@ class LYPhotoPreviewCell: UICollectionViewCell , UIScrollViewDelegate{
     
     @objc func singleTap(tap:UITapGestureRecognizer) {
         if let delegate = self.delegate {
-            delegate.onImageSingleTap()
+            delegate.onImageSingleTap(self.imageView.image)
         }
     }
     

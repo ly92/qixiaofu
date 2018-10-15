@@ -18,8 +18,7 @@ class MessageViewController: BaseTableViewController {
     fileprivate let systermIcons = [#imageLiteral(resourceName: "img_systemnesw"),#imageLiteral(resourceName: "wallet_message"),#imageLiteral(resourceName: "task_message")]
     fileprivate var systermJson : JSON = []
     
-    fileprivate var chatArray : Array<HConversation> = Array<HConversation>()
-    
+    fileprivate var chatArray : Array<HDConversation> = Array<HDConversation>()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,7 +91,7 @@ class MessageViewController: BaseTableViewController {
         //登录环信
         esmobLogin()
         
-        guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
+        guard let conversations : Array<HDConversation> = HDClient.shared().chatManager.loadAllConversations() as? Array<HDConversation> else {
             return
         }
         
@@ -143,15 +142,15 @@ extension MessageViewController{
                 let dict = LocalData.getChatUserInfo(key: model.conversationId)
                 cell.nameLbl.text = dict["name"]
                 cell.iconImgV.setHeadImageUrlStr(dict["icon"]!)
-                
+
                 //未读数量
                 let unReadNum = Int(model.unreadMessagesCount)
                 if unReadNum > 0{
                     cell.unReadNumLbl.isHidden = false
                     cell.unReadNumLbl.text = "\(model.unreadMessagesCount)"
                 }
-                
-                
+
+
                 var latestMessageTitle = ""
                 if model.latestMessage != nil{
                     switch model.latestMessage.body.type {
@@ -177,8 +176,8 @@ extension MessageViewController{
                     }
                     let attributedStr = NSAttributedString.init(string: latestMessageTitle)
                     cell.descLbl.attributedText = attributedStr
-                    
-                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.messageTime)")
+
+                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.timestamp)")
                 }
             }
         }
@@ -212,21 +211,12 @@ extension MessageViewController{
                 let dict = LocalData.getChatUserInfo(key: model.conversationId)
                 name = dict["name"]!
                 icon = dict["icon"]!
-                //登录环信
-                esmobLogin()
-                
                 //全部标为已读
                 model.markAllMessages(asRead: nil)
-                
                 if model.conversationId.hasPrefix("kefu"){
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, "kefu1", 1)
                 }else{
-                    let chatVC = EaseMessageViewController.init(conversationChatter: model.conversationId, conversationType: EMConversationType.init(0))
-                    //保存聊天页面数据
-                    LocalData.saveChatUserInfo(name: name, icon: icon, key: model.conversationId)
-                    chatVC?.title = name
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, model.conversationId, 2, name, icon)
                 }
             }
         }

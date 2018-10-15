@@ -137,9 +137,9 @@ func functionSkipAction(type:String,controller:UIViewController){
 }
 
 func showLoginController(){
-    
-    
     LYProgressHUD.dismiss()
+    //退出环信
+    esmobLogout()
     //清除userid
     if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
         LocalData.saveEPUserId(userId: "")
@@ -150,8 +150,6 @@ func showLoginController(){
         //记录已退出
         LocalData.saveYesOrNotValue(value: "0", key: IsLogin)
     }
-    //退出环信
-    esmobLogout()
     //设置推送的通用标示
     JPUSHService.setAlias("000000", completion: { (isResCode, alias, seq) in
     }, seq:0)
@@ -199,16 +197,24 @@ func checkEpPwd(_ pwd : String) -> Bool {
 
 //环信注册
 func esmobRegister(_ phone : String){
-    HChatClient.shared().register(withUsername: phone, password: "11")
+//    EMClient.shared()?.register(withUsername: phone, password: "11")
+    HDClient.shared().register(withUsername: phone, password: "11")
 }
 
 //环信登录
 func esmobLogin(){
     DispatchQueue.global().async {
-        let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+//        let loginError = EMClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
+//        if loginError != nil{
+//            //注册环信
+//            EMClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
+//            print("-------------------------------环信登录失败-------------------------------")
+//        }
+        
+        let loginError = HDClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
         if loginError != nil{
             //注册环信
-            HChatClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
+            HDClient.shared().register(withUsername: LocalData.getUserPhone(), password: "11")
             print("-------------------------------环信登录失败-------------------------------")
         }
     }
@@ -217,7 +223,28 @@ func esmobLogin(){
 //环信退出
 func esmobLogout(){
     DispatchQueue.global().async {
-        HChatClient.shared().logout(true)
+        HDClient.shared().logout(true)
+    }
+}
+
+//发起聊天
+func esmobChat(_ vc : UIViewController, _ to : String, _ type : Int, _ name : String="", _ icon : String=""){
+    esmobLogin()
+    let _ = LocalData.getChatUserInfo(key: to)
+    let _ = LocalData.getChatUserInfo(key: LocalData.getUserPhone())
+    
+    if type == 1{
+        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
+        vc.navigationController?.pushViewController(chatVC!, animated: true)
+    }else{
+        guard let chatVC = EaseMessageViewController.init(conversationChatter: to, conversationType: EMConversationType.init(0)) else{
+            LYProgressHUD.showError("发消息失败，请联系客服！")
+            return
+        }
+        //保存聊天页面数据
+        LocalData.saveChatUserInfo(name: name, icon: icon, key: to)
+        chatVC.title = name
+        vc.navigationController?.pushViewController(chatVC, animated: true)
     }
 }
 

@@ -283,19 +283,16 @@ class KnowledgeVideoPlayViewController: BaseTableViewController {
             self.isShowAttachment = false
             self.tableView.reloadData()
         }else if btn.tag == 222 && !self.isShowAttachment{
-//            self.secBtn2.setTitleColor(UIColor.colorHex(hex: "fe7941"), for: .normal)
-//            self.secBtn1.setTitleColor(UIColor.black, for: .normal)
-//            self.isShowAttachment = true
-            LYPlayerView.shared.pause()
-            self.needCloseVideo = false
-            let webVC = BaseWebViewController.spwan()
-            webVC.titleStr = "视频附件"
-            webVC.urlStr = self.resultJson["mv_ppt"].stringValue
-            self.navigationController?.pushViewController(webVC, animated: true)
-//            self.tableView.reloadData()
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-//                self.tableView.reloadData()
-//            })
+            if self.resultJson["mv_ppt"].stringValue.isEmpty{
+                LYProgressHUD.showInfo("无附件！")
+            }else{
+                LYPlayerView.shared.pause()
+                self.needCloseVideo = false
+                let webVC = BaseWebViewController.spwan()
+                webVC.titleStr = "视频附件"
+                webVC.urlStr = self.resultJson["mv_ppt"].stringValue
+                self.navigationController?.pushViewController(webVC, animated: true)
+            }
         }
     }
     

@@ -323,19 +323,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //环信//注册环信
     func configEasemob(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?){
-        //        let options = EMOptions.init(appkey: KEasemobKey)
-        let options = HOptions()
+        
+        let options = HDOptions()
         options.apnsCertName = KEasemobCertName
-        options.tenantId = KEasemobId
         options.appkey = KEasemobKey
-        let initError = HChatClient.shared().initializeSDK(with: options)
+        options.tenantId = KEasemobId
+        let initError = HDClient.shared()?.initializeSDK(with: options)
         if initError != nil{
             print("-------------------------------环信初始化失败----------------------------------")
         }
+
+//        guard let options = EMOptions.init(appkey: KEasemobKey) else{
+//            return
+//        }
+//        options.apnsCertName = KEasemobCertName
+//        let initError = EMClient.shared()?.initializeSDK(with: options)
+//        if initError != nil{
+//            print("-------------------------------环信初始化失败----------------------------------")
+//        }
         
         //环信//登录环信
         esmobLogin()
     
+        //环信代理方法
+        DispatchQueue.main.async {
+            EMClient.shared()?.chatManager.add(self, delegateQueue: nil)
+            EMClient.shared()?.add(self, delegateQueue: nil)
+        }
+        
     }
     
     
@@ -376,17 +391,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        //环信推送
-        DispatchQueue.main.async {
-            HChatClient.shared().add(self, delegateQueue: nil)
-            EMClient.shared().chatManager.add(self, delegateQueue: nil)
-        }
+
         
     }
     
-    func registerJpush() {
-        
-    }
     
     //MARK: - 网页打开app
     //iOS 9以下的回调
@@ -522,7 +530,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         
         //环信
-        HChatClient.shared().applicationDidEnterBackground(application)
+        HDClient.shared().applicationDidEnterBackground(application)
         EMClient.shared().applicationDidEnterBackground(application)
     }
     
@@ -543,7 +551,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //环信
-        HChatClient.shared().applicationWillEnterForeground(application)
+        HDClient.shared().applicationWillEnterForeground(application)
         EMClient.shared().applicationWillEnterForeground(application)
         //环信//登录环信
         esmobLogin()
@@ -565,7 +573,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         DispatchQueue.global().async {
             JPUSHService.registerDeviceToken(deviceToken)
-            HChatClient.shared().bindDeviceToken(deviceToken)
+            HDClient.shared().bindDeviceToken(deviceToken)
             EMClient.shared().bindDeviceToken(deviceToken)
         }
     }
@@ -610,17 +618,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dict = LocalData.getChatUserInfo(key: conversationId)
         name = dict["name"]!
         icon = dict["icon"]!
-        //登录环信
-        esmobLogin()
         if conversationId.hasPrefix("kefu"){
-            let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-            nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(nav.viewControllers.first!, "kefu1", 1)
         }else{
-            let chatVC = EaseMessageViewController.init(conversationChatter: conversationId, conversationType: EMConversationType.init(0))
-            //保存聊天页面数据
-            LocalData.saveChatUserInfo(name: name, icon: icon, key: conversationId)
-            chatVC?.title = name
-            nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(nav.viewControllers.first!, conversationId, 2, name, icon)
         }
     }
     
@@ -814,9 +815,8 @@ extension AppDelegate{
             for sub in result.arrayValue{
                 num += sub["unread_num"].stringValue.intValue
             }
-            
-            
-            guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
+
+            guard let conversations : Array<HDConversation> = HDClient.shared().chatManager.loadAllConversations() as? Array<HDConversation> else {
                 if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
                     tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
                 }else{
@@ -824,7 +824,6 @@ extension AppDelegate{
                 }
                 return
             }
-            
             for converstion in conversations{
                 let con = converstion
                 num += Int(con.unreadMessagesCount)
@@ -842,8 +841,7 @@ extension AppDelegate{
 
 
 //MARK: - 环信和推送的代理
-extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterDelegate{
-    
+extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDelegate,HDClientDelegate{
     
     //其他设备登录
     func userAccountDidLoginFromOtherDevice() {
@@ -861,6 +859,7 @@ extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterD
                 guard let message = aMessages[0] as? EMMessage else{
                     return
                 }
+                //https://www.cnblogs.com/code-Officer/p/5957455.html
                 let localNotification = UILocalNotification()
                 localNotification.alertBody = "您有新的未读消息！"
                 localNotification.applicationIconBadgeNumber = 1
@@ -938,18 +937,12 @@ extension AppDelegate : HChatClientDelegate,EMChatManagerDelegate,JPUSHRegisterD
             let dict = LocalData.getChatUserInfo(key: conversationId)
             name = dict["name"]!
             icon = dict["icon"]!
-            //登录环信
-            esmobLogin()
             if conversationId.hasPrefix("kefu"){
-                let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+                esmobChat(nav.viewControllers.first!, "kefu1", 1)
             }else{
-                let chatVC = EaseMessageViewController.init(conversationChatter: conversationId, conversationType: EMConversationType.init(0))
-                //保存聊天页面数据
-                LocalData.saveChatUserInfo(name: name, icon: icon, key: conversationId)
-                chatVC?.title = name
-                nav.viewControllers.first!.navigationController?.pushViewController(chatVC!, animated: true)
+                esmobChat(nav.viewControllers.first!, conversationId, 2, name, icon)
             }
+            
         }else{
             //极光推送内容
             let body = content.body.isEmpty ? "支付成功！" : content.body

@@ -197,14 +197,7 @@ class MySendOrderDetailViewController: UITableViewController {
     //联系工程师
     @IBAction func chatEngAction() {
         //聊天
-        //登录环信
-        esmobLogin()
-        
-        let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
-        //保存聊天页面数据
-        LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
-        chatVC?.title = self.modelJson["call_nik_name"].stringValue
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
     }
     
     //工程师详情
@@ -356,13 +349,8 @@ class MySendOrderDetailViewController: UITableViewController {
     //导航栏按钮-聊天
     @objc func chatItemAction() {
         //聊天
-        //登录环信
-        esmobLogin()
-        let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
-        //保存聊天页面数据
-        LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
-        chatVC?.title = self.modelJson["call_nik_name"].stringValue
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
+        
     }
     //导航栏按钮-工作轨迹
     @objc func trackItemAction() {

@@ -105,7 +105,6 @@ class VideoCommentView: UIView {
         var params : [String : Any] = [:]
         params["video_id"] = self.videoId
         params["comment_contents"] = commentArr.joined(separator: ",")
-        LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: KVideoCommentApi, parameters: params, succeed: { (resultJson, msg) in
             LYProgressHUD.dismiss()
             LYProgressHUD.showSuccess("评论成功！")

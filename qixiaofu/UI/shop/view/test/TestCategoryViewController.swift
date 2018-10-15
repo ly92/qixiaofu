@@ -93,10 +93,7 @@ extension TestCategoryViewController : UICollectionViewDelegate, UICollectionVie
             addTestVC.testServiceArray = self.testServiceArray
             self.navigationController?.pushViewController(addTestVC, animated: true)
         }else{
-            //登录环信
-            esmobLogin()
-            let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-            self.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(self, "kefu1", 1)
         }
         
     }

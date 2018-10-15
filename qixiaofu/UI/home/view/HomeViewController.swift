@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Kingfisher
+import AudioToolbox
 
 class HomeViewController: BaseViewController {
     class func spwan() -> HomeViewController{

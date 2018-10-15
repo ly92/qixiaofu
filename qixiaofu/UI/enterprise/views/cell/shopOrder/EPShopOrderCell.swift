@@ -137,10 +137,7 @@ class EPShopOrderCell: UITableViewCell {
                     }
                 }else if shipping_state == 3{
                     //部分发货
-                    //登录环信
-                    esmobLogin()
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self.parentVC, "kefu1", 1)
                 }
             }
         }else if state == 4{

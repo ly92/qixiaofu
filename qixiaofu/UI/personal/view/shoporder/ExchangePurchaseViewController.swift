@@ -64,10 +64,7 @@ class ExchangePurchaseViewController: BaseViewController {
     
     @objc func rightItemAction() {
         //联系客服
-        //登录环信
-        esmobLogin()
-        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, "kefu1", 1)
     }
 
     

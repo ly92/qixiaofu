@@ -82,13 +82,7 @@ extension EngineerInvetoryViewController{
         tableView.deselectRow(at: indexPath, animated: false)
         if self.engListArray.count > indexPath.row{
             let subJson = self.engListArray[indexPath.row]
-            //登录环信
-            esmobLogin()
-            let chatVC = EaseMessageViewController.init(conversationChatter: subJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
-            //保存聊天页面数据
-            LocalData.saveChatUserInfo(name: subJson["call_nik_name"].stringValue, icon: subJson["duifangtouxiang"].stringValue, key: subJson["call_name"].stringValue)
-            chatVC?.title = subJson["call_nik_name"].stringValue
-            self.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(self, subJson["call_name"].stringValue, 2, subJson["call_nik_name"].stringValue, subJson["duifangtouxiang"].stringValue)
         }
     }
 }

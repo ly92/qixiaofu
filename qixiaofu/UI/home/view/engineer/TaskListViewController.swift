@@ -260,13 +260,38 @@ class TaskListViewController: BaseViewController {
             return
         }
         if self.isFilteringPrice{
+            if maxStr.floatValue > 0 && minStr.floatValue > 0 && minStr.floatValue > maxStr.floatValue{
+                LYProgressHUD.showError("开始金额不得超过最高金额")
+                return
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue <= 0{
+                self.topLbl3.text = minStr + "以上"
+            }
+            if minStr.floatValue <= 0 && maxStr.floatValue > 0{
+                self.topLbl3.text = maxStr + "以下"
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue > 0{
+                self.topLbl3.text = minStr + "~" + maxStr
+            }
             self.service_sprice = minStr
             self.service_eprice = maxStr
-            self.topLbl3.text = minStr + "~" + maxStr
         }else{
+            if maxStr.floatValue > 0 && minStr.floatValue > 0 && minStr.floatValue > maxStr.floatValue{
+                LYProgressHUD.showError("开始时间不得超过结束时间")
+                return
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue <= 0{
+                self.topLbl2.text = minStr + "天以外"
+            }
+            if minStr.floatValue <= 0 && maxStr.floatValue > 0{
+                self.topLbl2.text = maxStr + "天以内"
+            }
+            if minStr.floatValue > 0 && maxStr.floatValue > 0{
+                self.topLbl2.text = minStr + "~" + maxStr + "天"
+            }
+            
             self.service_stime = Date.dateWithDaysAfterNow(days: minStr.doubleValue).phpTimestamp()
             self.service_etime = Date.dateWithDaysAfterNow(days: maxStr.doubleValue).phpTimestamp()
-            self.topLbl2.text = minStr + "~" + maxStr + "天"
         }
         self.view.endEditing(true)
         self.curpage = 1
@@ -550,8 +575,8 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
             if self.selectedClassifyIndex == 0{
                 return 1
             }else{
-                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex{
-                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex]
+                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex-1{
+                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
                     return json["list"].arrayValue.count + 1
                 }
             }
@@ -620,7 +645,7 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
                     case 2:
                         cell.titleLbl.text = "7～15天"
                     case 3:
-                        cell.titleLbl.text = "15天以上"
+                        cell.titleLbl.text = "15天以外"
                     default:
                         print("")
                     }
@@ -680,19 +705,34 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
             }
         }else if tableView == self.classifyLeftTableView{
             self.selectedClassifyIndex = indexPath.row
-            self.classifyRightTableView.reloadData()
-            self.classifyLeftTableView.reloadData()
-        }else if tableView == self.classifyRightTableView{
             if indexPath.row == 0{
-                if self.selectedClassifyIndex == 0{
-                    self.gc_id = ""
-                }else{
-                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
-                    self.gc_id = json["gc_id"].stringValue
-                }
+                self.gc_id = ""
+                self.curpage = 1
+                self.loadAllReceiveableTaskList()
+                self.setUpArrowAndLbl(0)
                 self.topLbl1.text = "全部"
             }else{
-                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex{
+                let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
+                if json["list"].arrayValue.count == 0{
+                    self.gc_id = json["gc_id"].stringValue
+                    self.curpage = 1
+                    self.loadAllReceiveableTaskList()
+                    self.setUpArrowAndLbl(0)
+                    self.topLbl1.text = json["gc_name"].stringValue
+                }else{
+                    self.classifyRightTableView.reloadData()
+                    self.classifyLeftTableView.reloadData()
+                }
+            }
+        }else if tableView == self.classifyRightTableView{
+            if indexPath.row == 0{
+                if self.selectedClassifyIndex > 0{
+                    let json = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]
+                    self.gc_id = json["gc_id"].stringValue
+                    self.topLbl1.text = json["gc_name"].stringValue
+                }
+            }else{
+                if self.classifyFilterData.arrayValue.count > self.selectedClassifyIndex-1{
                     let jsonArray = self.classifyFilterData.arrayValue[self.selectedClassifyIndex-1]["list"].arrayValue
                     if jsonArray.count > indexPath.row{
                         let json = jsonArray[indexPath.row]
@@ -743,7 +783,7 @@ extension TaskListViewController : UITableViewDelegate,UITableViewDataSource{
                 case 3:
                     self.service_stime = Date.dateWithDaysAfterNow(days: 15).phpTimestamp()
                     self.service_etime = ""
-                    self.topLbl2.text = "15天以上"
+                    self.topLbl2.text = "15天以外"
                 default:
                     print("")
                 }

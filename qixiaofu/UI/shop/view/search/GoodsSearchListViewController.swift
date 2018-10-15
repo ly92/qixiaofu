@@ -77,16 +77,16 @@ class GoodsSearchListViewController: BaseViewController {
         
         self.historyArray = LocalData.getSearchHistoryArray()
         
-//        self.subControl.addTarget(self, action: #selector(GoodsSearchListViewController.endSearchEdit), for: .touchDown)
+        self.subControl.addTarget(self, action: #selector(GoodsSearchListViewController.endSearchEdit), for: .touchDown)
         
         self.setUpSearchNavView()
         self.setUpSubViews()
         
         self.addRefresh()
         
-        
         //ocr请求数据
         if ocrKeys != ""{
+            LYProgressHUD.showLoading()
             self.keyWord = ocrKeys
             self.loadData(1)
             self.searchBar.resignFirstResponder()
@@ -231,10 +231,7 @@ class GoodsSearchListViewController: BaseViewController {
     
     @IBAction func chatAction() {
         //联系客服
-        //登录环信
-        esmobLogin()
-        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, "kefu1", 1)
     }
     
     

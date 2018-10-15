@@ -72,7 +72,12 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         return bannerView
     }()
     
-    
+    //隐藏状态栏
+    fileprivate var isStatusBarHidden = false{
+        didSet{
+            self.setNeedsStatusBarAppearanceUpdate()
+        }
+    }
     
     fileprivate var photoView : LYPhotoBrowseView!
     
@@ -105,6 +110,10 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
         AipOcrService.shard().auth(withAK: "nGMwZNOcsVQIUkdbpkHShXUm", andSK: "iiUto12cC9cNmwrwDtlyzGOUAaujCDD4")
     }
     
+    //隐藏状态栏
+    override var prefersStatusBarHidden: Bool{
+        return self.isStatusBarHidden
+    }
     
     func setUpSearchNavView() {
         searchBar.placeholder = "请输入品牌、名称、类别等搜索"
@@ -116,8 +125,7 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     }
     
     @objc func rightItemAction(){
-        let sheet = UIActionSheet.init(title: "识别图片", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "相册", "拍照")
-        sheet.show(in: self.view)
+        self.camera()
     }
     
     
@@ -135,6 +143,8 @@ class ShopViewController: BaseViewController ,WXApiDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //展示状态栏
+        self.isStatusBarHidden = false
         
         if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
             //返回按钮
@@ -751,20 +761,12 @@ extension ShopViewController{
     
 }
 
-extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
-
-    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex == 1{
-            //相册
-            self.photoAlbum()
-        }else if buttonIndex == 2{
-            //相机
-            self.camera()
-        }
-    }
+extension ShopViewController {
     
     //相机
     func camera() {
+        //隐藏状态栏
+        self.isStatusBarHidden = true
         //是否允许使用相机
         self.ocrVC = AipGeneralVC.viewController { (image) in
             LYProgressHUD.showLoading()
@@ -777,7 +779,6 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
                         LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
                     }else{
                         let keys = self.getKeywordString(resultJson)
-                        print(keys)
                         if keys.isEmpty{
                             LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
                         }else{
@@ -793,6 +794,8 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
                     LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
                 }
             }, failHandler: { (error) in
+                //展示状态栏
+                self.isStatusBarHidden = false
                 LYProgressHUD.showError("图片识别失败，请重试！")
             })
         }
@@ -801,73 +804,10 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
         }
     }
     
-    //相册
-    func photoAlbum() {
-        //是否允许使用相册
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .restricted,.denied:
-            LYAlertView.show("提示", "请允许App访问相册", "取消", "去设置", {
-                //打开设置页面
-                let url = URL(string:UIApplicationOpenSettingsURLString)
-                if UIApplication.shared.canOpenURL(url!){
-                    UIApplication.shared.openURL(url!)
-                }
-            })
-            return
-        case .authorized,.notDetermined:
-            break
-        }
-        
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            let picker : UIImagePickerController = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.delegate = self
-            picker.navigationBar.tintColor = UIColor.RGBS(s: 33)
-            self.present(picker, animated: true, completion: nil)
-        }else{
-            LYProgressHUD.showError("不允许访问相册")
-        }
-        
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        let img = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let options = ["language_type":"CHN_ENG","detect_direction":"true"]
-        AipOcrService.shard().detectTextBasic(from: img, withOptions: options, successHandler: { (result) in
-            print(result ?? "-------------------------")
-            if result != nil{
-                let resultJson = JSON.init(result as Any)
-                if resultJson["words_result_num"].intValue == 0{
-                    LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-                }else{
-                    let keys = self.getKeywordString(resultJson)
-                    print(keys)
-                    if keys.isEmpty{
-                        LYProgressHUD.showError("未识别到备件PN，请尝试放大图片，更换更高清的图片！")
-                    }else{
-                        DispatchQueue.main.async {
-                            let searchVC = GoodsSearchListViewController.spwan()
-                            searchVC.ocrKeys = keys
-                            self.navigationController?.pushViewController(searchVC, animated: true)
-                            self.dismissVC()
-                        }
-                    }
-                }
-            }else{
-                LYProgressHUD.showError("未识别到信息，请保持手机方向与图片方向一致")
-            }
-        }, failHandler: { (error) in
-            LYProgressHUD.showError("图片识别失败，请重试！")
-        })
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    
     func dismissVC() {
+        //展示状态栏
+        self.isStatusBarHidden = false
+        
         if self.ocrVC != nil{
             self.ocrVC?.dismiss(animated: true, completion: nil)
         }
@@ -876,7 +816,7 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
     
     func getKeywordString(_ resultJson : JSON) -> String {
         var keys : Array<String> = []
-        //内部函数
+        //第一步，字符串匹配
         func stepOne(_ orgStr : String,_ pn : String, sn : String) -> String{
             if orgStr.lowercased().contains(pn){
                 let word = orgStr.lowercased().replacingOccurrences(of: ":", with: "").replacingOccurrences(of: " ", with: "")
@@ -892,17 +832,31 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
             }
             return ""
         }
+        
+        //正则匹配
+        func regexMach(_ str : String, _ reg : String) -> Bool{
+            let regex = try! NSRegularExpression(pattern: reg, options: [NSRegularExpression.Options.dotMatchesLineSeparators])
+            let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
+            if results.count == 1{
+                return true
+            }
+            return false
+        }
+        
+        //第二部，正则匹配
         func stepTwo(_ orgStr : String) -> String {
             var keys : Array<String> = []
             for pre_str in orgStr.components(separatedBy: " "){
-                print("-------------------------------------------------------------------------------")
-                print(pre_str)
                 var str = pre_str
                 if pre_str.hasPrefix("*") && pre_str.hasSuffix("x"){
                     str.remove(at: String.Index.init(encodedOffset: pre_str.count))
                 }
                 str = pre_str.replacingOccurrences(of: "*", with: "")
-                print(str)
+                
+                if str.hasPrefix("pn"){
+                    str = pre_str.replacingOccurrences(of: "pn", with: "")
+                }
+                
                 if str.count > 4 && str.count < 7{
                     //一般是5-6位 数字和字母混合
                     let regex1 = try! NSRegularExpression(pattern: "[A-Za-z]+", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
@@ -916,100 +870,127 @@ extension ShopViewController : UIActionSheetDelegate,UINavigationControllerDeleg
                             }
                         }
                     }
-                    
                 }else if str.count == 7{
                     //42D0638 两位数字一位字母四位数字
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{2}[A-Za-z][0-9]{4}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{2}[A-Za-z][0-9]{4}"){
                         keys.append(str)
                     }
                 }else if str.count == 9{
                     //CX VNX AX 系列硬盘是纯9位数字
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{9}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{9}"){
                         keys.append(str)
                     }
                     //HDS XP: PN 7位数字+字母
-                    let regex1 = try! NSRegularExpression(pattern: "[0-9]{7}-[A-Za-z]", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results1 = regex1.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results1.count == 1{
+                    if regexMach(str, "[0-9]{7}-[A-Za-z]"){
                         keys.append(str)
                     }
                 }else if str.count == 10{
                     //dell: 9FM066-057
-                    let regex = try! NSRegularExpression(pattern: "[0-9][A-Za-z]{2}[0-9]{3}-[0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9][A-Za-z]{2}[0-9]{3}-[0-9]{3}"){
                         keys.append(str)
                     }
                 }else if str.count == 11{
                     //DMX 系列是***—***—*** 9位数字之间有横杠；
-                    let regex = try! NSRegularExpression(pattern: "[0-9]{3}-[0-9]{3}-[0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[0-9]{3}-[0-9]{3}-[0-9]{3}"){
                         keys.append(str)
                     }
                 }else if str.count == 12{
                     //CA07237-E042  两位字母 五位数字-字母 3位数字
-                    let regex = try! NSRegularExpression(pattern: "[A-Za-z]{2}[0-9]{5}-[A-Za-z][0-9]{3}", options: [NSRegularExpression.Options.dotMatchesLineSeparators])
-                    let results = regex.matches(in: str, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, str.count))
-                    if results.count == 1{
+                    if regexMach(str, "[A-Za-z]{2}[0-9]{5}-[A-Za-z][0-9]{3}"){
                         keys.append(str)
                     }
                 }
+                
+                
+                //特殊处理
+                //SG-OYP778-12531-8C3-02A3-A00，可能会换行显示
+                if str.count > 9{
+                    let pre = String(str[str.startIndex...str.index(str.startIndex, offsetBy: 8)])
+                    if regexMach(pre, "[A-Za-z]{2}-[A-Za-z0-9]{6}"){
+                        keys.append(String(pre[pre.index(pre.startIndex, offsetBy: 3)..<pre.endIndex]))
+                    }
+                }
+                
             }
-            print(keys)
             return keys.joined(separator: ",")
         }
         
         for words in resultJson["words_result"].arrayValue{
-            if words["words"].stringValue.lowercased().contains("p/n"){
-                let key = stepOne(words["words"].stringValue, "p/n", sn: "s/n")
+            var word = words["words"].stringValue.lowercased()
+            
+            print("-------------------------------------------------------------------------------")
+            print(word)
+            
+            //根据固定词匹配
+            if word.contains("pnsn"){
+                let key = stepOne(words["words"].stringValue, "pnsn", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("pn"){
+            }
+            if word.contains("pn"){
                 let key = stepOne(words["words"].stringValue, "pn", sn: "sn")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("fru"){
+            }
+            if word.contains("p/n"){
+                let key = stepOne(words["words"].stringValue, "p/n", sn: "s/n")
+                if !key.isEmpty{
+                    keys.append(key)
+                }
+            }
+            if word.contains("fru"){
                 let key = stepOne(words["words"].stringValue, "fru", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
-            }else if words["words"].stringValue.lowercased().contains("fc"){
+            }
+            if word.contains("fc"){
                 let key = stepOne(words["words"].stringValue, "fc", sn: "--")
                 if !key.isEmpty{
                     keys.append(key)
                 }
             }
-        }
-        if keys.count > 0{
-            return keys.joined(separator: ",")
-        }else{
-            //通过普通筛选未得到关键字，使用正则表达式
-            //42D0638 两位数字一位字母四位数字
-            //500203-061　六位数字横杠三位数字或者字母
-            //AB423-69001 一位或者两位大写字母开头 横杠五位数字
-            //CX VNX AX 系列硬盘是纯9位数字
-            //DMX 系列是***—***—*** 9位数字之间有横杠；
-            //HDS XP: PN 7位数字+字母
-            //540-7156-01 三位数字 - 四位数字-两位数字
-            //CA07237-E042  两位字母 五位数字-字母 3位数字
-            //108-00205+B2 三位数字-五位数字+字母数字 
-            //291A-R5 三位数字字母-字母数字 第一位可以以X开始 X306A-R5
-            //一般是5-6位 数字和字母混合
-            for words in resultJson["words_result"].arrayValue{
-                let stepTwoResult = stepTwo(words["words"].stringValue.lowercased())
+            if word.contains("spare"){
+                let key = stepOne(words["words"].stringValue, "spare", sn: "--")
+                if !key.isEmpty{
+                    keys.append(key)
+                }
+            }
+            if word.contains("ca"){
+                let key = stepOne(words["words"].stringValue, "ca", sn: "--")
+                if !key.isEmpty{
+                    keys.append(key)
+                }
+            }
+
+            /**特殊处理*/
+            //11S49Y7446Y0SSKFHH355R 其中11S开头，49Y7446是PN
+            if word.hasPrefix("11s"){
+                let s = word.index(word.startIndex, offsetBy: 3)
+                let e = word.index(word.startIndex, offsetBy: 10)
+                let key = String(word[s..<e])
+                //49Y7446 两位数字一位字母四位数字
+                if regexMach(key, "[0-9]{2}[A-Za-z][0-9]{4}"){
+                    keys.append(key)
+                }
+            }else{
+                //进行正则表达式的匹配
+                let stepTwoResult = stepTwo(word)
                 if !stepTwoResult.isEmpty{
                     keys.append(stepTwoResult)
                 }
+                
             }
-            return keys.joined(separator: ",")
+            
+            
         }
+        
+        print("*************************************正则表达式匹配结果*******************************************")
+        print(keys.joined(separator: ","))
+        print("*************************************正则表达式匹配结果*******************************************")
+        return keys.joined(separator: ",")
     }
 }
 
