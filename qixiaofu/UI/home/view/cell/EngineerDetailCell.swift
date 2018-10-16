@@ -18,6 +18,8 @@ class EngineerDetailCell: UITableViewCell {
     @IBOutlet weak var levelImageV3: UIImageView!
     @IBOutlet weak var levelLbl: UILabel!
     @IBOutlet weak var levelLblLeftDis: NSLayoutConstraint!
+    @IBOutlet weak var engXinImgV: UIImageView!
+    @IBOutlet weak var engXinLbl: UILabel!
     
     var jsonModel : JSON = [] {
         didSet{
@@ -36,6 +38,15 @@ class EngineerDetailCell: UITableViewCell {
                 self.levelLblLeftDis.constant = CGFloat( 5 + 3 * 18)
             }else{
                 self.levelLblLeftDis.constant = CGFloat( 5 + (level.intValue % 3) * 18)
+            }
+            
+            //保证金
+            if jsonModel["is_bail"].stringValue.intValue == 1{
+                self.engXinImgV.image = UIImage.init(named: "eng_xin_icon2")
+                self.engXinLbl.text = "已在平台中缴纳保证金"
+            }else{
+                self.engXinImgV.image = UIImage.init(named: "eng_xin_icon1")
+                self.engXinLbl.text = "未在平台中缴纳保证金"
             }
             
         }

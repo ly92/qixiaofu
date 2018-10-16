@@ -147,13 +147,15 @@ extension EngineerDetailViewController{
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCertificateCell", for: indexPath) as! HomeCertificateCell
             if indexPath.row == 0{
                 cell.titleLbl.text = "资质证书"
+                cell.titleLbl.textColor = Text_Color
                 cell.imgV.image = #imageLiteral(resourceName: "img_certificate")
                 if self.jsonModel["cer_images"].arrayValue.count == 0{
                     cell.imgV.isHidden = true
                 }
             }else{
                 if self.jsonModel["cer_images"].arrayValue.count > indexPath.row - 1{
-                    cell.titleLbl.text = self.jsonModel["cer_images"].arrayValue[indexPath.row - 1]["cer_image_name"].stringValue
+                    cell.titleLbl.text = "    " + self.jsonModel["cer_images"].arrayValue[indexPath.row - 1]["cer_image_name"].stringValue
+                    cell.titleLbl.textColor = UIColor.lightGray
                     cell.imgV.setHeadImageUrlStr(self.jsonModel["cer_images"].arrayValue[indexPath.row - 1]["cer_image"].stringValue)
                     cell.imgV.isHidden = false
                 }
@@ -240,7 +242,7 @@ extension EngineerDetailViewController{
             
         case 3:
             let cell = UITableViewCell()
-            let btn = UIButton(frame:CGRect(x:40, y:15, width:kScreenW - 80, height:50))
+            let btn = UIButton(frame:CGRect(x:40, y:15, width:kScreenW - 80, height:44))
             btn.backgroundColor = Normal_Color
             btn.setTitle("查看更多评价", for: .normal)
             btn.setTitleColor(UIColor.white, for: .normal)
@@ -258,7 +260,7 @@ extension EngineerDetailViewController{
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 0{
-            return 70
+            return 90
         }
         if indexPath.section == 3{
             return 80

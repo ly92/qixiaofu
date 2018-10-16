@@ -137,6 +137,11 @@ class SendTaskViewController: BaseTableViewController {
             redoParams["id"] = self.orderId
             let count = self.countTF.text!
             
+            if self.sTime == nil || self.eTime == nil{
+                LYProgressHUD.showError("请选择开始时间和结束时间！")
+                return
+            }
+            
             if (self.sTime?.phpTimestamp().isEmpty)! {
                 LYProgressHUD.showError("请选择开始时间")
                 return
