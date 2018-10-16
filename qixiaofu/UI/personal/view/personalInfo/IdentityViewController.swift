@@ -167,7 +167,7 @@ class IdentityViewController: BaseViewController {
                 self.registerEnterprise(1)
                 DispatchQueue.global().async {
                     //注册环信
-                    HChatClient.shared().register(withUsername: phone, password: "11")
+                    esmobRegister(phone)
                     LocalData.saveUserPhone(phone: phone)
                 }
             }) { (error) in

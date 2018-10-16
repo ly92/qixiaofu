@@ -18,8 +18,7 @@ class MessageViewController: BaseTableViewController {
     fileprivate let systermIcons = [#imageLiteral(resourceName: "img_systemnesw"),#imageLiteral(resourceName: "wallet_message"),#imageLiteral(resourceName: "task_message")]
     fileprivate var systermJson : JSON = []
     
-    fileprivate var chatArray : Array<HConversation> = Array<HConversation>()
-    
+    fileprivate var chatArray : Array<HDConversation> = Array<HDConversation>()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,23 +28,22 @@ class MessageViewController: BaseTableViewController {
         self.tableView.register(UINib.init(nibName: "SysMessageCell", bundle: Bundle.main), forCellReuseIdentifier: "SysMessageCell")
         
         self.tableView.es.addPullToRefresh {
-            self.loadSysMessage()
             //环信聊天消息列表
             self.esmobChatList()
             
+            self.loadSysMessage()
             self.tableView.es.stopPullToRefresh()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadSysMessage()
         //环信聊天消息列表
         self.esmobChatList()
+        
+        self.loadSysMessage()
     }
-    
-    
-    
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -60,13 +58,28 @@ class MessageViewController: BaseTableViewController {
             "act" : "member_index",
             "store_id" : "1"
         ]
-//        LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: SysTermMessageApi, parameters: params, succeed: { (result, msg) in
             self.systermJson = result
-            
             self.tableView.reloadData()
-            
             LYProgressHUD.dismiss()
+            
+            guard let tabbar = AppDelegate.sharedInstance.window?.rootViewController as? LYTabBarController else{
+                return
+            }
+            var num = 0
+            for sub in result.arrayValue{
+                num += sub["unread_num"].stringValue.intValue
+            }
+            for converstion in self.chatArray{
+                let con = converstion
+                num += Int(con.unreadMessagesCount)
+            }
+            if num > 0 && !LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = "\(num)"
+            }else{
+                tabbar.childViewControllers[2].tabBarItem.badgeValue = nil
+            }
+            
         }) { (error) in
             LYProgressHUD.showError(error!)
         }
@@ -75,16 +88,10 @@ class MessageViewController: BaseTableViewController {
     //环信聊天消息列表
     func esmobChatList() {
         self.chatArray.removeAll()
-//        if !HChatClient.shared().isLoggedInBefore{
-        DispatchQueue.global().async {
-            let loginError = HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            if loginError != nil{
-                print("-------------------------------环信登录失败-------------------------------")
-            }
-        }
-//        }
+        //登录环信
+        esmobLogin()
         
-        guard let conversations : Array<HConversation> = HChatClient.shared().chatManager.loadAllConversations() as? Array<HConversation> else {
+        guard let conversations : Array<HDConversation> = HDClient.shared().chatManager.loadAllConversations() as? Array<HDConversation> else {
             return
         }
         
@@ -135,7 +142,15 @@ extension MessageViewController{
                 let dict = LocalData.getChatUserInfo(key: model.conversationId)
                 cell.nameLbl.text = dict["name"]
                 cell.iconImgV.setHeadImageUrlStr(dict["icon"]!)
-                
+
+                //未读数量
+                let unReadNum = Int(model.unreadMessagesCount)
+                if unReadNum > 0{
+                    cell.unReadNumLbl.isHidden = false
+                    cell.unReadNumLbl.text = "\(model.unreadMessagesCount)"
+                }
+
+
                 var latestMessageTitle = ""
                 if model.latestMessage != nil{
                     switch model.latestMessage.body.type {
@@ -161,8 +176,8 @@ extension MessageViewController{
                     }
                     let attributedStr = NSAttributedString.init(string: latestMessageTitle)
                     cell.descLbl.attributedText = attributedStr
-                    
-                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.messageTime)")
+
+                    cell.timeLbl.text = Date.dateStringFromDate(format: Date.dayFormatString(), timeStamps: "\(model.latestMessage.timestamp)")
                 }
             }
         }
@@ -196,18 +211,12 @@ extension MessageViewController{
                 let dict = LocalData.getChatUserInfo(key: model.conversationId)
                 name = dict["name"]!
                 icon = dict["icon"]!
-                DispatchQueue.global().async {
-                    HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                }
+                //全部标为已读
+                model.markAllMessages(asRead: nil)
                 if model.conversationId.hasPrefix("kefu"){
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, "kefu1", 1)
                 }else{
-                    let chatVC = EaseMessageViewController.init(conversationChatter: model.conversationId, conversationType: EMConversationType.init(0))
-                    //保存聊天页面数据
-                    LocalData.saveChatUserInfo(name: name, icon: icon, key: model.conversationId)
-                    chatVC?.title = name
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, model.conversationId, 2, name, icon)
                 }
             }
         }

@@ -197,14 +197,7 @@ class MySendOrderDetailViewController: UITableViewController {
     //联系工程师
     @IBAction func chatEngAction() {
         //聊天
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-        let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
-        //保存聊天页面数据
-        LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
-        chatVC?.title = self.modelJson["call_nik_name"].stringValue
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
     }
     
     //工程师详情
@@ -356,14 +349,8 @@ class MySendOrderDetailViewController: UITableViewController {
     //导航栏按钮-聊天
     @objc func chatItemAction() {
         //聊天
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-        let chatVC = EaseMessageViewController.init(conversationChatter: self.modelJson["call_name"].stringValue, conversationType: EMConversationType.init(0))
-        //保存聊天页面数据
-        LocalData.saveChatUserInfo(name: self.modelJson["call_nik_name"].stringValue, icon: self.modelJson["ot_user_avatar"].stringValue, key: self.modelJson["call_name"].stringValue)
-        chatVC?.title = self.modelJson["call_nik_name"].stringValue
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, self.modelJson["call_name"].stringValue, 2, self.modelJson["call_nik_name"].stringValue, self.modelJson["ot_user_avatar"].stringValue)
+        
     }
     //导航栏按钮-工作轨迹
     @objc func trackItemAction() {
@@ -690,6 +677,7 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                 }
             }
         }else if indexPath.section == 1{
+            //发单状态【0 撤销】【1 待接单】【2 已接单】【3 已完成】【4 已过期 or 已失效】【5 已取消】【6 调价中】【7 补单】
             if self.isMyReceive{
                 return 0
             }else{
@@ -699,7 +687,10 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                     }
                     return 95
                 }else if indexPath.row == 1{
-                    return 130
+                    if self.modelJson["bill_statu"].stringValue.intValue == 1 || self.modelJson["bill_statu"].stringValue.intValue == 2 || self.modelJson["bill_statu"].stringValue.intValue == 3 || self.modelJson["bill_statu"].stringValue.intValue == 6{
+                        return 130
+                    }
+                    return 0
                 }else if indexPath.row == 2{
                     return 0
                 }
@@ -1212,6 +1203,8 @@ extension MySendOrderDetailViewController{
                     LYProgressHUD.showSuccess("设置成功！")
                     //刷新数据
                     self.refreshData(type: 2)
+                    
+                    self.loadSendDetailData()
                 }, failure: { (error) in
                     LYProgressHUD.showError(error!)
                 })
@@ -1300,7 +1293,7 @@ extension MySendOrderDetailViewController{
                             if self.refreshBlock != nil{
                                 self.refreshBlock!(1)
                             }
-                            //返回列表
+                            //刷新数据
                             self.loadSendDetailData()
                         }
                         self.navigationController?.pushViewController(addCommentVC, animated: true)

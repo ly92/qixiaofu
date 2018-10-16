@@ -309,6 +309,26 @@ typedef enum {
 
 /*!
  *  \~chinese
+ *  从服务器获取token
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aCompletionBlock 完成的回调
+ *
+ *  \~english
+ *  Get the token from the server
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aCompletionBlock The callback of completion block
+ *
+ */
+- (void)fetchTokenWithUsername:(NSString *)aUsername
+                      password:(NSString *)aPassword
+                    completion:(void (^)(NSString *aToken, EMError *aError))aCompletionBlock;
+
+/*!
+ *  \~chinese
  *  密码登录
  *
  *  同步方法，会阻塞当前线程

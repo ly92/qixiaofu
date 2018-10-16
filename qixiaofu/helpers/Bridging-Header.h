@@ -49,13 +49,11 @@
 #import <UserNotifications/UserNotifications.h>
 #import <AdSupport/AdSupport.h>
 
-
-#import "NSString+Valid.h"
-#import "UIResponder+HRouter.h"
-#import <HelpDesk/HelpDesk.h>
+//环信
 #import <HyphenateLite/HyphenateLite.h>
-#import "HelpDeskUI.h"
+#import <HelpDeskLite/HelpDeskLite.h>
 #import "EaseUI.h"
+#import "HelpDeskUI.h"
 #import "HDChatViewController.h"
 
 //下载

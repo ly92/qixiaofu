@@ -85,6 +85,12 @@ class SendTaskViewController: BaseTableViewController {
         //返回按钮
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(backTarget: self, action: #selector(SendTaskViewController.backClick))
     
+        
+        //是否已提示解决故障的步骤
+        if !LocalData.getYesOrNotValue(key: "haveShowSendStep"){
+            self.rightItemAction()
+            LocalData.saveYesOrNotValue(value: "1", key: "haveShowSendStep")
+        }
     }
     
     //重新发布订单时先加载订单详情
@@ -130,6 +136,11 @@ class SendTaskViewController: BaseTableViewController {
             var redoParams : [String : Any] = [:]
             redoParams["id"] = self.orderId
             let count = self.countTF.text!
+            
+            if self.sTime == nil || self.eTime == nil{
+                LYProgressHUD.showError("请选择开始时间和结束时间！")
+                return
+            }
             
             if (self.sTime?.phpTimestamp().isEmpty)! {
                 LYProgressHUD.showError("请选择开始时间")
@@ -426,15 +437,24 @@ class SendTaskViewController: BaseTableViewController {
     @objc func rightItemAction() {
         let image = #imageLiteral(resourceName: "send_task_step")
         let h = kScreenW / image.size.width * image.size.height
-        let scroll = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH))
+        let scroll = UIScrollView.init(frame: CGRect.init(x: kScreenW-40, y: 50, width: 0, height: 0))
+//        scroll.backgroundColor = UIColor.colorHexWithAlpha(hex: "000000", alpha: 0.5)
         let imgV = UIImageView.init(image: image)
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)
         scroll.contentSize = CGSize.init(width: kScreenW, height: h)
         UIApplication.shared.keyWindow?.addSubview(scroll)
         
+        UIView.animate(withDuration: 0.5) {
+            scroll.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH)
+        }
+        
         scroll.addTapActionBlock {
-            scroll.removeFromSuperview()
+            UIView.animate(withDuration: 0.5, animations: {
+                scroll.frame = CGRect.init(x: kScreenW-40, y: 50, width: 0, height: 0)
+            }, completion: { (comple) in
+                scroll.removeFromSuperview()
+            })
         }
     }
     

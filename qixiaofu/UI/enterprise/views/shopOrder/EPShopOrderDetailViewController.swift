@@ -131,11 +131,7 @@ class EPShopOrderDetailViewController: BaseViewController {
                     }
                 }else if shipping_state == 3{
                     //部分发货
-                    DispatchQueue.global().async {
-                        HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-                    }
-                    let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-                    self.navigationController?.pushViewController(chatVC!, animated: true)
+                    esmobChat(self, "kefu1", 1)
                 }
             }
         }else if state == 4{

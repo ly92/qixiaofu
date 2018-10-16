@@ -8,6 +8,9 @@
 
 import UIKit
 import SwiftyJSON
+import Speech
+import AudioToolbox
+
 
 class GoodsSearchListViewController: BaseViewController {
     class func spwan() -> GoodsSearchListViewController{
@@ -37,6 +40,23 @@ class GoodsSearchListViewController: BaseViewController {
     
     @IBOutlet weak var historyView: UIView!
     @IBOutlet weak var historyViewH: NSLayoutConstraint!
+    @IBOutlet weak var voiceLbl: UILabel!
+    @IBOutlet weak var voiceBtn: UIButton!
+    
+    
+    //语音识别
+    fileprivate var speechRecognizer : SFSpeechRecognizer? {
+        get{
+            let local = Locale.init(identifier: "zh_CN")
+            let reco = SFSpeechRecognizer.init(locale: local)
+            return reco
+        }
+    }
+    fileprivate var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
+    fileprivate var recognitionTask : SFSpeechRecognitionTask?
+    fileprivate let audioEngine = AVAudioEngine()
+    
+    
     let searchBar : UISearchBar = UISearchBar()
     fileprivate lazy var hotArray : Array<String> = {
         let hotArray = ["IBM","HP","X86","LINUX","UNIX","监控设备"]
@@ -64,13 +84,17 @@ class GoodsSearchListViewController: BaseViewController {
         
         self.addRefresh()
         
-        
         //ocr请求数据
         if ocrKeys != ""{
+            LYProgressHUD.showLoading()
             self.keyWord = ocrKeys
             self.loadData(1)
             self.searchBar.resignFirstResponder()
         }
+        
+        //语音识别
+        self.addPressAction()
+        self.prepareSpeech()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,15 +231,7 @@ class GoodsSearchListViewController: BaseViewController {
     
     @IBAction func chatAction() {
         //联系客服
-//        let chatVC = ChatViewController.init(conversationChatter: "kefu1", conversationName: "客服", conversationIcon: "")
-//        self.navigationController?.pushViewController(chatVC, animated: true)
-//        if !HChatClient.shared().isLoggedInBefore{
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-//        }
-        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        self.navigationController?.pushViewController(chatVC!, animated: true)
+        esmobChat(self, "kefu1", 1)
     }
     
     
@@ -452,3 +468,133 @@ extension GoodsSearchListViewController : UITableViewDelegate,UITableViewDataSou
 
 
 }
+
+
+
+
+
+
+
+
+
+//语音识别
+extension GoodsSearchListViewController : SFSpeechRecognizerDelegate {
+    //手势
+    func addPressAction() {
+        let longPress = UILongPressGestureRecognizer.init(target: self, action: #selector(GoodsSearchListViewController.longPressAction(_:)))
+        longPress.minimumPressDuration = 0.2
+        self.voiceBtn.addGestureRecognizer(longPress)
+    }
+    //手势处理
+    @objc func longPressAction(_ pan : UILongPressGestureRecognizer) {
+        switch pan.state {
+        case .began:
+            //开始
+            if self.audioEngine.isRunning{
+                self.audioEngine.stop()
+                if self.recognitionRequest != nil{
+                    self.recognitionRequest?.endAudio()
+                }
+            }
+            self.startRecording()
+            self.voiceBtn.setImage(#imageLiteral(resourceName: "voice_icon2"), for: .normal)
+            self.voiceLbl.isHidden = false
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        case .cancelled:
+            //取消
+            print("cancelled")
+            self.voiceLbl.isHidden = true
+        case .changed:
+            //
+            let _ = 1
+        //            print("changed")
+        case .ended:
+            //结束
+            self.voiceBtn.setImage(#imageLiteral(resourceName: "voice_icon1"), for: .normal)
+            self.audioEngine.stop()
+            if self.recognitionRequest != nil{
+                self.recognitionRequest?.endAudio()
+            }
+            self.voiceLbl.isHidden = true
+        case .failed:
+            //失败
+            print("failed")
+            self.voiceLbl.isHidden = true
+        case .possible:
+            //
+            print("possible")
+        }
+    }
+    //
+    func prepareSpeech(){
+        SFSpeechRecognizer.requestAuthorization { (hander) in
+            switch hander{
+            case .notDetermined:
+                //语音识别未授权
+                print("语音识别未授权")
+            case .denied:
+                //用户未授权使用语音识别
+                print("用户未授权使用语音识别")
+            case .restricted:
+                //语音识别在这台设备上受到限制
+                print("语音识别在这台设备上受到限制")
+            case .authorized:
+                //开始录音
+                print("开始录音")
+            }
+        }
+    }
+    
+    func startRecording() {
+        if self.recognitionTask != nil{
+            self.recognitionTask?.cancel()
+            self.recognitionTask = nil
+        }
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryRecord)
+            try audioSession.setMode(AVAudioSessionModeMeasurement)
+            try audioSession.setActive(true, with: AVAudioSessionSetActiveOptions.notifyOthersOnDeactivation)
+        } catch {
+        }
+        
+        self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        let inputNode = self.audioEngine.inputNode
+        self.recognitionRequest?.shouldReportPartialResults = true
+        self.recognitionTask = self.speechRecognizer?.recognitionTask(with: self.recognitionRequest!, resultHandler: { (result, error) in
+            var isFinal = false
+            if result != nil{
+                isFinal = result!.isFinal
+                if isFinal{
+                    self.endSearchEdit()
+                    self.keyWord = result!.bestTranscription.formattedString
+                    self.curpage = 1
+                    self.loadData()
+                }
+            }
+            
+            if error != nil || isFinal{
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+                self.recognitionTask = nil
+                self.recognitionRequest = nil
+                
+            }
+        })
+        
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.removeTap(onBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when) in
+            if self.recognitionRequest != nil{
+                self.recognitionRequest?.append(buffer)
+            }
+        }
+        self.audioEngine.prepare()
+        do {
+            try self.audioEngine.start()
+        } catch  {
+        }
+    }
+    
+}
+

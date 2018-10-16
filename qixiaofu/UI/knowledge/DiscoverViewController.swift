@@ -566,7 +566,7 @@ extension DiscoverViewController : UITableViewDelegate,UITableViewDataSource{
             }
             self.searchBar.resignFirstResponder()
 
-            if self.middleTableView.contentSize.height > self.middleTableView.height{
+            if self.middleTableView.contentSize.height > self.middleTableView.h{
                 let point = scrollView.panGestureRecognizer.translation(in: self.scrollView.superview)
                 //视频筛选的隐藏与否
                 if point.y > 0{

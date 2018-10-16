@@ -64,11 +64,7 @@ class ShopCarGoodsCell: UITableViewCell {
         
         self.invalidationDescLbl.addTapActionBlock {
             //客服
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
-            let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-            self.parentVC.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(self.parentVC, "kefu1", 1)
         }
     }
 

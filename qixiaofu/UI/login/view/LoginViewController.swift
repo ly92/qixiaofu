@@ -346,7 +346,7 @@ extension LoginViewController{
         NetTools.requestData(type: .post, urlString: url, parameters: params, succeed: { (resultDict, error) in
             LYProgressHUD.dismiss()
             //登录环信
-            self.loginEasemob()
+            esmobLogin()
             if type == 1{
                 //先记录环境
                 LocalData.saveYesOrNotValue(value: "0", key: KEnterpriseVersion)
@@ -388,13 +388,7 @@ extension LoginViewController{
         self.navigationController?.pushViewController(registerVC, animated: true)
     }
     
-    //环信//登录环信
-    func loginEasemob() {
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-    }
-    
+
     // MARK: - 获取用户信息
     func loadMineInfoData() {
         NetTools.requestData(type: .post, urlString: PersonalInfoApi, succeed: { (resultJson, msg) in

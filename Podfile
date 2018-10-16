@@ -37,6 +37,11 @@ target 'qixiaofu' do
     
     #pod 'LYTools'
     
+    #环信
+#    pod 'HyphenateLite'
+#    pod 'EaseUI', :git => 'https://github.com/easemob/easeui-ios-hyphenate-cocoapods.git'
+
+    
     #友盟分享
     # U-Share SDK UI模块（分享面板，建议添加）
     pod 'UMengUShare/UI'

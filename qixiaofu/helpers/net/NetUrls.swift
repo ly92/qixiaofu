@@ -10,8 +10,8 @@ import UIKit
 
 let officialServer = "http://www.7xiaofu.com/"//正式服务器
 let testServer = "http://10.216.2.11/"//测试服务器（内网）
-let usedServer = officialServer
-//let usedServer = testServer
+//let usedServer = officialServer
+let usedServer = testServer
 let DeBug = false
 
 /************************************ 登录 ********************************************/
@@ -37,6 +37,8 @@ let iOSVersionApi = "tp.php/Home/Member/iOSVersion"
 let ThirdLoginApi = "api/index.php?act=login&op=third_partylogin&type=1"
 //绑定第三方账户
 let BinDingThirdAccountApi = "api/index.php?act=login&op=party_newlogin&type=1"
+//位置上传
+let UpdateUserLocationApi = "tp.php/Home/My/user_location"
 
 
 /************************************ 首页 ********************************************/

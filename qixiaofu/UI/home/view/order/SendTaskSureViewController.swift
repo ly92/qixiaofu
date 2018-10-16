@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftyJSON
+import Speech
+import AudioToolbox
 
 
 class SendTaskSureViewController: BaseTableViewController {
@@ -30,7 +32,24 @@ class SendTaskSureViewController: BaseTableViewController {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var imgContentView: UIView!
     @IBOutlet weak var topPriceLbl: UILabel!
+    @IBOutlet weak var voiceBtn: UIButton!
+    @IBOutlet weak var voiceLbl: UILabel!
+    
     fileprivate var imgViewH : CGFloat = 50
+
+
+    //语音识别
+    fileprivate var speechRecognizer : SFSpeechRecognizer? {
+        get{
+            let local = Locale.init(identifier: "zh_CN")
+            let reco = SFSpeechRecognizer.init(locale: local)
+            return reco
+        }
+    }
+    fileprivate var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
+    fileprivate var recognitionTask : SFSpeechRecognitionTask?
+    fileprivate let audioEngine = AVAudioEngine()
+    
     
     fileprivate var photoView : LYPhotoBrowseView!//图片容器
     fileprivate var multiplePhotoView : LYMultiplePhotoBrowseView!//图片容器
@@ -61,6 +80,8 @@ class SendTaskSureViewController: BaseTableViewController {
         }
         
         
+        self.addPressAction()
+        self.prepareSpeech()
 //        self.tableView.addTapActionBlock { 
 //            self.view.endEditing(true)
 //        }
@@ -288,7 +309,9 @@ extension SendTaskSureViewController{
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.isFeedback{
-            self.view.endEditing(true)
+            if ((scrollView as? UITableView) != nil){
+                self.view.endEditing(true)
+            }
         }
     }
     
@@ -308,5 +331,128 @@ extension SendTaskSureViewController : UITextViewDelegate,UITextFieldDelegate{
         self.view.endEditing(true)
         return true
     }
+}
+
+
+
+//语音识别
+extension SendTaskSureViewController : SFSpeechRecognizerDelegate {
+    //手势
+    func addPressAction() {
+        let longPress = UILongPressGestureRecognizer.init(target: self, action: #selector(SendTaskSureViewController.longPressAction(_:)))
+        longPress.minimumPressDuration = 0.2
+        self.voiceBtn.addGestureRecognizer(longPress)
+    }
+    //手势处理
+   @objc func longPressAction(_ pan : UILongPressGestureRecognizer) {
+        switch pan.state {
+        case .began:
+            //开始
+            if self.audioEngine.isRunning{
+                self.audioEngine.stop()
+                if self.recognitionRequest != nil{
+                    self.recognitionRequest?.endAudio()
+                }
+            }
+            self.startRecording()
+            self.voiceBtn.setImage(#imageLiteral(resourceName: "voice_icon2"), for: .normal)
+            self.voiceLbl.text = "录入中..."
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        case .cancelled:
+            //取消
+            print("cancelled")
+            self.voiceLbl.text = ""
+        case .changed:
+            //
+            let _ = 1
+        //            print("changed")
+        case .ended:
+            //结束
+            self.voiceBtn.setImage(#imageLiteral(resourceName: "voice_icon1"), for: .normal)
+            self.audioEngine.stop()
+            if self.recognitionRequest != nil{
+                self.recognitionRequest?.endAudio()
+            }
+            self.voiceLbl.text = ""
+        case .failed:
+            //失败
+            print("failed")
+            self.voiceLbl.text = ""
+        case .possible:
+            //
+            print("possible")
+        }
+    }
+    //
+    func prepareSpeech(){
+        SFSpeechRecognizer.requestAuthorization { (hander) in
+            switch hander{
+            case .notDetermined:
+                //语音识别未授权
+                print("语音识别未授权")
+            case .denied:
+                //用户未授权使用语音识别
+                print("用户未授权使用语音识别")
+            case .restricted:
+                //语音识别在这台设备上受到限制
+                print("语音识别在这台设备上受到限制")
+            case .authorized:
+                //开始录音
+                print("开始录音")
+            }
+        }
+    }
+    
+    func startRecording() {
+        if self.recognitionTask != nil{
+            self.recognitionTask?.cancel()
+            self.recognitionTask = nil
+        }
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryRecord)
+            try audioSession.setMode(AVAudioSessionModeMeasurement)
+            try audioSession.setActive(true, with: AVAudioSessionSetActiveOptions.notifyOthersOnDeactivation)
+        } catch {
+        }
+        
+        self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        let inputNode = self.audioEngine.inputNode
+        self.recognitionRequest?.shouldReportPartialResults = true
+        self.recognitionTask = self.speechRecognizer?.recognitionTask(with: self.recognitionRequest!, resultHandler: { (result, error) in
+            var isFinal = false
+            if result != nil{
+                isFinal = result!.isFinal
+                if isFinal{
+                        self.contentTextView.text = self.contentTextView.text! + result!.bestTranscription.formattedString
+                    if self.contentTextView.text.count > 0{
+                        self.placeholderLbl.isHidden = true
+                    }
+                }
+            }
+            
+            if error != nil || isFinal{
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+                self.recognitionTask = nil
+                self.recognitionRequest = nil
+                
+            }
+        })
+        
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.removeTap(onBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when) in
+            if self.recognitionRequest != nil{
+                self.recognitionRequest?.append(buffer)
+            }
+        }
+        self.audioEngine.prepare()
+        do {
+            try self.audioEngine.start()
+        } catch  {
+        }
+    }
+    
 }
 

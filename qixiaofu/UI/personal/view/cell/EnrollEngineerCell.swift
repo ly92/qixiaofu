@@ -25,6 +25,7 @@ class EnrollEngineerCell: UITableViewCell {
     @IBOutlet weak var levelLblLeftDis: NSLayoutConstraint!
     @IBOutlet weak var moneyLbl: UILabel!
     @IBOutlet weak var offerPriceLbl: UILabel!
+    @IBOutlet weak var engXinImgV: UIImageView!
     
     var jsonModel : JSON = [] {
         didSet{
@@ -51,6 +52,14 @@ class EnrollEngineerCell: UITableViewCell {
                     self.moneyLbl.text = String.init(format: "指定时需支付：¥%.2f元", price.floatValue)
                 }
             }
+            
+            //保证金
+            if jsonModel["is_bail"].stringValue.intValue == 1{
+                self.engXinImgV.image = UIImage.init(named: "eng_xin_icon2")
+            }else{
+                self.engXinImgV.image = UIImage.init(named: "eng_xin_icon1")
+            }
+            
         }
     }
     

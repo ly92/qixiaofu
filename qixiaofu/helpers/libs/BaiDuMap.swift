@@ -45,7 +45,6 @@ class BaiDuMap: NSObject {
             
         //结束记录位置
         BTKAction.sharedInstance().stopService(self)
-
     }
 }
 
@@ -56,6 +55,16 @@ extension BaiDuMap : BMKLocationServiceDelegate{
     func didUpdate(_ userLocation: BMKUserLocation!) {
         //记录位置
         self.location = userLocation
+        
+        if !LocalData.getUserId().isEmpty{
+            let params : [String : Any] = [
+                "longitude" : userLocation.location.coordinate.longitude,
+                "latitude" : userLocation.location.coordinate.latitude
+            ]
+            NetTools.requestData(type: .get, urlString: UpdateUserLocationApi,parameters: params, succeed: { (result, msg) in
+            }) { (error) in
+            }
+        }
         //停止定位
         self.locationService.stopUserLocationService()
     }

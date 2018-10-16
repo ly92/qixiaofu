@@ -337,17 +337,7 @@ extension PersonalViewController{
         
         case 12:
             //联系客服
-//            let chatVC = ChatViewController.init(conversationChatter: "kefu1", conversationName: "客服", conversationIcon: "")
-            
-//            let chatVC = EaseMessageViewController.init(conversationChatter: "kefu1", conversationType: EMConversationType.init(0))
-//            if !HChatClient.shared().isLoggedInBefore{
-            DispatchQueue.global().async {
-                HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-            }
-//            }
-            let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-//            let chatVC = HDMessageViewController.init(conversationChatter: "kefu1")
-            self.navigationController?.pushViewController(chatVC!, animated: true)
+            esmobChat(self, "kefu1", 1)
         
         case 13:
             //关联用户

@@ -103,7 +103,7 @@ class EPLoginViewController: BaseViewController {
         NetTools.requestData(type: .post, urlString: EnterpriseLoginApi, parameters: params, succeed: { (resultDict, error) in
             LYProgressHUD.dismiss()
             //登录环信
-            self.loginEasemob()
+            esmobLogin()
             
                 //企业版
                 LocalData.saveYesOrNotValue(value: "1", key: KEnterpriseVersion)
@@ -127,12 +127,7 @@ class EPLoginViewController: BaseViewController {
         }
     }
     
-    //环信//登录环信
-    func loginEasemob() {
-        DispatchQueue.global().async {
-            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        }
-    }
+
     
     @IBAction func registerAction() {
         //注册企业账户

@@ -22,6 +22,11 @@ build
 .#*
 .*.swp
 .DS_Store
+AipBase.framework
+AipOcrSdk.framework
+BaiduTraceSDK.framework
+HelpDeskLite.framework
+HyphenateLite.framework
 qixiaofu.xcodeproj/xcuserdata
 qixiaofu.xcworkspace/xcuserdata
 qixiaofu.xcodeproj/project.xcworkspace

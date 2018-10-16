@@ -39,6 +39,7 @@ class TaskReceiveDetailViewController: BaseTableViewController {
     @IBOutlet weak var changePriceBtn: UIButton!
     @IBOutlet weak var visitLbl: UILabel!
     @IBOutlet weak var coreCodeImgV: UIImageView!
+    @IBOutlet weak var noticeBtn: UIButton!
     
     fileprivate var photoBrowseView = LYPhotoBrowseView.init(frame: CGRect())
     fileprivate var resultDict : JSON = []
@@ -70,7 +71,11 @@ class TaskReceiveDetailViewController: BaseTableViewController {
         //返回按钮
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(backTarget: self, action: #selector(TaskReceiveDetailViewController.backClick))
         
-        
+        //是否已提示解决故障的步骤
+        if !LocalData.getYesOrNotValue(key: "haveShowReceiveStep"){
+            self.showDescAction()
+            LocalData.saveYesOrNotValue(value: "1", key: "haveShowReceiveStep")
+        }
         
         self.memoLongPressPan()
     }
@@ -107,17 +112,27 @@ class TaskReceiveDetailViewController: BaseTableViewController {
     
     
     @IBAction func showDescAction() {
+        print(self.noticeBtn.center)
+        let point = self.noticeBtn.convert(self.noticeBtn.center, to: self.tableView)
+        print(point)
         let image = #imageLiteral(resourceName: "eng_receive")
         let h = kScreenW / image.size.width * image.size.height
-        let scroll = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH))
+        let scroll = UIScrollView.init(frame: CGRect.init(x: point.x-self.noticeBtn.x , y: point.y-self.noticeBtn.y+64, width: 0, height: 0))
+//        scroll.backgroundColor = UIColor.colorHexWithAlpha(hex: "000000", alpha: 0.5)
         let imgV = UIImageView.init(image: image)
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)
         scroll.contentSize = CGSize.init(width: kScreenW, height: h)
         UIApplication.shared.keyWindow?.addSubview(scroll)
-        
+        UIView.animate(withDuration: 0.5) {
+            scroll.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH)
+        }
         scroll.addTapActionBlock {
-            scroll.removeFromSuperview()
+            UIView.animate(withDuration: 0.5, animations: {
+                scroll.frame = CGRect.init(x: point.x-self.noticeBtn.x , y: point.y-self.noticeBtn.y+64, width: 0, height: 0)
+            }, completion: { (comple) in
+                scroll.removeFromSuperview()
+            })
         }
         
         
@@ -135,12 +150,7 @@ class TaskReceiveDetailViewController: BaseTableViewController {
             nameField?.placeholder = "输入期望价格"
             customAlertView.show()
         }
-        
-        //        DispatchQueue.global().async {
-        //            HChatClient.shared().login(withUsername: LocalData.getUserPhone(), password: "11")
-        //        }
-        //        let chatVC = HDChatViewController.init(conversationChatter: "kefu1")
-        //        self.navigationController?.pushViewController(chatVC!, animated: true)
+
     }
     
     @IBAction func receiveTaskAction() {
