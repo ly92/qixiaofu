@@ -468,6 +468,11 @@
 		08955229209B0AC9006E1A1F /* AddStandardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08955228209B0AC9006E1A1F /* AddStandardViewController.swift */; };
 		0897875E20A023B100503266 /* EPBillListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0897875C20A023B000503266 /* EPBillListViewController.swift */; };
 		0897875F20A023B100503266 /* EPBillDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0897875D20A023B100503266 /* EPBillDetailViewController.swift */; };
+		0898C0202175BCBF00E4BFB1 /* ExpatriatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */; };
+		0898C0242175C9D600E4BFB1 /* JobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C0222175C9D600E4BFB1 /* JobCell.swift */; };
+		0898C0252175C9D600E4BFB1 /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898C0232175C9D600E4BFB1 /* JobCell.xib */; };
+		0898C0282175E21200E4BFB1 /* JobChatHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C0262175E21200E4BFB1 /* JobChatHistoryCell.swift */; };
+		0898C0292175E21200E4BFB1 /* JobChatHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898C0272175E21200E4BFB1 /* JobChatHistoryCell.xib */; };
 		089C54081F4D455500D67C8A /* ExchangePurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C54071F4D455500D67C8A /* ExchangePurchaseViewController.swift */; };
 		089C540A1F4D58EC00D67C8A /* LogisticsNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C54091F4D58EC00D67C8A /* LogisticsNumberViewController.swift */; };
 		089DF8C020DB3DF000D229A9 /* TestReportDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089DF8BE20DB3DF000D229A9 /* TestReportDetailViewController.swift */; };
@@ -1446,6 +1451,11 @@
 		08955228209B0AC9006E1A1F /* AddStandardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStandardViewController.swift; sourceTree = "<group>"; };
 		0897875C20A023B000503266 /* EPBillListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBillListViewController.swift; sourceTree = "<group>"; };
 		0897875D20A023B100503266 /* EPBillDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBillDetailViewController.swift; sourceTree = "<group>"; };
+		0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpatriatesViewController.swift; sourceTree = "<group>"; };
+		0898C0222175C9D600E4BFB1 /* JobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobCell.swift; sourceTree = "<group>"; };
+		0898C0232175C9D600E4BFB1 /* JobCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
+		0898C0262175E21200E4BFB1 /* JobChatHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobChatHistoryCell.swift; sourceTree = "<group>"; };
+		0898C0272175E21200E4BFB1 /* JobChatHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JobChatHistoryCell.xib; sourceTree = "<group>"; };
 		089C54071F4D455500D67C8A /* ExchangePurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangePurchaseViewController.swift; sourceTree = "<group>"; };
 		089C54091F4D58EC00D67C8A /* LogisticsNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogisticsNumberViewController.swift; sourceTree = "<group>"; };
 		089DF8BE20DB3DF000D229A9 /* TestReportDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReportDetailViewController.swift; sourceTree = "<group>"; };
@@ -3178,6 +3188,7 @@
 		088BB2251EEF8F37003A1D80 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				0898C01E2175BB0100E4BFB1 /* expatriates */,
 				082A8BFC206E0FFB0070C993 /* coupon */,
 				08123922205919FF00FA7189 /* course */,
 				08AB9CC31EF77426004AFC3B /* cell */,
@@ -3310,6 +3321,26 @@
 				0883118520A2B96100290DF9 /* EPShopOrderLeaveMsgCell.xib */,
 			);
 			path = shopOrder;
+			sourceTree = "<group>";
+		};
+		0898C01E2175BB0100E4BFB1 /* expatriates */ = {
+			isa = PBXGroup;
+			children = (
+				0898C0212175C98A00E4BFB1 /* cell */,
+				0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */,
+			);
+			path = expatriates;
+			sourceTree = "<group>";
+		};
+		0898C0212175C98A00E4BFB1 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				0898C0222175C9D600E4BFB1 /* JobCell.swift */,
+				0898C0232175C9D600E4BFB1 /* JobCell.xib */,
+				0898C0262175E21200E4BFB1 /* JobChatHistoryCell.swift */,
+				0898C0272175E21200E4BFB1 /* JobChatHistoryCell.xib */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		089DF8BD20DB3DC000D229A9 /* globle */ = {
@@ -4463,6 +4494,7 @@
 				0848EAAD1F3A9CAD005970AD /* FreeTimeCell.xib in Resources */,
 				0875DB802060D44600287F9C /* StoragePriceCell.xib in Resources */,
 				089E4A7C216CA0C5003C6583 /* list@2x.png in Resources */,
+				0898C0292175E21200E4BFB1 /* JobChatHistoryCell.xib in Resources */,
 				083DCFD71F18C3070009081D /* CollectGoodsCell.xib in Resources */,
 				08A3253F208D8EC1002DE7D3 /* EPStartUseAccountCell.xib in Resources */,
 				08C7FD8E20C7C6B50017883D /* have_breakfast.mp3 in Resources */,
@@ -4522,6 +4554,7 @@
 				08A1D2E51F428AF900EECF39 /* ShopOrderBtnCell.xib in Resources */,
 				0869111A1EFA6BDE00AF3A1A /* HomeTaskListCell.xib in Resources */,
 				084086F41F316B73007575AB /* MySendOrderCell.xib in Resources */,
+				0898C0252175C9D600E4BFB1 /* JobCell.xib in Resources */,
 				08497B0D1F0F53FD00339D77 /* AlipaySDK.bundle in Resources */,
 				080822EC216C97470091EF3F /* EaseUIResource.bundle in Resources */,
 				08E14AA91ED8F19500689E31 /* Assets.xcassets in Resources */,
@@ -4908,6 +4941,7 @@
 				089E4A18216CA0C5003C6583 /* SDWebImageManager.m in Sources */,
 				08EC31671F03449100BB340D /* CommentListViewController.swift in Sources */,
 				08F67EBD1F30715100C1A1FE /* MySendOrderListViewController.swift in Sources */,
+				0898C0242175C9D600E4BFB1 /* JobCell.swift in Sources */,
 				080822EF216C97470091EF3F /* EMCDDeviceManager+Media.m in Sources */,
 				083EBE5B2023FCEB00BF1B37 /* PersonalEditInfoViewController.swift in Sources */,
 				08082305216C97470091EF3F /* MJRefreshBackStateFooter.m in Sources */,
@@ -4958,6 +4992,7 @@
 				086FE2E01FE764B30024FBCA /* BeanCell.swift in Sources */,
 				08082344216C97480091EF3F /* EaseEmotionManager.m in Sources */,
 				089E4A54216CA0C5003C6583 /* HDBubbleView+Video.m in Sources */,
+				0898C0282175E21200E4BFB1 /* JobChatHistoryCell.swift in Sources */,
 				08E14AAA1ED8F19500689E31 /* ViewController.swift in Sources */,
 				08082342216C97480091EF3F /* EaseEmojiEmoticons.m in Sources */,
 				080822F0216C97470091EF3F /* EMCDDeviceManager+Microphone.m in Sources */,
@@ -5084,6 +5119,7 @@
 				083DCFD21F18BCBF0009081D /* CollectListViewController.swift in Sources */,
 				087286162021BFA000500672 /* VideoCommentListViewController.swift in Sources */,
 				08A706F12148E1F9003556CC /* LYBrandPickerView.swift in Sources */,
+				0898C0202175BCBF00E4BFB1 /* ExpatriatesViewController.swift in Sources */,
 				08B6DB8C20BE4C2B00CDC569 /* PersonLoginViewController.swift in Sources */,
 				088BB2441EEF92CB003A1D80 /* LYSwitch.swift in Sources */,
 				08082335216C97480091EF3F /* EaseSDKHelper.m in Sources */,

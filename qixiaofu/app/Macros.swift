@@ -69,13 +69,18 @@ func functionSkipAction(type:String,controller:UIViewController){
     
     switch type.intValue {
     case 1:
+        
+        let test = ExpatriatesViewController()
+        controller.navigationController?.pushViewController(test, animated: true)
+        
+        
 //        BaiDuMap.default.startTrace()
         //去发单
-        UserViewModel.haveTrueName(parentVC: controller, {
-            NetTools.qxfClickCount("1")
-            let sendTaskVC = SendTaskViewController.spwan()
-            controller.navigationController?.pushViewController(sendTaskVC, animated: true)
-        })
+//        UserViewModel.haveTrueName(parentVC: controller, {
+//            NetTools.qxfClickCount("1")
+//            let sendTaskVC = SendTaskViewController.spwan()
+//            controller.navigationController?.pushViewController(sendTaskVC, animated: true)
+//        })
     case 2:
 //        BaiDuMap.default.stopTrace()
         //去接单
