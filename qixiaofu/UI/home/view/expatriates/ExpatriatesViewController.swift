@@ -64,7 +64,8 @@ class ExpatriatesViewController: BaseViewController {
         
         //snp
         subView.snp.makeConstraints { (make) in
-            make.center.equalTo(self.view.snp.center)
+            make.centerY.equalTo(self.view.snp.centerY).offset(-80)
+            make.centerX.equalTo(self.view.snp.centerX)
             make.width.equalTo(200)
             make.height.equalTo(250)
         }

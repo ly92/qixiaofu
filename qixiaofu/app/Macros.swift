@@ -229,6 +229,7 @@ func esmobLogin(){
 func esmobLogout(){
     DispatchQueue.global().async {
         HDClient.shared().logout(true)
+        EMClient.shared()?.logout(true)
     }
 }
 
