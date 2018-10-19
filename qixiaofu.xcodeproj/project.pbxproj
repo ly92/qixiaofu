@@ -375,6 +375,9 @@
 		0874A2FC1FDE541E001893C7 /* DiscoverVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0874A2FA1FDE541E001893C7 /* DiscoverVideoCell.xib */; };
 		0874A3031FDE5443001893C7 /* DiscoverCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0874A3011FDE5443001893C7 /* DiscoverCourseCell.swift */; };
 		0874A3041FDE5443001893C7 /* DiscoverCourseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0874A3021FDE5443001893C7 /* DiscoverCourseCell.xib */; };
+		08751AE02179A58A003E1281 /* JobListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08751ADF2179A58A003E1281 /* JobListViewController.swift */; };
+		08751AE22179A5F4003E1281 /* PublishJobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08751AE12179A5F4003E1281 /* PublishJobViewController.swift */; };
+		08751AE42179A673003E1281 /* JobDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08751AE32179A673003E1281 /* JobDetailViewController.swift */; };
 		0875DB7F2060D44600287F9C /* StoragePriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0875DB7D2060D44600287F9C /* StoragePriceCell.swift */; };
 		0875DB802060D44600287F9C /* StoragePriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0875DB7E2060D44600287F9C /* StoragePriceCell.xib */; };
 		0875DB8720610E1600287F9C /* HomeTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0875DB8520610E1600287F9C /* HomeTaskCell.swift */; };
@@ -1358,6 +1361,9 @@
 		0874A2FA1FDE541E001893C7 /* DiscoverVideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverVideoCell.xib; sourceTree = "<group>"; };
 		0874A3011FDE5443001893C7 /* DiscoverCourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCourseCell.swift; sourceTree = "<group>"; };
 		0874A3021FDE5443001893C7 /* DiscoverCourseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverCourseCell.xib; sourceTree = "<group>"; };
+		08751ADF2179A58A003E1281 /* JobListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobListViewController.swift; sourceTree = "<group>"; };
+		08751AE12179A5F4003E1281 /* PublishJobViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishJobViewController.swift; sourceTree = "<group>"; };
+		08751AE32179A673003E1281 /* JobDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailViewController.swift; sourceTree = "<group>"; };
 		0875DB7D2060D44600287F9C /* StoragePriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePriceCell.swift; sourceTree = "<group>"; };
 		0875DB7E2060D44600287F9C /* StoragePriceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoragePriceCell.xib; sourceTree = "<group>"; };
 		0875DB8520610E1600287F9C /* HomeTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTaskCell.swift; sourceTree = "<group>"; };
@@ -3328,6 +3334,9 @@
 			children = (
 				0898C0212175C98A00E4BFB1 /* cell */,
 				0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */,
+				08751ADF2179A58A003E1281 /* JobListViewController.swift */,
+				08751AE12179A5F4003E1281 /* PublishJobViewController.swift */,
+				08751AE32179A673003E1281 /* JobDetailViewController.swift */,
 			);
 			path = expatriates;
 			sourceTree = "<group>";
@@ -4982,6 +4991,7 @@
 				0844041F1F29F2D90082A60F /* SignInViewController.swift in Sources */,
 				084404141F297F560082A60F /* PersonalRemindView.swift in Sources */,
 				083C99F71EF8FEED0085109A /* NSObject+Extension.swift in Sources */,
+				08751AE02179A58A003E1281 /* JobListViewController.swift in Sources */,
 				085D50F3207F5DA500E8286A /* CouponListCell2.swift in Sources */,
 				08A1D2F11F42917700EECF39 /* ShopOrderDetailViewController.swift in Sources */,
 				080822F3216C97470091EF3F /* EMCDDeviceManagerBase.m in Sources */,
@@ -5079,6 +5089,7 @@
 				08CCDA3C1F908FAC003732D1 /* LYMultiplePhotoBrowseView.swift in Sources */,
 				0808231D216C97470091EF3F /* EMSDWebImagePrefetcher.m in Sources */,
 				08082328216C97480091EF3F /* PSTCollectionView.m in Sources */,
+				08751AE22179A5F4003E1281 /* PublishJobViewController.swift in Sources */,
 				0837CC231F3835C400CDC332 /* ReplacementPartListViewController.swift in Sources */,
 				08082336216C97480091EF3F /* EaseConversationModel.m in Sources */,
 				0867EC9C1EDC20B300377904 /* LYProgressHUD.swift in Sources */,
@@ -5090,6 +5101,7 @@
 				0867ECA71EDC5A9E00377904 /* UIBUtton+Extension.swift in Sources */,
 				088441AF2084A06100DA2F20 /* RegisterEnterpriseViewController.swift in Sources */,
 				089E4A1B216CA0C5003C6583 /* UIImage+GIF.m in Sources */,
+				08751AE42179A673003E1281 /* JobDetailViewController.swift in Sources */,
 				086911191EFA6BDE00AF3A1A /* HomeTaskListCell.swift in Sources */,
 				083DCFD61F18C3070009081D /* CollectGoodsCell.swift in Sources */,
 				08082352216C97480091EF3F /* EaseBubbleView+Gif.m in Sources */,
