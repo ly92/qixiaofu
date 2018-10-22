@@ -13,7 +13,7 @@ class JobDetailViewController: BaseViewController {
         return self.loadFromStoryBoard(storyBoard: "Home") as! JobDetailViewController
     }
     
-    var isEng = false
+    var idType = 1 //1工程师 2所属招聘方 3非所属招聘方
     
     @IBOutlet weak var jobNameLbl: UILabel!
     @IBOutlet weak var stateLbl: UILabel!
@@ -32,11 +32,14 @@ class JobDetailViewController: BaseViewController {
 
         self.navigationItem.title = "招聘详情"
         
-        if self.isEng{
+        if self.idType == 1{
             self.employmentBottomView.isHidden = true
             self.engineerBottomView.isHidden = false
-        }else{
+        }else if self.idType == 2{
             self.employmentBottomView.isHidden = false
+            self.engineerBottomView.isHidden = true
+        }else if self.idType == 3{
+            self.employmentBottomView.isHidden = true
             self.engineerBottomView.isHidden = true
         }
         

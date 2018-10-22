@@ -477,6 +477,8 @@
 		0898386E217D6726007DB889 /* RecommendEngCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898386C217D6726007DB889 /* RecommendEngCell.xib */; };
 		08983870217D74A0007DB889 /* ChatOrRecommendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */; };
 		08983872217D7572007DB889 /* BuyChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08983871217D7572007DB889 /* BuyChatViewController.swift */; };
+		08983874217D96F6007DB889 /* MyJobListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08983873217D96F6007DB889 /* MyJobListViewController.swift */; };
+		08983876217DA087007DB889 /* EngChatHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08983875217DA087007DB889 /* EngChatHistoryViewController.swift */; };
 		0898C0202175BCBF00E4BFB1 /* ExpatriatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */; };
 		0898C0242175C9D600E4BFB1 /* JobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C0222175C9D600E4BFB1 /* JobCell.swift */; };
 		0898C0252175C9D600E4BFB1 /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898C0232175C9D600E4BFB1 /* JobCell.xib */; };
@@ -1469,6 +1471,8 @@
 		0898386C217D6726007DB889 /* RecommendEngCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendEngCell.xib; sourceTree = "<group>"; };
 		0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOrRecommendListViewController.swift; sourceTree = "<group>"; };
 		08983871217D7572007DB889 /* BuyChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyChatViewController.swift; sourceTree = "<group>"; };
+		08983873217D96F6007DB889 /* MyJobListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyJobListViewController.swift; sourceTree = "<group>"; };
+		08983875217DA087007DB889 /* EngChatHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngChatHistoryViewController.swift; sourceTree = "<group>"; };
 		0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpatriatesViewController.swift; sourceTree = "<group>"; };
 		0898C0222175C9D600E4BFB1 /* JobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobCell.swift; sourceTree = "<group>"; };
 		0898C0232175C9D600E4BFB1 /* JobCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
@@ -3351,6 +3355,8 @@
 				08751AE32179A673003E1281 /* JobDetailViewController.swift */,
 				0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */,
 				08983871217D7572007DB889 /* BuyChatViewController.swift */,
+				08983873217D96F6007DB889 /* MyJobListViewController.swift */,
+				08983875217DA087007DB889 /* EngChatHistoryViewController.swift */,
 			);
 			path = expatriates;
 			sourceTree = "<group>";
@@ -4775,6 +4781,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08983874217D96F6007DB889 /* MyJobListViewController.swift in Sources */,
 				0808230A216C97470091EF3F /* MJRefreshConst.m in Sources */,
 				089DF8D120DB706E00D229A9 /* TestReportCell4.swift in Sources */,
 				08CCDA371F907ADD003732D1 /* LYSelectePhotoCell.swift in Sources */,
@@ -4791,6 +4798,7 @@
 				089E4A38216CA0C5003C6583 /* HDChineseToPinyin.m in Sources */,
 				08082332216C97480091EF3F /* PSTGridLayoutRow.m in Sources */,
 				0810E40C2074B7150013910A /* SaleAfterDescCell.swift in Sources */,
+				08983876217DA087007DB889 /* EngChatHistoryViewController.swift in Sources */,
 				089F54891F3D89F300C22C82 /* ShopOrderListViewController.swift in Sources */,
 				089E4A14216CA0C5003C6583 /* SDWebImageCompat.m in Sources */,
 				08AB9CCD1EF7CE8C004AFC3B /* ForgetPasswordViewController.swift in Sources */,

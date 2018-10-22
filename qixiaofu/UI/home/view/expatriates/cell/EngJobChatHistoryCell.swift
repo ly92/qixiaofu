@@ -9,7 +9,15 @@
 import UIKit
 
 class EngJobChatHistoryCell: UITableViewCell {
-
+    @IBOutlet weak var jobNameLbl: UILabel!
+    @IBOutlet weak var stateLbl: UILabel!
+    @IBOutlet weak var priceLbl: UILabel!
+    @IBOutlet weak var addressLbl: UILabel!
+    @IBOutlet weak var iconImgV: UIImageView!
+    @IBOutlet weak var recruiterLbl: UILabel!
+    
+    var parentVC = UIViewController()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +27,16 @@ class EngJobChatHistoryCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    
+    @IBAction func jobDetail() {
+        let jobDetailVC = JobDetailViewController.spwan()
+        jobDetailVC.idType = 1
+        self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
+    }
+    
+    @IBAction func chatAction() {
     }
     
 }

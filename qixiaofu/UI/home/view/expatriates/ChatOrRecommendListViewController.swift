@@ -24,7 +24,7 @@ class ChatOrRecommendListViewController: BaseViewController {
         super.viewDidLoad()
 
         self.tableView.register(UINib.init(nibName: "RecommendEngCell", bundle: Bundle.main), forCellReuseIdentifier: "RecommendEngCell")
-        self.tableView.register(UINib.init(nibName: "EngJobChatHistoryCell", bundle: Bundle.main), forCellReuseIdentifier: "EngJobChatHistoryCell")
+        self.tableView.register(UINib.init(nibName: "JobChatHistoryCell", bundle: Bundle.main), forCellReuseIdentifier: "JobChatHistoryCell")
     }
     
     
@@ -53,7 +53,8 @@ extension ChatOrRecommendListViewController : UITableViewDataSource,UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.isChatHistory{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EngJobChatHistoryCell", for: indexPath) as! EngJobChatHistoryCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JobChatHistoryCell", for: indexPath) as! JobChatHistoryCell
+            cell.parentVC = self
             
             return cell
         }else{

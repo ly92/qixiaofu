@@ -28,7 +28,7 @@ class JobListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "驻场招聘"
+        self.navigationItem.title = "招聘大厅"
         
         if self.isEng{
             self.bottomViewBottomDis.constant = -50
@@ -43,12 +43,14 @@ class JobListViewController: BaseViewController {
     }
     
     @objc func rightItemAction(){
-        
+        let engChatVC = EngChatHistoryViewController()
+        self.navigationController?.pushViewController(engChatVC, animated: true)
     }
     
     @IBAction func bottomBtnAction(_ btn: UIButton) {
         if btn.tag == 11{
-            
+            let myJobs = MyJobListViewController()
+            self.navigationController?.pushViewController(myJobs, animated: true)
         }else if btn.tag == 22{
             let publishVC = PublishJobViewController.spwan()
             self.navigationController?.pushViewController(publishVC, animated: true)
@@ -80,7 +82,12 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let jobDetailVC = JobDetailViewController.spwan()
-        jobDetailVC.isEng = self.isEng
+        if self.isEng{
+            jobDetailVC.idType = 1
+        }else{
+            //jobDetailVC.idType = 2
+            jobDetailVC.idType = 3
+        }
         self.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
     

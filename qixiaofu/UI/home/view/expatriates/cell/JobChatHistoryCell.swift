@@ -16,6 +16,8 @@ class JobChatHistoryCell: UITableViewCell {
     @IBOutlet weak var engNameLbl: UILabel!
     @IBOutlet weak var engTypeLbl: UILabel!
     
+    var parentVC = UIViewController()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -29,9 +31,17 @@ class JobChatHistoryCell: UITableViewCell {
     
     
     @IBAction func engDetail() {
+        
     }
     
     @IBAction func engChat() {
+        
+    }
+    
+    @IBAction func jobDetail() {
+        let jobDetailVC = JobDetailViewController.spwan()
+        jobDetailVC.idType = 2
+        self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
     
 }
