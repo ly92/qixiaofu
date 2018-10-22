@@ -28,15 +28,22 @@ class JobListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "驻场招聘"
+        
         if self.isEng{
             self.bottomViewBottomDis.constant = -50
             self.bottomView.isHidden = true
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "沟通历史", target: self, action: #selector(JobListViewController.rightItemAction))
         }else{
             self.bottomViewBottomDis.constant = 0
             self.bottomView.isHidden = false
         }
         
         self.tableView.register(UINib.init(nibName: "JobCell", bundle: Bundle.main), forCellReuseIdentifier: "JobCell")
+    }
+    
+    @objc func rightItemAction(){
+        
     }
     
     @IBAction func bottomBtnAction(_ btn: UIButton) {
@@ -46,7 +53,9 @@ class JobListViewController: BaseViewController {
             let publishVC = PublishJobViewController.spwan()
             self.navigationController?.pushViewController(publishVC, animated: true)
         }else if btn.tag == 33{
-            
+            let historyVC = ChatOrRecommendListViewController.spwan()
+            historyVC.isChatHistory = true
+            self.navigationController?.pushViewController(historyVC, animated: true)
         }
     }
     

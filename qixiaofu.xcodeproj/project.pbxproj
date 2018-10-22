@@ -471,6 +471,12 @@
 		08955229209B0AC9006E1A1F /* AddStandardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08955228209B0AC9006E1A1F /* AddStandardViewController.swift */; };
 		0897875E20A023B100503266 /* EPBillListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0897875C20A023B000503266 /* EPBillListViewController.swift */; };
 		0897875F20A023B100503266 /* EPBillDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0897875D20A023B100503266 /* EPBillDetailViewController.swift */; };
+		08983869217D65B6007DB889 /* EngJobChatHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08983867217D65B6007DB889 /* EngJobChatHistoryCell.swift */; };
+		0898386A217D65B7007DB889 /* EngJobChatHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08983868217D65B6007DB889 /* EngJobChatHistoryCell.xib */; };
+		0898386D217D6726007DB889 /* RecommendEngCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898386B217D6726007DB889 /* RecommendEngCell.swift */; };
+		0898386E217D6726007DB889 /* RecommendEngCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898386C217D6726007DB889 /* RecommendEngCell.xib */; };
+		08983870217D74A0007DB889 /* ChatOrRecommendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */; };
+		08983872217D7572007DB889 /* BuyChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08983871217D7572007DB889 /* BuyChatViewController.swift */; };
 		0898C0202175BCBF00E4BFB1 /* ExpatriatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */; };
 		0898C0242175C9D600E4BFB1 /* JobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0898C0222175C9D600E4BFB1 /* JobCell.swift */; };
 		0898C0252175C9D600E4BFB1 /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0898C0232175C9D600E4BFB1 /* JobCell.xib */; };
@@ -1457,6 +1463,12 @@
 		08955228209B0AC9006E1A1F /* AddStandardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStandardViewController.swift; sourceTree = "<group>"; };
 		0897875C20A023B000503266 /* EPBillListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBillListViewController.swift; sourceTree = "<group>"; };
 		0897875D20A023B100503266 /* EPBillDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPBillDetailViewController.swift; sourceTree = "<group>"; };
+		08983867217D65B6007DB889 /* EngJobChatHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngJobChatHistoryCell.swift; sourceTree = "<group>"; };
+		08983868217D65B6007DB889 /* EngJobChatHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EngJobChatHistoryCell.xib; sourceTree = "<group>"; };
+		0898386B217D6726007DB889 /* RecommendEngCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendEngCell.swift; sourceTree = "<group>"; };
+		0898386C217D6726007DB889 /* RecommendEngCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendEngCell.xib; sourceTree = "<group>"; };
+		0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatOrRecommendListViewController.swift; sourceTree = "<group>"; };
+		08983871217D7572007DB889 /* BuyChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyChatViewController.swift; sourceTree = "<group>"; };
 		0898C01F2175BCBF00E4BFB1 /* ExpatriatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpatriatesViewController.swift; sourceTree = "<group>"; };
 		0898C0222175C9D600E4BFB1 /* JobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobCell.swift; sourceTree = "<group>"; };
 		0898C0232175C9D600E4BFB1 /* JobCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
@@ -3337,6 +3349,8 @@
 				08751ADF2179A58A003E1281 /* JobListViewController.swift */,
 				08751AE12179A5F4003E1281 /* PublishJobViewController.swift */,
 				08751AE32179A673003E1281 /* JobDetailViewController.swift */,
+				0898386F217D74A0007DB889 /* ChatOrRecommendListViewController.swift */,
+				08983871217D7572007DB889 /* BuyChatViewController.swift */,
 			);
 			path = expatriates;
 			sourceTree = "<group>";
@@ -3348,6 +3362,10 @@
 				0898C0232175C9D600E4BFB1 /* JobCell.xib */,
 				0898C0262175E21200E4BFB1 /* JobChatHistoryCell.swift */,
 				0898C0272175E21200E4BFB1 /* JobChatHistoryCell.xib */,
+				08983867217D65B6007DB889 /* EngJobChatHistoryCell.swift */,
+				08983868217D65B6007DB889 /* EngJobChatHistoryCell.xib */,
+				0898386B217D6726007DB889 /* RecommendEngCell.swift */,
+				0898386C217D6726007DB889 /* RecommendEngCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -4429,6 +4447,7 @@
 			files = (
 				089E4A10216CA0C5003C6583 /* LICENSE in Resources */,
 				080147EB1EFD03F000518A8C /* SearchWordCell.xib in Resources */,
+				0898386E217D6726007DB889 /* RecommendEngCell.xib in Resources */,
 				089E4A66216CA0C5003C6583 /* em_main_introduce_en.png in Resources */,
 				08939E1220AE7AD10045C30C /* GoodsOtherPriceCell.xib in Resources */,
 				08CD66671FCFB94200EECFCD /* LYPlayer.bundle in Resources */,
@@ -4476,6 +4495,7 @@
 				083765042046606E00A9AC28 /* VideoSortCell.xib in Resources */,
 				080CA8B91F21D3B10036E812 /* WebViewCell.xib in Resources */,
 				08E08DEA1EE50D1A003D0879 /* Login.storyboard in Resources */,
+				0898386A217D65B7007DB889 /* EngJobChatHistoryCell.xib in Resources */,
 				089E4A86216CA0C5003C6583 /* Shape@2x.png in Resources */,
 				08EC31711F03576100BB340D /* HomeCertificateCell.xib in Resources */,
 				089E4A75216CA0C5003C6583 /* hd_input_bar_bg_active.9.png in Resources */,
@@ -5018,6 +5038,7 @@
 				089E4A16216CA0C5003C6583 /* SDWebImageDownloader.m in Sources */,
 				085218CA1EF9753A0010E992 /* RegisterViewModel.swift in Sources */,
 				0808233F216C97480091EF3F /* EaseConvertToCommonEmoticonsHelper.m in Sources */,
+				0898386D217D6726007DB889 /* RecommendEngCell.swift in Sources */,
 				08052DCE1EE2794A004AF3B2 /* Config.swift in Sources */,
 				08082318216C97470091EF3F /* EMSDWebImageCompat.m in Sources */,
 				083EBE622024450900BF1B37 /* AddTestCell1.swift in Sources */,
@@ -5058,6 +5079,7 @@
 				089E4A2A216CA0C5003C6583 /* HDSDKHelper.m in Sources */,
 				0808232E216C97480091EF3F /* PSTCollectionViewLayout.m in Sources */,
 				0808234B216C97480091EF3F /* EaseViewController.m in Sources */,
+				08983870217D74A0007DB889 /* ChatOrRecommendListViewController.swift in Sources */,
 				084D37AA1F1C815400736D63 /* LeftCategoryCell.swift in Sources */,
 				087286192021C99900500672 /* CommentVideoCell.swift in Sources */,
 				080822FF216C97470091EF3F /* MJRefreshHeader.m in Sources */,
@@ -5144,10 +5166,12 @@
 				08497B0F1F0F53FD00339D77 /* APAuthV2Info.m in Sources */,
 				08082321216C97480091EF3F /* UIImage+EMGIF.m in Sources */,
 				08BDDCEA207CA03D0033EB44 /* AgencySealDetailViewController.swift in Sources */,
+				08983869217D65B6007DB889 /* EngJobChatHistoryCell.swift in Sources */,
 				0876B83F20ABDAAD004786DD /* EPAfterSalerDetailStateCell.swift in Sources */,
 				0808232D216C97480091EF3F /* PSTCollectionViewItemKey.m in Sources */,
 				089E4A48216CA0C5003C6583 /* HDBubbleView+Article.m in Sources */,
 				089E4A39216CA0C5003C6583 /* HDConvertToCommonEmoticonsHelper.m in Sources */,
+				08983872217D7572007DB889 /* BuyChatViewController.swift in Sources */,
 				088BB23E1EEF907A003A1D80 /* ShopViewController.swift in Sources */,
 				080822F4216C97470091EF3F /* amrFileCodec.mm in Sources */,
 				089E4A33216CA0C5003C6583 /* UIViewController+HDHUD.m in Sources */,

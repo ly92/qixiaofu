@@ -37,6 +37,8 @@ class PublishJobViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "发布招聘"
+        
         self.plusBtn.layer.cornerRadius = 2
         self.minuteBtn.layer.cornerRadius = 2
         self.publishBtn.layer.cornerRadius = 15

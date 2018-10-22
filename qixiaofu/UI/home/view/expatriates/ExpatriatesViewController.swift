@@ -34,10 +34,10 @@ class ExpatriatesViewController: BaseViewController {
         engLbl.font = UIFont.systemFont(ofSize: 14.0)
         engLbl.textColor = UIColor.lightGray
         let engImgV = UIImageView()
-        engImgV.image = UIImage.init(named: "head_placeholder")
+        engImgV.image = UIImage.init(named: "job_icon_1")
         let engBtn = UIButton.init(type: .custom)
         engBtn.setTitle("找工作", for: .normal)
-        engBtn.backgroundColor = Normal_Color
+        engBtn.backgroundColor = UIColor.RGB(r: 247, g: 141, b: 63)
         engBtn.clipsToBounds = true
         engBtn.layer.cornerRadius = 20
         engBtn.addTarget(self, action: #selector(ExpatriatesViewController.toFindJob), for: .touchUpInside)
@@ -51,7 +51,7 @@ class ExpatriatesViewController: BaseViewController {
         cusLbl.font = UIFont.systemFont(ofSize: 14.0)
         cusLbl.textColor = UIColor.lightGray
         let cusImgV = UIImageView()
-        cusImgV.image = UIImage.init(named: "head_placeholder")
+        cusImgV.image = UIImage.init(named: "job_icon_2")
         let cusBtn = UIButton.init(type: .custom)
         cusBtn.setTitle("找工程师", for: .normal)
         cusBtn.backgroundColor = Normal_Color

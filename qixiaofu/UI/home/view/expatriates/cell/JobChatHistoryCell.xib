@@ -40,8 +40,8 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gaD-L7-yLB">
-                                <rect key="frame" x="305" y="20.5" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gaD-L7-yLB">
+                                <rect key="frame" x="281.5" y="12" width="23.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -85,9 +85,9 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R3m-Fi-acJ">
-                                <rect key="frame" x="166" y="89.5" width="62" height="27"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="工程师详情">
+                                <rect key="frame" x="166" y="95.5" width="67" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <state key="normal" title="工程师详情" image="job_icon_6">
                                     <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -95,9 +95,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-fG-0dq">
-                                <rect key="frame" x="248" y="89.5" width="62" height="27"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="联系工程师">
+                                <rect key="frame" x="243" y="95.5" width="67" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <state key="normal" title="联系工程师" image="job_icon_7">
                                     <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -110,6 +110,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E3y-tI-jhY">
+                                <rect key="frame" x="260" y="31" width="50" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="招聘详情">
+                                    <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="engChat" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kSG-zP-aSf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -118,8 +128,10 @@
                             <constraint firstItem="hTP-qX-X3J" firstAttribute="leading" secondItem="oCa-RR-niK" secondAttribute="leading" constant="10" id="4hf-5D-eVG"/>
                             <constraint firstItem="R3m-Fi-acJ" firstAttribute="centerY" secondItem="krc-Js-zy8" secondAttribute="centerY" id="8uj-cy-vQW"/>
                             <constraint firstItem="9vT-fG-0dq" firstAttribute="centerY" secondItem="krc-Js-zy8" secondAttribute="centerY" id="ESq-Of-MXu"/>
-                            <constraint firstItem="9vT-fG-0dq" firstAttribute="leading" secondItem="R3m-Fi-acJ" secondAttribute="trailing" constant="20" id="Ei9-8q-Pgc"/>
+                            <constraint firstItem="9vT-fG-0dq" firstAttribute="leading" secondItem="R3m-Fi-acJ" secondAttribute="trailing" constant="10" id="Ei9-8q-Pgc"/>
                             <constraint firstItem="hTP-qX-X3J" firstAttribute="top" secondItem="4Th-Jk-qhd" secondAttribute="bottom" constant="3" id="G2x-vB-o0s"/>
+                            <constraint firstItem="E3y-tI-jhY" firstAttribute="centerY" secondItem="hTP-qX-X3J" secondAttribute="centerY" id="HVk-vh-F2s"/>
+                            <constraint firstAttribute="trailing" secondItem="E3y-tI-jhY" secondAttribute="trailing" constant="10" id="I3U-xR-FfH"/>
                             <constraint firstItem="krc-Js-zy8" firstAttribute="top" secondItem="Wub-yE-x3D" secondAttribute="bottom" constant="3" id="IXT-1J-CRj"/>
                             <constraint firstItem="gaD-L7-yLB" firstAttribute="centerY" secondItem="GAc-9C-1vB" secondAttribute="centerY" id="Lup-2p-enP"/>
                             <constraint firstItem="udV-GX-CYs" firstAttribute="leading" secondItem="hTP-qX-X3J" secondAttribute="trailing" id="NJY-e8-pOb"/>
@@ -157,4 +169,8 @@
             <point key="canvasLocation" x="144" y="152.47376311844079"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="job_icon_6" width="15" height="15"/>
+        <image name="job_icon_7" width="15" height="15"/>
+    </resources>
 </document>

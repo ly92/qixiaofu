@@ -30,6 +30,8 @@ class JobDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "招聘详情"
+        
         if self.isEng{
             self.employmentBottomView.isHidden = true
             self.engineerBottomView.isHidden = false
@@ -43,6 +45,16 @@ class JobDetailViewController: BaseViewController {
     
 
     @IBAction func btnAction(_ btn: UIButton) {
+        if btn.tag == 11{
+            let historyVC = ChatOrRecommendListViewController.spwan()
+            self.navigationController?.pushViewController(historyVC, animated: true)
+        }else if btn.tag == 22{
+            let historyVC = ChatOrRecommendListViewController.spwan()
+            historyVC.isChatHistory = true
+            self.navigationController?.pushViewController(historyVC, animated: true)
+        }else if btn.tag == 33{
+            
+        }
     }
     
     
