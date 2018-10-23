@@ -312,8 +312,15 @@ extension SendTaskSureViewController{
             if ((scrollView as? UITableView) != nil){
                 self.view.endEditing(true)
             }
+        }else{
+            let point = scrollView.panGestureRecognizer.translation(in: self.tableView.superview)
+            //键盘的隐藏与否
+            if point.y > 0{
+                self.view.endEditing(true)
+            }
         }
     }
+    
     
 }
 

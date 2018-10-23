@@ -627,6 +627,9 @@
 		089F8DD22088877200E83614 /* EnterpriseInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089F8DD12088877200E83614 /* EnterpriseInfoViewController.swift */; };
 		089F8DD42088879900E83614 /* EnterpriseAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089F8DD32088879900E83614 /* EnterpriseAccountViewController.swift */; };
 		089F8DD6208887AB00E83614 /* EnterpriseAddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089F8DD5208887AB00E83614 /* EnterpriseAddAccountViewController.swift */; };
+		08A1103D217EB83C00174399 /* EngResumeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A1103C217EB83C00174399 /* EngResumeTableViewController.swift */; };
+		08A1103F217EBA0800174399 /* EngResumeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A1103E217EBA0800174399 /* EngResumeViewController.swift */; };
+		08A11041217ECFCA00174399 /* LYPricePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A11040217ECFCA00174399 /* LYPricePickerView.swift */; };
 		08A169631EE7A52200092865 /* UIColor+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A169621EE7A52200092865 /* UIColor+Category.swift */; };
 		08A169651EE7A8DF00092865 /* String+Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A169641EE7A8DF00092865 /* String+Category.swift */; };
 		08A1D2E21F428AF900EECF39 /* ShopOrderAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A1D2D41F428AF900EECF39 /* ShopOrderAddressCell.swift */; };
@@ -1716,6 +1719,9 @@
 		089F8DD12088877200E83614 /* EnterpriseInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseInfoViewController.swift; sourceTree = "<group>"; };
 		089F8DD32088879900E83614 /* EnterpriseAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseAccountViewController.swift; sourceTree = "<group>"; };
 		089F8DD5208887AB00E83614 /* EnterpriseAddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseAddAccountViewController.swift; sourceTree = "<group>"; };
+		08A1103C217EB83C00174399 /* EngResumeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngResumeTableViewController.swift; sourceTree = "<group>"; };
+		08A1103E217EBA0800174399 /* EngResumeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngResumeViewController.swift; sourceTree = "<group>"; };
+		08A11040217ECFCA00174399 /* LYPricePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYPricePickerView.swift; sourceTree = "<group>"; };
 		08A169621EE7A52200092865 /* UIColor+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Category.swift"; sourceTree = "<group>"; };
 		08A169641EE7A8DF00092865 /* String+Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Category.swift"; sourceTree = "<group>"; };
 		08A169661EE7A9E300092865 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -3055,6 +3061,7 @@
 				083E0DC21F04A5D60066ED39 /* LYAlertView.swift */,
 				085218E91F053FDC0010E992 /* LYPickerView.swift */,
 				08A706F02148E1F9003556CC /* LYBrandPickerView.swift */,
+				08A11040217ECFCA00174399 /* LYPricePickerView.swift */,
 				08C7FD8C20C7C6B40017883D /* have_breakfast.mp3 */,
 				088FF48A20EDC278002ACB4F /* have_dinner.mp3 */,
 				088FF48B20EDC279002ACB4F /* have_lunch.mp3 */,
@@ -4240,6 +4247,8 @@
 			children = (
 				084404131F297F560082A60F /* PersonalRemindView.swift */,
 				08F747751F28328D008CC107 /* PersonalInfoTableViewController.swift */,
+				08A1103C217EB83C00174399 /* EngResumeTableViewController.swift */,
+				08A1103E217EBA0800174399 /* EngResumeViewController.swift */,
 				086CF4191F2884C700643265 /* AddCertificateViewController.swift */,
 				086CF41B1F28A27700643265 /* IdentityViewController.swift */,
 				0866B30D1F7F3E8F00B3986E /* LevelInfoViewController.swift */,
@@ -4924,6 +4933,7 @@
 				0837CC201F38341800CDC332 /* ReplacementPartCell.swift in Sources */,
 				0846B66F2005F3D80085EA79 /* PayGoodsViewController.swift in Sources */,
 				089E4A47216CA0C5003C6583 /* HDArticleView.m in Sources */,
+				08A1103D217EB83C00174399 /* EngResumeTableViewController.swift in Sources */,
 				08082359216C97480091EF3F /* EaseChatToolbar.m in Sources */,
 				0887FF1E202AE90D000C4123 /* TestSealPriceViewController.swift in Sources */,
 				0808234A216C97480091EF3F /* EaseUsersListViewController.m in Sources */,
@@ -5046,6 +5056,7 @@
 				089E4A16216CA0C5003C6583 /* SDWebImageDownloader.m in Sources */,
 				085218CA1EF9753A0010E992 /* RegisterViewModel.swift in Sources */,
 				0808233F216C97480091EF3F /* EaseConvertToCommonEmoticonsHelper.m in Sources */,
+				08A1103F217EBA0800174399 /* EngResumeViewController.swift in Sources */,
 				0898386D217D6726007DB889 /* RecommendEngCell.swift in Sources */,
 				08052DCE1EE2794A004AF3B2 /* Config.swift in Sources */,
 				08082318216C97470091EF3F /* EMSDWebImageCompat.m in Sources */,
@@ -5204,6 +5215,7 @@
 				08CCDA301F906468003732D1 /* LYPhotosViewController.swift in Sources */,
 				0874A3031FDE5443001893C7 /* DiscoverCourseCell.swift in Sources */,
 				08082307216C97470091EF3F /* MJRefreshNormalHeader.m in Sources */,
+				08A11041217ECFCA00174399 /* LYPricePickerView.swift in Sources */,
 				08A3253E208D8EC1002DE7D3 /* EPStartUseAccountCell.swift in Sources */,
 				089E4D0A216CA6DE003C6583 /* HDAudioRecorderUtil.m in Sources */,
 				0847E7651FFF5A2900764F2A /* PayFuBeanCell.swift in Sources */,
