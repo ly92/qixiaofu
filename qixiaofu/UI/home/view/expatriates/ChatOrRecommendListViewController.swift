@@ -25,6 +25,12 @@ class ChatOrRecommendListViewController: BaseViewController {
 
         self.tableView.register(UINib.init(nibName: "RecommendEngCell", bundle: Bundle.main), forCellReuseIdentifier: "RecommendEngCell")
         self.tableView.register(UINib.init(nibName: "JobChatHistoryCell", bundle: Bundle.main), forCellReuseIdentifier: "JobChatHistoryCell")
+        
+        if self.isChatHistory{
+            self.navigationItem.title = "沟通历史"
+        }else{
+            self.navigationItem.title = "推荐工程师"
+        }
     }
     
     
@@ -59,6 +65,7 @@ extension ChatOrRecommendListViewController : UITableViewDataSource,UITableViewD
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecommendEngCell", for: indexPath) as! RecommendEngCell
+            cell.parentVC = self
             
             return cell
         }

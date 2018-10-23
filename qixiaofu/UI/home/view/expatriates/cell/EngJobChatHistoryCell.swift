@@ -37,6 +37,7 @@ class EngJobChatHistoryCell: UITableViewCell {
     }
     
     @IBAction func chatAction() {
+        print("联系招聘官")
     }
     
 }

@@ -31,11 +31,12 @@ class JobChatHistoryCell: UITableViewCell {
     
     
     @IBAction func engDetail() {
-        
+        let preResumeVC = EngResumeViewController.spwan()
+        self.parentVC.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     
     @IBAction func engChat() {
-        
+         print("联系工程师")
     }
     
     @IBAction func jobDetail() {

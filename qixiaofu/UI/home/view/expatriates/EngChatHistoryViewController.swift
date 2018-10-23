@@ -13,8 +13,9 @@ class EngChatHistoryViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = ""
+        self.navigationItem.title = "沟通历史"
         self.tableView.register(UINib.init(nibName: "EngJobChatHistoryCell", bundle: Bundle.main), forCellReuseIdentifier: "EngJobChatHistoryCell")
+        self.tableView.separatorStyle = .none
     }
 
     // MARK: - Table view data source
@@ -25,7 +26,7 @@ class EngChatHistoryViewController: BaseTableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EngJobChatHistoryCell", for: indexPath) as! EngJobChatHistoryCell
-
+        cell.parentVC = self
         
 
         return cell

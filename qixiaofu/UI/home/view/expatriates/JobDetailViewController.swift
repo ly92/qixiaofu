@@ -56,7 +56,12 @@ class JobDetailViewController: BaseViewController {
             historyVC.isChatHistory = true
             self.navigationController?.pushViewController(historyVC, animated: true)
         }else if btn.tag == 33{
-            
+            LYAlertView.show("提示", "暂停后可重新开始招聘", "取消", "确定",{
+            })
+        }else if btn.tag == 44{
+            print("联系招聘官")
+        }else if btn.tag == 55{
+            LYAlertView.show("提示", "您未上传简历附件，可发送简历附件到邮箱qixiaofu@7xiaofu.com完成上传 ", "知道了")
         }
     }
     

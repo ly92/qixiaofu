@@ -47,6 +47,9 @@
                                 <state key="normal" title="工程师详情" image="job_icon_6">
                                     <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="engDetail" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iBr-mY-CfL"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bip-vO-0rv">
                                 <rect key="frame" x="243" y="27.5" width="67" height="15"/>
@@ -54,6 +57,9 @@
                                 <state key="normal" title="联系工程师" image="job_icon_7">
                                     <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="chatEng" destination="KGk-i7-Jjw" eventType="touchUpInside" id="GDB-BG-OlO"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPr-XE-hBU">
                                 <rect key="frame" x="80" y="55" width="0.0" height="0.0"/>
@@ -96,6 +102,13 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="chatStateLbl" destination="iW5-hE-hdZ" id="mcp-hM-9up"/>
+                <outlet property="engIconImgV" destination="8PA-hK-cii" id="neT-3M-Z35"/>
+                <outlet property="engJobLbl" destination="HPr-XE-hBU" id="mmT-zy-soG"/>
+                <outlet property="engNameLbl" destination="AJF-Xf-W6s" id="qJz-fl-RzF"/>
+                <outlet property="priceLbl" destination="013-4Q-oHw" id="4S2-0n-pTP"/>
+            </connections>
             <point key="canvasLocation" x="52.799999999999997" y="60.26986506746627"/>
         </tableViewCell>
     </objects>

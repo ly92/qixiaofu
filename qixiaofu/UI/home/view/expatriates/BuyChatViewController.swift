@@ -33,10 +33,32 @@ class BuyChatViewController: BaseTableViewController {
 
         self.navigationItem.title = "套餐购买"
         
+        self.buyBtn.layer.cornerRadius = 20
     }
     
     
     @IBAction func btnAction(_ btn: UIButton) {
+        
+        func setBtn(){
+            self.bgBtn1.isHidden = false
+            self.bgBtn2.isHidden = false
+            self.bgBtn3.isHidden = false
+            self.bgBtn4.isHidden = false
+            self.bgBtn5.isHidden = false
+            self.bgBtn6.isHidden = false
+        }
+        
+        if btn.tag == 77{
+            btn.isSelected = !btn.isSelected
+        }else if btn.tag == 88{
+            //购买
+            
+        }else{
+            setBtn()
+            btn.isHidden = true
+        }
+        
+        
     }
     
     

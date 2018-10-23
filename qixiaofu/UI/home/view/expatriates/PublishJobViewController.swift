@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Speech
+import AudioToolbox
+
 
 class PublishJobViewController: BaseTableViewController {
     class func spwan() -> PublishJobViewController{
@@ -49,18 +52,24 @@ class PublishJobViewController: BaseTableViewController {
     
 
     @IBAction func btnAction(_ btn: UIButton) {
+        self.view.endEditing(true)
+        
         if btn.tag == 11{
             //显示公司名称
-            
+            self.companyBtn1.isSelected = true
+            self.companyBtn2.isSelected = false
         }else if btn.tag == 22{
             //隐藏公司名称
-            
+            self.companyBtn1.isSelected = false
+            self.companyBtn2.isSelected = true
         }else if btn.tag == 33{
             //内部招聘
-            
+            self.typeBtn1.isSelected = true
+            self.typeBtn2.isSelected = false
         }else if btn.tag == 44{
             //外派
-            
+            self.typeBtn1.isSelected = false
+            self.typeBtn2.isSelected = true
         }else if btn.tag == 55{
             //减人数
             let num = self.numberTF.text?.intValue
@@ -96,14 +105,42 @@ extension PublishJobViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0{
             if indexPath.row == 0{
-                
+                //职位
+                LYPickerView.show(titles: ["驻场工程师","职位1","职位2","职位3"], selectBlock: {(title,index) in
+                    self.jobNameLbl.text = title
+                })
             }else if indexPath.row == 4{
-                
+                //工作地址
+                let chooseVc = ChooseAreaViewController()
+                chooseVc.chooseAeraBlock = {(provinceId,cityId,areaId,addressArray) in
+                    //                self.areaDict["city"] = addressArray[1]
+                    self.addressLbl.text = addressArray.joined()
+                    //                self.provinceId = provinceId
+                    //                self.cityId = cityId
+                    //                self.areaId = areaId
+                }
+                self.navigationController?.pushViewController(chooseVc, animated: true)
             }else if indexPath.row == 5{
-                
+                //薪资要求
+                let picker = LYPricePickerView()
+                picker.show()
+                picker.pickerViewBlock = {(first,second) in
+                    self.moneyLbl.text = "\(first)~\(second)K"
+                }
             }
         }
     }
+    
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let point = scrollView.panGestureRecognizer.translation(in: self.tableView.superview)
+        //键盘的隐藏与否
+        if point.y > 0{
+            self.view.endEditing(true)
+        }
+    }
+    
+    
 }
 
 
@@ -139,3 +176,4 @@ extension PublishJobViewController : UITextViewDelegate{
     
     
 }
+
