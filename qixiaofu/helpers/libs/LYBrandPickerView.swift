@@ -48,13 +48,13 @@ class LYBrandPickerView: UIView {
         let cancelBtn = UIButton.init(frame: CGRect.init(x: 15, y: 0, width: 60, height: 43))
         cancelBtn.setTitle("取消", for: .normal)
         cancelBtn.setTitleColor(UIColor.lightGray, for: .normal)
-        cancelBtn.addTarget(self, action: #selector(LYPickerView.hide), for: .touchUpInside)
+        cancelBtn.addTarget(self, action: #selector(LYBrandPickerView.hide), for: .touchUpInside)
         btnView.addSubview(cancelBtn)
         //确定按钮
         let sureBtn = UIButton.init(frame: CGRect.init(x: kScreenW - 75, y: 0, width: 60, height: 43))
         sureBtn.setTitle("确定", for: .normal)
         sureBtn.setTitleColor(UIColor.RGBS(s: 33), for: .normal)
-        sureBtn.addTarget(self, action: #selector(LYPickerView.sureAction), for: .touchUpInside)
+        sureBtn.addTarget(self, action: #selector(LYBrandPickerView.sureAction), for: .touchUpInside)
         btnView.addSubview(sureBtn)
         
         //品牌
@@ -112,7 +112,7 @@ class LYBrandPickerView: UIView {
         let bg_btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW-0, height: kScreenH))
         bg_btn.backgroundColor = UIColor.black
         bg_btn.alpha = 0.4
-        bg_btn.addTarget(self, action: #selector(LYPickerView.hide), for: .touchUpInside)
+        bg_btn.addTarget(self, action: #selector(LYBrandPickerView.hide), for: .touchUpInside)
         return bg_btn
     }()
     

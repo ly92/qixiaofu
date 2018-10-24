@@ -127,6 +127,10 @@ func functionSkipAction(type:String,controller:UIViewController){
         //发现
         let discoverVC = DiscoverViewController.spwan()
         controller.navigationController?.pushViewController(discoverVC, animated: true)
+    case 13 :
+        //驻场
+        let expatriatesVC = ExpatriatesViewController()
+        controller.navigationController?.pushViewController(expatriatesVC, animated: true)
     default:
         //
         let toDoVc = ToDoEmptyViewController()
@@ -224,6 +228,7 @@ func esmobLogin(){
 func esmobLogout(){
     DispatchQueue.global().async {
         HDClient.shared().logout(true)
+        EMClient.shared()?.logout(true)
     }
 }
 
