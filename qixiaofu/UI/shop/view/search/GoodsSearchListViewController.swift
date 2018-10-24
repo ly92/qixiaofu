@@ -160,7 +160,7 @@ class GoodsSearchListViewController: BaseViewController {
                     self.haveMore = true
                 }
                 //重加载tabble
-                self.tabbleView.reloadData()                
+                self.tabbleView.reloadData()
             }) { (error) in
                 self.stopRefresh()
                 LYProgressHUD.showError(error!)
@@ -181,6 +181,7 @@ class GoodsSearchListViewController: BaseViewController {
             }
             
             NetTools.requestData(type: .post, urlString: SearchShopGoodsListApi, parameters: params, succeed: { (resultJson, msg) in
+                LYProgressHUD.dismiss()
                 if self.curpage == 1{
                     self.dataArray.removeAll()
                 }
