@@ -141,6 +141,8 @@ class GoodsSearchListViewController: BaseViewController {
             params["keywords"] = keyWord
             params["curpage"] = "\(self.curpage)"//页数
             NetTools.requestData(type: .post, urlString: EPGoodsListApi, parameters: params, succeed: { (resultJson, msg) in
+                LYProgressHUD.dismiss()
+                
                 if self.curpage == 1{
                     self.dataArray.removeAll()
                 }
@@ -157,10 +159,8 @@ class GoodsSearchListViewController: BaseViewController {
                     self.tabbleView.es.resetNoMoreData()
                     self.haveMore = true
                 }
-                LYProgressHUD.dismiss()
                 //重加载tabble
-                self.tabbleView.reloadData()
-                
+                self.tabbleView.reloadData()                
             }) { (error) in
                 self.stopRefresh()
                 LYProgressHUD.showError(error!)
