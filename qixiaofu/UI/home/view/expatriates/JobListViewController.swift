@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class JobListViewController: BaseViewController {
     class func spwan() -> JobListViewController{
@@ -29,8 +30,21 @@ class JobListViewController: BaseViewController {
     @IBOutlet weak var topView1: UIView!
     @IBOutlet weak var topView2: UIView!
     @IBOutlet weak var topView3: UIView!
+    @IBOutlet weak var emptyView2: UIView!
     
     fileprivate var filterType = 1
+    fileprivate var dataArray : Array<JSON> = Array<JSON>()
+    
+    var curpage = 1
+    var jobType = "0"
+    var jobSort = "1"//排序方式，1，发布时间排序，2，活跃时间排序
+    var province_id = "0"
+    var city_id = "0"
+    var county_id = "0"
+    
+    fileprivate var typeArray = JSON()
+    fileprivate var sortArray = ["发布时间","活跃时间"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +64,85 @@ class JobListViewController: BaseViewController {
         
         self.topViewAction(0)
         
+        
+        self.loadTypeData()
+        self.loadData()
+        
+        self.addRefresh()
+        
+        self.emptyView.frame = self.tableView.frame
+        
     }
     
     @objc func rightItemAction(){
         let engChatVC = EngChatHistoryViewController()
         self.navigationController?.pushViewController(engChatVC, animated: true)
     }
+    
+    //分类数据
+    func loadTypeData() {
+        NetTools.requestData(type: .get, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
+            self.typeArray = resultJson
+        }) { (error) in
+        }
+    }
+    
+    
+    func loadData() {
+        var params : [String : Any] = [:]
+        params["type"] = self.jobType
+        params["sort"] = self.jobSort
+        params["province_id"] = self.province_id
+        params["city_id"] = self.city_id
+        params["county_id"] = self.county_id
+        params["curpage"] = self.curpage
+        
+        NetTools.requestData(type: .get, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
+            if self.curpage == 1{
+                self.dataArray.removeAll()
+            }
+            
+            for json in resultJson.arrayValue{
+                self.dataArray.append(json)
+            }
+            
+            self.tableView.reloadData()
+            
+            self.stopRefresh()
+        }) { (error) in
+            
+        }
+    }
+    
+    //停止刷新
+    func stopRefresh() {
+        if self.curpage == 1{
+            self.tableView.es.stopPullToRefresh()
+        }else{
+            self.tableView.es.stopLoadingMore()
+        }
+        if self.dataArray.count > 0{
+            self.emptyView2.isHidden = true
+        }else{
+            self.emptyView2.isHidden = false
+        }
+    }
+    
+    func addRefresh() {
+        self.tableView.es.addPullToRefresh {
+            [weak self] in
+            self?.curpage = 1
+            self?.loadData()
+        }
+        
+        self.tableView.es.addInfiniteScrolling {
+            [weak self] in
+            self?.curpage += 1
+            self?.loadData()
+        }
+    }
+    
+    
     
     @IBAction func hideFilterView() {
         self.topViewAction(4)
@@ -116,7 +203,18 @@ class JobListViewController: BaseViewController {
         }
         
         self.topView3.addTapActionBlock {
-            arrow(3)
+//            arrow(3)
+            //工作地址
+            let chooseVc = ChooseAreaViewController()
+            chooseVc.chooseAeraBlock = {(provinceId,cityId,areaId,addressArray) in
+                self.province_id = provinceId
+                self.city_id = cityId
+                self.county_id = areaId
+                
+                self.curpage = 1
+                self.loadData()
+            }
+            self.navigationController?.pushViewController(chooseVc, animated: true)
         }
         
     }
@@ -128,23 +226,43 @@ class JobListViewController: BaseViewController {
 extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView{
-            return 2
+            return self.dataArray.count
         }else{
-            return 4
+            if self.filterType == 1{
+                return self.typeArray.count
+            }else if self.filterType == 2{
+                return self.sortArray.count
+            }
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "JobCell", for: indexPath)
-            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "JobCell", for: indexPath) as! JobCell
+            if dataArray.count > indexPath.row{
+                let json = self.dataArray[indexPath.row]
+                cell.subJson = json
+            }
             return cell
         }else{
             var cell = tableView.dequeueReusableCell(withIdentifier: "jobListFilterCell")
             if cell == nil{
                 cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "jobListFilterCell")
             }
-            cell?.textLabel?.text = "123456"
+            
+            if self.filterType == 1{
+                if self.typeArray.count > indexPath.row{
+                    let json = self.typeArray[indexPath.row]
+                    cell?.textLabel?.text = json["type_name"].stringValue
+                }
+                
+            }else if self.filterType == 2{
+                if self.sortArray.count > indexPath.row{
+                    cell?.textLabel?.text = self.sortArray[indexPath.row]
+                }
+            }
+            
             cell?.textLabel?.textAlignment = .center
             cell?.textLabel?.textColor = Text_Color
             cell?.textLabel?.font = UIFont.systemFont(ofSize: 14.0)
@@ -173,12 +291,22 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
             self.navigationController?.pushViewController(jobDetailVC, animated: true)
         }else{
             if self.filterType == 1{
-                self.leftLbl.text = "123"
+                if self.typeArray.count > indexPath.row{
+                    let json = self.typeArray[indexPath.row]
+                    self.leftLbl.text = json["type_name"].stringValue
+                    self.jobType = json["id"].stringValue
+                }
+                
             }else if self.filterType == 2{
-                self.middleLbl.text = "456"
-            }else if self.filterType == 3{
-                self.rightLbl.text = "789"
+                if self.sortArray.count > indexPath.row{
+                    self.middleLbl.text = self.sortArray[indexPath.row]
+                    self.jobSort = "\(indexPath.row + 1)"
+                }
             }
+            
+            self.curpage = 1
+            self.loadData()
+
             self.hideFilterView()
         }
     }
