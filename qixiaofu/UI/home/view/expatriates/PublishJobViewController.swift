@@ -1,14 +1,15 @@
 //
-//  PublishJobViewController.swift
-//  qixiaofu
+//PublishJobViewController.swift
+//qixiaofu
 //
-//  Created by ly on 2018/10/19.
-//  Copyright © 2018年 qixiaofu. All rights reserved.
+//Created by ly on 2018/10/19.
+//Copyright © 2018年 qixiaofu. All rights reserved.
 //
 
 import UIKit
 import Speech
 import AudioToolbox
+import SwiftyJSON
 
 
 class PublishJobViewController: BaseTableViewController {
@@ -37,6 +38,24 @@ class PublishJobViewController: BaseTableViewController {
     @IBOutlet weak var minuteBtn: UIButton!
     
     
+    
+    fileprivate var  typeid = ""          //工程师类型id
+    fileprivate var  nature = "1"          //招聘性质，1，内部招聘，2，驻场招聘
+    fileprivate var  province_id = ""          //省级id
+    fileprivate var  city_id = ""          //市级id
+    fileprivate var  county_id = ""          //县级id
+    fileprivate var  address_detail = ""          //详细地址
+//    fileprivate var  company_name = ""          //公司名称
+    fileprivate var  duty = ""          //工作职责
+    fileprivate var  condition = ""          //任职资格
+    fileprivate var  nums = ""          //招聘人数
+    fileprivate var  min_salary = ""          //薪资范围
+    fileprivate var  max_salary = ""          //薪资范围
+    fileprivate var  isCompanyShow = "1"          //是否展示公司名称  1显示 2隐藏
+
+    fileprivate var typeArray = JSON()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +66,7 @@ class PublishJobViewController: BaseTableViewController {
         self.publishBtn.layer.cornerRadius = 15
         
         
+        self.loadTypeData()
         
     }
     
@@ -58,18 +78,22 @@ class PublishJobViewController: BaseTableViewController {
             //显示公司名称
             self.companyBtn1.isSelected = true
             self.companyBtn2.isSelected = false
+            self.isCompanyShow = "1"
         }else if btn.tag == 22{
             //隐藏公司名称
             self.companyBtn1.isSelected = false
             self.companyBtn2.isSelected = true
+            self.isCompanyShow = "2"
         }else if btn.tag == 33{
             //内部招聘
             self.typeBtn1.isSelected = true
             self.typeBtn2.isSelected = false
+            self.nature = "1"
         }else if btn.tag == 44{
             //外派
             self.typeBtn1.isSelected = false
             self.typeBtn2.isSelected = true
+            self.nature = "2"
         }else if btn.tag == 55{
             //减人数
             let num = self.numberTF.text?.intValue
@@ -93,39 +117,126 @@ class PublishJobViewController: BaseTableViewController {
             
         }else if btn.tag == 99{
             //发布
-            
+            self.publishAction()
+        }
+    }
+    
+    //分类数据
+    func loadTypeData() {
+        NetTools.requestData(type: .get, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
+            self.typeArray = resultJson
+        }) { (error) in
         }
     }
     
 
+    func publishAction() {
+        if self.typeid.isEmpty{
+            LYProgressHUD.showError("请选择招聘职位")
+            return
+        }
+        let company = self.companyTF.text
+        if company == nil{
+            LYProgressHUD.showError("请填写公司名称")
+            return
+        }
+        if company!.isEmpty{
+            LYProgressHUD.showError("请填写公司名称")
+            return
+        }
+        let num = self.numberTF.text
+        if num == nil{
+            LYProgressHUD.showError("请设置招聘人数")
+            return
+        }
+        if self.province_id.isEmpty || self.city_id.isEmpty || self.county_id.isEmpty || self.address_detail.isEmpty{
+            LYProgressHUD.showError("请选择工作地址")
+            return
+        }
+        if self.min_salary.isEmpty || self.max_salary.isEmpty{
+            LYProgressHUD.showError("请选择薪资范围")
+            return
+        }
+        let responsibility = self.responsibilityTextView.text
+        if responsibility!.isEmpty{
+            LYProgressHUD.showError("请输入工作职责")
+            return
+        }
+        let qualification = self.qualificationTextView.text
+        if qualification!.isEmpty{
+            LYProgressHUD.showError("请输入任职资格")
+            return
+        }
+        
+        
+        var params : [String : Any] = [:]
+        params["typeid"] = self.typeid
+        params["nature"] = self.nature
+        params["province_id"] = self.province_id
+        params["city_id"] = self.city_id
+        params["county_id"] = self.county_id
+        params["address_detail"] = self.address_detail
+        params["company_name"] = company!
+        params["duty"] = responsibility!
+        params["condition"] = qualification!
+        params["nums"] = num!
+        params["salary_low"] = self.min_salary
+        params["salary_height"] = self.max_salary
+        params["is_show"] = self.isCompanyShow
+        LYProgressHUD.showLoading()
+        NetTools.requestData(type: .post, urlString: PublishJobApi, parameters: params, succeed: { (result, msg) in
+            LYProgressHUD.dismiss()
+            LYAlertView.show("提示", "发布成功！","知道了",{
+                self.navigationController?.popViewController(animated: true)
+            })
+        }) { (error) in
+            LYProgressHUD.showError(error ?? "网络请求错误！")
+        }
+        
+    }
+    
+    
 }
 
 
 extension PublishJobViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
         if indexPath.section == 0{
             if indexPath.row == 0{
                 //职位
-                LYPickerView.show(titles: ["驻场工程师","职位1","职位2","职位3"], selectBlock: {(title,index) in
-                    self.jobNameLbl.text = title
+                var arr : Array<String> = Array<String>()
+                for json in self.typeArray.arrayValue{
+                    arr.append(json["type_name"].stringValue)
+                }
+                LYPickerView.show(titles: arr, selectBlock: {(title,index) in
+                    if self.typeArray.count > index{
+                        let json = self.typeArray[index]
+                        self.jobNameLbl.text = json["type_name"].stringValue
+                        self.typeid = json["id"].stringValue
+                    }
                 })
             }else if indexPath.row == 4{
                 //工作地址
-                let chooseVc = ChooseAreaViewController()
-                chooseVc.chooseAeraBlock = {(provinceId,cityId,areaId,addressArray) in
-                    //                self.areaDict["city"] = addressArray[1]
-                    self.addressLbl.text = addressArray.joined()
-                    //                self.provinceId = provinceId
-                    //                self.cityId = cityId
-                    //                self.areaId = areaId
+                let editVC = AddAddressViewController.spwan()
+                editVC.isFromSendTask = true
+                editVC.selectAddressBlock2 = { (provinceId, cityId, areaId, areaInfo, address) in
+                    self.province_id = provinceId
+                    self.city_id = cityId
+                    self.county_id = areaId
+                    self.address_detail = address
+                    
+                    self.addressLbl.text = areaInfo + address
                 }
-                self.navigationController?.pushViewController(chooseVc, animated: true)
+                self.navigationController?.pushViewController(editVC, animated: true)
             }else if indexPath.row == 5{
                 //薪资要求
                 let picker = LYPricePickerView()
                 picker.show()
                 picker.pickerViewBlock = {(first,second) in
                     self.moneyLbl.text = "\(first)~\(second)K"
+                    self.min_salary = "\(first)"
+                    self.max_salary = "\(second)"
                 }
             }
         }

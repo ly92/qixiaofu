@@ -11,6 +11,7 @@ import SwiftyJSON
 
 typealias AddAddressViewControllerBlock = (JSON) -> Void
 typealias SelectAddressViewControllerBlock = (Dictionary<String,String>) -> Void
+typealias SelectAddressViewControllerBlock2 = (String,String,String,String,String) -> Void
 
 
 class AddAddressViewController: BaseViewController {
@@ -44,6 +45,7 @@ class AddAddressViewController: BaseViewController {
     
     var editAddressBlock : AddAddressViewControllerBlock?
     var selectAddressBlock : SelectAddressViewControllerBlock?
+    var selectAddressBlock2 : SelectAddressViewControllerBlock2?
     
     fileprivate var areaDict = ["province" : "","city" : "","address" : "","lat" : "","lon" : ""]
     
@@ -54,8 +56,8 @@ class AddAddressViewController: BaseViewController {
         if self.isFromSendTask{
             self.chooseAreaViewTopDis.constant = 8
             self.saveBtn.setTitle("确定", for: .normal)
-            self.navigationItem.title = "服务区域"
-            self.addressTF.placeholder = "请选择服务区域"
+            self.navigationItem.title = "地址"
+            self.addressTF.placeholder = "请选择省市区"
         }else{
             self.chooseAreaViewTopDis.constant = 105
             self.saveBtn.setTitle("保存", for: .normal)
@@ -155,6 +157,14 @@ class AddAddressViewController: BaseViewController {
                 return
             }
         }
+        
+        
+        //job
+        if self.selectAddressBlock2 != nil{
+            self.selectAddressBlock2!(self.provinceId,self.cityId,self.areaId, areaInfo!, address!)
+        }
+        
+        
         if self.isFromSendTask{
             self.areaDict["province"] = areaInfo!
             self.areaDict["address"] = address!
