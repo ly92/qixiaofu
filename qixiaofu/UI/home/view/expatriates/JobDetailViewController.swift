@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class JobDetailViewController: BaseViewController {
     class func spwan() -> JobDetailViewController{
@@ -14,6 +15,7 @@ class JobDetailViewController: BaseViewController {
     }
     
     var idType = 1 //1工程师 2所属招聘方 3非所属招聘方
+    var jobId = ""
     
     @IBOutlet weak var jobNameLbl: UILabel!
     @IBOutlet weak var stateLbl: UILabel!
@@ -26,6 +28,8 @@ class JobDetailViewController: BaseViewController {
     @IBOutlet weak var contentHeight: NSLayoutConstraint!
     @IBOutlet weak var employmentBottomView: UIView!
     @IBOutlet weak var engineerBottomView: UIView!
+    
+    fileprivate var resultJson = JSON()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +47,33 @@ class JobDetailViewController: BaseViewController {
             self.engineerBottomView.isHidden = true
         }
         
-        
+        self.loadJobDetail()
+    }
+    
+    
+    
+    //详情数据
+    func loadJobDetail() {
+        var params : [String : Any] = [:]
+        params["id"] = self.jobId
+        NetTools.requestData(type: .post, urlString: JobDetailApi,parameters: params, succeed: { (resultJson, msg) in
+            self.resultJson = resultJson
+            
+            self.jobNameLbl.text = resultJson["type_name"].stringValue + "(" + (resultJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
+            self.stateLbl.text = resultJson["status"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
+            self.companyLbl.text = resultJson["company_is_show"].stringValue.intValue == 1 ? resultJson["company_name"].stringValue : "***************"
+            self.addressLbl.text = resultJson["area_info"].stringValue
+            self.moneyLbl.text = resultJson["salary_low"].stringValue + "~" + resultJson["salary_heigh"].stringValue + "K"
+            self.numberLbl.text = resultJson["nums"].stringValue
+            self.responsibilityLbl.text = resultJson["duty"].stringValue
+            self.qualificationLbl.text = resultJson["condition"].stringValue
+            
+            
+            
+            
+        }) { (error) in
+            LYProgressHUD.showError(error ?? "网络请求错误！")
+        }
     }
     
 

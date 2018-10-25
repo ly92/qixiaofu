@@ -295,6 +295,10 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
                 //jobDetailVC.idType = 2
                 jobDetailVC.idType = 3
             }
+            if self.dataArray.count > indexPath.row{
+                let json = self.dataArray[indexPath.row]
+                jobDetailVC.jobId = json["id"].stringValue
+            }
             self.navigationController?.pushViewController(jobDetailVC, animated: true)
         }else{
             if self.filterType == 1{

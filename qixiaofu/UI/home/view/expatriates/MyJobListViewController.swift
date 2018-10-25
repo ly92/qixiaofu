@@ -112,6 +112,10 @@ class MyJobListViewController: BaseTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let jobDetailVC = JobDetailViewController.spwan()
         jobDetailVC.idType = 2
+        if self.dataArray.count > indexPath.row{
+            let json = self.dataArray[indexPath.row]
+            jobDetailVC.jobId = json["id"].stringValue
+        }
         self.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
 
