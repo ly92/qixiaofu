@@ -91,6 +91,7 @@ class JobDetailViewController: BaseViewController {
             self.navigationController?.pushViewController(historyVC, animated: true)
         }else if btn.tag == 33{
             var params : [String : Any] = [:]
+            params["id"] = self.jobId
             if resultJson["status"].stringValue.intValue == 1{
                 LYAlertView.show("提示", "暂停后可重新开始招聘,删除后不可找回", "删除", "暂停",{
                     params["status"] = "2"
