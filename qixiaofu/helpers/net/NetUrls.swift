@@ -121,7 +121,8 @@ let MyJobListApi = "tp.php/Home/Engineer/sended_job"
 let JobDetailApi = "tp.php/Home/Engineer/job_details"
 //推荐工程师
 let JobRecommendEngListApi = "tp.php/Home/Engineer/engineer_recommend"
-
+//更改招聘状态  status  招聘状态，1招聘，2暂停，3删除
+let JobOperationApi = "tp.php/Home/Engineer/is_continue"
 
 
 /************************************ 优惠券 ********************************************/

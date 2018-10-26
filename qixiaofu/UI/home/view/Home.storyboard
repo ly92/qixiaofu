@@ -4478,6 +4478,7 @@
                         <outlet property="jobNameLbl" destination="csM-hl-Oyb" id="yf8-ZS-M4u"/>
                         <outlet property="moneyLbl" destination="Lqb-w0-AMa" id="Q2f-hd-fFz"/>
                         <outlet property="numberLbl" destination="qvT-tb-g83" id="UMW-Sh-Pn3"/>
+                        <outlet property="operationBtn" destination="9RZ-A5-SHo" id="uVG-9S-5On"/>
                         <outlet property="qualificationLbl" destination="PTk-kK-Jiu" id="iY8-FF-BM8"/>
                         <outlet property="responsibilityLbl" destination="pRp-Hy-VaJ" id="8mX-D8-Dpj"/>
                         <outlet property="stateLbl" destination="Uo4-4e-weL" id="ai2-aO-KHC"/>

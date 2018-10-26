@@ -16,6 +16,7 @@ class EngResumeViewController: BaseTableViewController {
     @IBOutlet weak var engImgV: UIImageView!
     @IBOutlet weak var baoImgV: UIImageView!
     @IBOutlet weak var engNameLbl: UILabel!
+    @IBOutlet weak var curStateLbl: UILabel!
     @IBOutlet weak var realNameLbl: UILabel!
     @IBOutlet weak var workYearLbl: UILabel!
     @IBOutlet weak var advantageLbl: UILabel!

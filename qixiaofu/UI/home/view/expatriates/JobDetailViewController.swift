@@ -28,6 +28,8 @@ class JobDetailViewController: BaseViewController {
     @IBOutlet weak var contentHeight: NSLayoutConstraint!
     @IBOutlet weak var employmentBottomView: UIView!
     @IBOutlet weak var engineerBottomView: UIView!
+    @IBOutlet weak var operationBtn: UIButton!
+    
     
     fileprivate var resultJson = JSON()
     
@@ -61,14 +63,14 @@ class JobDetailViewController: BaseViewController {
             
             self.jobNameLbl.text = resultJson["type_name"].stringValue + "(" + (resultJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
             self.stateLbl.text = resultJson["status"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
-            self.companyLbl.text = resultJson["company_is_show"].stringValue.intValue == 1 ? resultJson["company_name"].stringValue : "***************"
-            self.addressLbl.text = resultJson["area_info"].stringValue
-            self.moneyLbl.text = resultJson["salary_low"].stringValue + "~" + resultJson["salary_heigh"].stringValue + "K"
-            self.numberLbl.text = resultJson["nums"].stringValue
+            self.companyLbl.text = "公司名称: " + (resultJson["company_is_show"].stringValue.intValue == 1 ? resultJson["company_name"].stringValue : "***************")
+            self.addressLbl.text = "公司地址: " + resultJson["area_info"].stringValue
+            self.moneyLbl.text = "薪资待遇: " + resultJson["salary_low"].stringValue + "~" + resultJson["salary_heigh"].stringValue + "K"
+            self.numberLbl.text = "招聘人数: " + resultJson["nums"].stringValue
             self.responsibilityLbl.text = resultJson["duty"].stringValue
             self.qualificationLbl.text = resultJson["condition"].stringValue
             
-            
+            print(self.qualificationLbl.frame.maxY)
             
             
         }) { (error) in
@@ -80,14 +82,41 @@ class JobDetailViewController: BaseViewController {
     @IBAction func btnAction(_ btn: UIButton) {
         if btn.tag == 11{
             let historyVC = ChatOrRecommendListViewController.spwan()
+            historyVC.JobId = self.jobId
             self.navigationController?.pushViewController(historyVC, animated: true)
         }else if btn.tag == 22{
             let historyVC = ChatOrRecommendListViewController.spwan()
             historyVC.isChatHistory = true
+            historyVC.JobId = self.jobId
             self.navigationController?.pushViewController(historyVC, animated: true)
         }else if btn.tag == 33{
-            LYAlertView.show("提示", "暂停后可重新开始招聘", "取消", "确定",{
-            })
+            var params : [String : Any] = [:]
+            if resultJson["status"].stringValue.intValue == 1{
+                LYAlertView.show("提示", "暂停后可重新开始招聘,删除后不可找回", "删除", "暂停",{
+                    params["status"] = "2"
+                    NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                        LYProgressHUD.showSuccess("已暂停招聘！")
+                    }, failure: { (error) in
+                        LYProgressHUD.showError(error ?? "网络请求错误！")
+                    })
+                },{
+                    params["status"] = "3"
+                    NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                        LYProgressHUD.showSuccess("已删除！")
+                        self.navigationController?.popViewController(animated: true)
+                    }, failure: { (error) in
+                        LYProgressHUD.showError(error ?? "网络请求错误！")
+                    })
+                })
+            }else{
+                params["status"] = "1"
+                NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                    LYProgressHUD.showSuccess("设置成功，已开始招聘！")
+                    self.navigationController?.popViewController(animated: true)
+                }, failure: { (error) in
+                    LYProgressHUD.showError(error ?? "网络请求错误！")
+                })
+            }
         }else if btn.tag == 44{
             print("联系招聘官")
         }else if btn.tag == 55{

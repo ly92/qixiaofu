@@ -16,6 +16,7 @@ class EngResumeTableViewController: BaseTableViewController {
     
     var personalInfo : JSON = []
     
+    @IBOutlet weak var curStateLbl: UILabel!
     @IBOutlet weak var jobNameLbl: UILabel!
     @IBOutlet weak var addressLbl: UILabel!
     @IBOutlet weak var jobPriceLbl: UILabel!
@@ -147,11 +148,16 @@ class EngResumeTableViewController: BaseTableViewController {
 extension EngResumeTableViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
+            //当前状态
+            LYPickerView.show(titles: ["在职","已离职","在职-考虑机会","在职-月内到岗"], selectBlock: {(title,index) in
+                self.curStateLbl.text = title
+            })
+        }else if indexPath.row == 1{
             //职位
             LYPickerView.show(titles: ["驻场工程师","职位1","职位2","职位3"], selectBlock: {(title,index) in
                 self.jobNameLbl.text = title
             })
-        }else if indexPath.row == 1{
+        }else if indexPath.row == 2{
             //工作地址
             let chooseVc = ChooseAreaViewController()
             chooseVc.chooseAeraBlock = {(provinceId,cityId,areaId,addressArray) in
@@ -162,7 +168,7 @@ extension EngResumeTableViewController{
 //                self.areaId = areaId
             }
             self.navigationController?.pushViewController(chooseVc, animated: true)
-        }else if indexPath.row == 2{
+        }else if indexPath.row == 3{
             //薪资要求
             let picker = LYPricePickerView()
             picker.show()
@@ -170,7 +176,7 @@ extension EngResumeTableViewController{
                 self.jobPriceLbl.text = "\(first)~\(second)K"
             }
             
-        }else if indexPath.row == 3{
+        }else if indexPath.row == 4{
             //从业时间
             let datePicker = LYDatePicker.init(component: 1)
             datePicker.ly_datepickerWithOneComponent = {(date,year) in
@@ -179,7 +185,7 @@ extension EngResumeTableViewController{
                 self.changePersonalInfo()
             }
             datePicker.show()
-        }else if indexPath.row == 5{
+        }else if indexPath.row == 6{
             //技术领域
             let serverRangeVC = ServerRangeViewController.spwan()
             serverRangeVC.selectedIds = self.techRangeArray

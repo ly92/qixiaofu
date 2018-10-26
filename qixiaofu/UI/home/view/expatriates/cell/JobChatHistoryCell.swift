@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class JobChatHistoryCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UILabel!
@@ -46,4 +47,14 @@ class JobChatHistoryCell: UITableViewCell {
         self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
     
+    
+    var subJson = JSON(){
+        didSet{
+//            self.nameLbl.text = subJson["type_name"].stringValue
+//            self.addressLbl.text = subJson["area_info"].stringValue
+//            self.disTimeLbl.text = Date.dateStringFromDate(format: Date.datesFormatString(), timeStamps: subJson["add_time"].stringValue)
+//            self.actTimeLbl.text = Date.dateStringFromDate(format: Date.datesFormatString(), timeStamps: subJson["activity_time"].stringValue)
+//            self.stateLbl.text = subJson["nature"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
+        }
+    }
 }
