@@ -113,7 +113,7 @@ let CouponGiftBagApi = "tp.php/Home/Main/coupon_push"
 let JobListApi = "tp.php/Home/Engineer/index"
 //职位类别
 let JobTypeListApi = "tp.php/Home/Engineer/job_type"
-//发布招聘
+//发布招聘&招聘详情编辑
 let PublishJobApi = "tp.php/Home/Engineer/send_job"
 //我的发布
 let MyJobListApi = "tp.php/Home/Engineer/sended_job"
@@ -123,6 +123,7 @@ let JobDetailApi = "tp.php/Home/Engineer/job_details"
 let JobRecommendEngListApi = "tp.php/Home/Engineer/engineer_recommend"
 //更改招聘状态  status  招聘状态，1招聘，2暂停，3删除
 let JobOperationApi = "tp.php/Home/Engineer/is_continue"
+
 
 
 /************************************ 优惠券 ********************************************/

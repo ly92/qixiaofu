@@ -18,6 +18,9 @@ class PublishJobViewController: BaseTableViewController {
     }
     
     
+    var editJson = JSON()
+    
+    
     @IBOutlet weak var jobNameLbl: UILabel!
     @IBOutlet weak var companyTF: UITextField!
     @IBOutlet weak var companyBtn1: UIButton!
@@ -67,6 +70,49 @@ class PublishJobViewController: BaseTableViewController {
         
         
         self.loadTypeData()
+        
+        if !editJson["typeid"].stringValue.isEmpty{
+            self.prepareOriginalData()
+            self.publishBtn.setTitle("更新招聘", for: .normal)
+        }
+        
+    }
+    
+    //设置编辑的原数据
+    func prepareOriginalData() {
+        self.typeid = self.editJson["typeid"].stringValue
+        self.nature = self.editJson["nature"].stringValue
+        self.province_id = self.editJson["province_id"].stringValue
+        self.city_id = self.editJson["city_id"].stringValue
+        self.county_id = self.editJson["county_id"].stringValue
+        self.address_detail = self.editJson["area_info"].stringValue
+        self.duty = self.editJson["duty"].stringValue
+        self.condition = self.editJson["condition"].stringValue
+        self.nums = self.editJson["nums"].stringValue
+        self.min_salary = self.editJson["salary_low"].stringValue
+        self.max_salary = self.editJson["salary_heigh"].stringValue
+        self.isCompanyShow = self.editJson["company_is_show"].stringValue
+        
+        self.jobNameLbl.text = self.editJson["type_name"].stringValue
+        self.companyTF.text = self.editJson["company_name"].stringValue
+        if self.isCompanyShow.intValue == 1{
+            self.companyBtn1.isSelected = true
+        }else{
+            self.companyBtn2.isSelected = true
+        }
+        if self.typeid.intValue == 1{
+            self.typeBtn1.isSelected = true
+        }else{
+            self.typeBtn2.isSelected = true
+        }
+        self.numberTF.text = self.nums
+        self.addressLbl.text = self.editJson["area_info"].stringValue
+        self.moneyLbl.text = self.min_salary + "~" + self.max_salary + "K"
+        self.responsibilityTextView.text = self.duty
+        self.qualificationTextView.text = self.condition
+        self.responsibilityPlaceholderLbl.isHidden = true
+        self.qualificationPlaceholderLbl.isHidden = true
+        
         
     }
     
@@ -183,6 +229,12 @@ class PublishJobViewController: BaseTableViewController {
         params["salary_low"] = self.min_salary
         params["salary_height"] = self.max_salary
         params["is_show"] = self.isCompanyShow
+        
+        
+        if !self.editJson["typeid"].stringValue.isEmpty{
+            params["jobid"] = self.editJson["id"].stringValue
+        }
+        
         LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: PublishJobApi, parameters: params, succeed: { (result, msg) in
             LYProgressHUD.dismiss()

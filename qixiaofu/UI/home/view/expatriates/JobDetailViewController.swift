@@ -38,13 +38,19 @@ class JobDetailViewController: BaseViewController {
 
         self.navigationItem.title = "招聘详情"
         
+        //1工程师 2所属招聘方 3非所属招聘方
         if self.idType == 1{
             self.employmentBottomView.isHidden = true
             self.engineerBottomView.isHidden = false
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
         }else if self.idType == 2{
             self.employmentBottomView.isHidden = false
             self.engineerBottomView.isHidden = true
+            let shareItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
+            let editItem = UIBarButtonItem.init(title: "编辑", target: self, action: #selector(JobDetailViewController.editJobAction))
+            self.navigationItem.rightBarButtonItems = [editItem,shareItem]
         }else if self.idType == 3{
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
             self.employmentBottomView.isHidden = true
             self.engineerBottomView.isHidden = true
         }
@@ -52,7 +58,15 @@ class JobDetailViewController: BaseViewController {
         self.loadJobDetail()
     }
     
+    @objc func shareJobAction(){
+        print("分享")
+    }
     
+    @objc func editJobAction(){
+        let publishVC = PublishJobViewController.spwan()
+        publishVC.editJson = self.resultJson
+        self.navigationController?.pushViewController(publishVC, animated: true)
+    }
     
     //详情数据
     func loadJobDetail() {
@@ -70,8 +84,8 @@ class JobDetailViewController: BaseViewController {
             self.responsibilityLbl.text = resultJson["duty"].stringValue
             self.qualificationLbl.text = resultJson["condition"].stringValue
             
-            print(self.qualificationLbl.frame.maxY)
-            
+//            print(self.qualificationLbl.frame.maxY)
+            self.contentHeight.constant = self.qualificationLbl.frame.maxY
             
         }) { (error) in
             LYProgressHUD.showError(error ?? "网络请求错误！")
@@ -91,7 +105,7 @@ class JobDetailViewController: BaseViewController {
             self.navigationController?.pushViewController(historyVC, animated: true)
         }else if btn.tag == 33{
             var params : [String : Any] = [:]
-            params["id"] = self.jobId
+            params["jobid"] = self.jobId
             if resultJson["status"].stringValue.intValue == 1{
                 LYAlertView.show("提示", "暂停后可重新开始招聘,删除后不可找回", "删除", "暂停",{
                     params["status"] = "2"

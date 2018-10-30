@@ -96,7 +96,7 @@ class JobListViewController: BaseViewController {
         params["city_id"] = self.city_id
         params["county_id"] = self.county_id
         params["curpage"] = self.curpage
-        
+        params["identity"] = self.isEng ? "1" : "2"
         NetTools.requestData(type: .get, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.dataArray.removeAll()
