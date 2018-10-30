@@ -53,12 +53,14 @@ class PersonalInfoTableViewController: BaseTableViewController {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: #imageLiteral(resourceName: "reminder_icon"), target: self, action: #selector(PersonalInfoTableViewController.rightItemAction))
         
+        self.setUpUIData()
+        self.tableView.reloadData()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadMineInfoData()
+//        self.loadMineInfoData()
     }
     
     //用户信息

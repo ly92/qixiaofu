@@ -51,6 +51,7 @@ class EngResumeTableViewController: BaseTableViewController {
     
     @objc func rightItemAction(){
         let preResumeVC = EngResumeViewController.spwan()
+        preResumeVC.personalInfo = self.personalInfo
         self.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     
@@ -199,18 +200,6 @@ extension EngResumeTableViewController{
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 4{
-            return 80
-        }else if indexPath.row == 7{
-            return 60
-        }else if indexPath.row == 8{
-            return 200
-        }else if indexPath.row == 9{
-            return 400
-        }
-        return 44;
-    }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let point = scrollView.panGestureRecognizer.translation(in: self.tableView.superview)
