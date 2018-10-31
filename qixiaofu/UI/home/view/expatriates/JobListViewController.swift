@@ -288,18 +288,17 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView{
-            let jobDetailVC = JobDetailViewController.spwan()
-            if self.isEng{
-                jobDetailVC.idType = 1
-            }else{
-                //jobDetailVC.idType = 2
-                jobDetailVC.idType = 3
-            }
             if self.dataArray.count > indexPath.row{
+                let jobDetailVC = JobDetailViewController.spwan()
+                if self.isEng{
+                    jobDetailVC.idType = 1
+                }else{
+                    jobDetailVC.idType = 2
+                }
                 let json = self.dataArray[indexPath.row]
                 jobDetailVC.jobId = json["id"].stringValue
+                self.navigationController?.pushViewController(jobDetailVC, animated: true)
             }
-            self.navigationController?.pushViewController(jobDetailVC, animated: true)
         }else{
             if self.filterType == 1{
                 if self.typeArray.count > indexPath.row{

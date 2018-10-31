@@ -123,6 +123,10 @@ let JobDetailApi = "tp.php/Home/Engineer/job_details"
 let JobRecommendEngListApi = "tp.php/Home/Engineer/engineer_recommend"
 //更改招聘状态  status  招聘状态，1招聘，2暂停，3删除
 let JobOperationApi = "tp.php/Home/Engineer/is_continue"
+//招聘时立即沟通
+let JobChatApi = "tp.php/Home/Engineer/chats"
+//沟通历史
+let JobChatHistoryApi = "tp.php/Home/Engineer/chat_history"
 
 
 

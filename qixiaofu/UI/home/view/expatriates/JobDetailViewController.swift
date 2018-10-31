@@ -44,14 +44,7 @@ class JobDetailViewController: BaseViewController {
             self.engineerBottomView.isHidden = false
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
         }else if self.idType == 2{
-            self.employmentBottomView.isHidden = false
-            self.engineerBottomView.isHidden = true
-            let shareItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
-            let editItem = UIBarButtonItem.init(title: "编辑", target: self, action: #selector(JobDetailViewController.editJobAction))
-            self.navigationItem.rightBarButtonItems = [editItem,shareItem]
-        }else if self.idType == 3{
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
-            self.employmentBottomView.isHidden = true
+            
             self.engineerBottomView.isHidden = true
         }
         
@@ -84,8 +77,20 @@ class JobDetailViewController: BaseViewController {
             self.responsibilityLbl.text = resultJson["duty"].stringValue
             self.qualificationLbl.text = resultJson["condition"].stringValue
             
-//            print(self.qualificationLbl.frame.maxY)
+
+            //高度
             self.contentHeight.constant = self.qualificationLbl.frame.maxY
+            
+            //本人发布的职位，1，是，2，不是
+            if resultJson["send"].stringValue.intValue == 1{
+                self.employmentBottomView.isHidden = false
+                let shareItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
+                let editItem = UIBarButtonItem.init(title: "编辑", target: self, action: #selector(JobDetailViewController.editJobAction))
+                self.navigationItem.rightBarButtonItems = [editItem,shareItem]
+            }else{
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
+                self.employmentBottomView.isHidden = true
+            }
             
         }) { (error) in
             LYProgressHUD.showError(error ?? "网络请求错误！")
@@ -134,6 +139,14 @@ class JobDetailViewController: BaseViewController {
             }
         }else if btn.tag == 44{
             print("联系招聘官")
+            var params : [String : Any] = [:]
+            params["jobid"] = self.jobId
+            params["identity"] = "1"
+            NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+                
+            }, failure: { (error) in
+            })
+            
         }else if btn.tag == 55{
             LYAlertView.show("提示", "您未上传简历附件，可发送简历附件到邮箱qixiaofu@7xiaofu.com完成上传 ", "知道了")
         }

@@ -133,9 +133,10 @@ class ChatOrRecommendListViewController: BaseViewController {
     //沟通过的工程师列表
     func loadChatList() {
         var params : [String : Any] = [:]
-        params["id"] = self.JobId
+        params["jobid"] = self.JobId
         params["curpage"] = self.curpage
-        NetTools.requestData(type: .post, urlString: JobRecommendEngListApi, parameters: params, succeed: { (resultJson, msg) in
+        params["identity"] = "2"
+        NetTools.requestData(type: .post, urlString: JobChatHistoryApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.chatList.removeAll()
             }

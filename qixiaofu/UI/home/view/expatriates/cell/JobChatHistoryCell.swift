@@ -38,6 +38,13 @@ class JobChatHistoryCell: UITableViewCell {
     
     @IBAction func engChat() {
          print("联系工程师")
+        var params : [String : Any] = [:]
+        params["jobid"] = self.subJson["id"].stringValue
+        params["identity"] = "2"
+        params["engineer_id"] = self.subJson["member_id"].stringValue
+        NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+        }, failure: { (error) in
+        })
     }
     
     @IBAction func jobDetail() {
@@ -50,11 +57,12 @@ class JobChatHistoryCell: UITableViewCell {
     
     var subJson = JSON(){
         didSet{
-//            self.nameLbl.text = subJson["type_name"].stringValue
-//            self.addressLbl.text = subJson["area_info"].stringValue
-//            self.disTimeLbl.text = Date.dateStringFromDate(format: Date.datesFormatString(), timeStamps: subJson["add_time"].stringValue)
-//            self.actTimeLbl.text = Date.dateStringFromDate(format: Date.datesFormatString(), timeStamps: subJson["activity_time"].stringValue)
-//            self.stateLbl.text = subJson["nature"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
+            self.nameLbl.text = subJson["type_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
+            self.addressLbl.text = subJson["area_info"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue
+            self.engIcon.setImageUrlStr(subJson["member_avatar"].stringValue)
+            self.engNameLbl.text = subJson["member_name"].stringValue
+            self.engTypeLbl.text = subJson["type_name"].stringValue
         }
     }
 }
