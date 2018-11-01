@@ -375,6 +375,14 @@ extension TaskReceiveDetailViewController{
             }
         }
         
+        if indexPath.row == 1{
+            let desc = resultDict["entry_name"].stringValue
+            let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+            if height > 25 {
+                return height
+            }
+        }
+        
         if indexPath.row == 8{
             let desc = resultDict["service_address"].stringValue
             let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
