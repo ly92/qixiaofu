@@ -95,7 +95,7 @@ class EngResumeViewController: BaseTableViewController {
         self.photoView.backgroundColor = UIColor.white
         self.photoView.showLogoImgV = true
         self.photoView.maxPhotoNum = 5
-        self.photoView.canTakePhoto = true
+        self.photoView.canTakePhoto = false
         self.photoView.showDeleteBtn = false
         self.photoView.customBlock = {() in
             //添加职业证书
