@@ -195,7 +195,7 @@ extension ChatOrRecommendListViewController : UITableViewDataSource,UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.isChatHistory{
-            return 120
+            return 135
         }else{
             return 70
         }

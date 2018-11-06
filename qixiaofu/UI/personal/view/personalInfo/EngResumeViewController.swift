@@ -14,6 +14,8 @@ class EngResumeViewController: BaseTableViewController {
         return self.loadFromStoryBoard(storyBoard: "Personal") as! EngResumeViewController
     }
     
+    
+    var engId = ""
     var personalInfo : JSON = []
     
     @IBOutlet weak var engImgV: UIImageView!
@@ -39,7 +41,20 @@ class EngResumeViewController: BaseTableViewController {
         
         self.engImgV.layer.cornerRadius = 20
         
-        self.setUpUI()
+        if engId.isEmpty{
+            self.setUpUI()
+        }else{
+            self.loadEngResume()
+        }
+        
+    }
+    
+    func loadEngResume() {
+        NetTools.requestData(type: .post, urlString: PersonalInfoApi, succeed: { (resultJson, msg) in
+            self.personalInfo = resultJson
+            self.setUpUI()
+        }) { (error) in
+        }
     }
     
     
@@ -57,11 +72,11 @@ class EngResumeViewController: BaseTableViewController {
         self.curStateLbl.text = "在职-考虑机会"
         
         if self.personalInfo["is_real"].stringValue.intValue == 1{
-            self.realNameLbl.text = "已认证"
+            self.realNameLbl.text = "已实名认证"
         }else if self.personalInfo["is_real"].stringValue.intValue == 2{
-            self.realNameLbl.text = "审核中"
+            self.realNameLbl.text = "实名审核中"
         }else{
-            self.realNameLbl.text = "未实名"
+            self.realNameLbl.text = "未实名认证"
         }
         if !self.personalInfo["working_time"].stringValue.isEmpty{
             self.workYearLbl.text = "工作经验" + Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)

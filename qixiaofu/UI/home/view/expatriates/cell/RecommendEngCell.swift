@@ -32,6 +32,7 @@ class RecommendEngCell: UITableViewCell {
     
     @IBAction func engDetail() {
         let preResumeVC = EngResumeViewController.spwan()
+        preResumeVC.engId = self.subJson["member_id"].stringValue
         self.parentVC.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     @IBAction func chatEng() {

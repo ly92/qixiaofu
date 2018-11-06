@@ -33,6 +33,7 @@ class JobChatHistoryCell: UITableViewCell {
     
     @IBAction func engDetail() {
         let preResumeVC = EngResumeViewController.spwan()
+        preResumeVC.engId = self.subJson["engineer_id"].stringValue
         self.parentVC.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     
@@ -59,7 +60,7 @@ class JobChatHistoryCell: UITableViewCell {
         didSet{
             self.nameLbl.text = subJson["type_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
             self.addressLbl.text = subJson["area_info"].stringValue
-            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
             self.engIcon.setImageUrlStr(subJson["member_avatar"].stringValue)
             self.engNameLbl.text = subJson["member_name"].stringValue
             self.engTypeLbl.text = subJson["type_name"].stringValue
