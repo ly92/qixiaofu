@@ -104,7 +104,11 @@ class ShopOrderStateCell: UITableViewCell {
         if self.codeTime > 0{
             let minute = self.codeTime / 60
             let second = self.codeTime % 60
-            self.stateLbl.text = "待支付 " + "\(minute)" + ":" + "\(second)"
+            if second < 10{
+                self.stateLbl.text = "待支付 " + "\(minute)" + ":0" + "\(second)"
+            }else{
+                self.stateLbl.text = "待支付 " + "\(minute)" + ":" + "\(second)"
+            }
             self.codeTime -= 1
         }else{
             //            //刷新数据

@@ -875,7 +875,6 @@ extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDele
     
     
     //jpush
-    @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
         //        let request = notification.request
         let userInfo = notification.request.content.userInfo
@@ -906,7 +905,6 @@ extension AppDelegate : JPUSHRegisterDelegate,EMChatManagerDelegate,EMClientDele
     }
     
     //点击了推送的消息
-    @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
         print(response)
         if response.notification.request.trigger != nil{

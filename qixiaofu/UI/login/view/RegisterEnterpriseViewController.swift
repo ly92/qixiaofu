@@ -84,11 +84,8 @@ extension RegisterEnterpriseViewController{
         self.codeBtn.isEnabled = false
         NetTools.requestData(type: .post, urlString: EnterpriseVerificationCodeApi, parameters: params, succeed: { (resultDict, error) in
             if !resultDict["code"].stringValue.isEmpty{
-                if #available(iOS 10.0, *) {
-                    self.setUpCodeTimer()
-                } else {
-                    self.setUpCodeTimer2()
-                }
+                self.setUpCodeTimer()
+                self.codeTF.becomeFirstResponder()
             }else{
                 self.codeBtn.isEnabled = true
             }
@@ -158,7 +155,6 @@ extension RegisterEnterpriseViewController{
 }
 
 
-@available(iOS 10.0, *)
 extension RegisterEnterpriseViewController{
     func setUpCodeTimer() {
         self.codeTime = 60
@@ -174,15 +170,6 @@ extension RegisterEnterpriseViewController{
                 timer.invalidate()
             }
         }
-    }
-}
-
-extension RegisterEnterpriseViewController{
-    func setUpCodeTimer2() {
-        self.codeTime = 60
-        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(RegisterViewController.changeCodeBtnTitle), userInfo: nil, repeats: true)
-        RunLoop.main.add(self.timer, forMode: .defaultRunLoopMode)
-        timer.fire()
     }
     
     @objc func changeCodeBtnTitle() {

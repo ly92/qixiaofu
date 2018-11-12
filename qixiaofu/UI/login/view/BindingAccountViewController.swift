@@ -120,11 +120,8 @@ class BindingAccountViewController: BaseViewController {
             if resultDict["code"].stringValue.isEmpty{
                 self.codeBtn.isEnabled = true
             }else{
-                if #available(iOS 10.0, *) {
-                    self.setUpCodeTimer()
-                } else {
-                    self.setUpCodeTimer2()
-                }
+                self.setUpCodeTimer()
+                self.codeTF.becomeFirstResponder()
             }
         }) { (error) in
             self.codeBtn.isEnabled = true
@@ -136,7 +133,7 @@ class BindingAccountViewController: BaseViewController {
 }
 
 
-@available(iOS 10.0, *)
+
 extension BindingAccountViewController{
     func setUpCodeTimer() {
         self.codeTime = 60
@@ -153,15 +150,6 @@ extension BindingAccountViewController{
                 timer.invalidate()
             }
         }
-    }
-}
-
-extension BindingAccountViewController{
-    func setUpCodeTimer2() {
-        self.codeTime = 60
-        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(BindingAccountViewController.changeCodeBtnTitle), userInfo: nil, repeats: true)
-        RunLoop.main.add(self.timer, forMode: .defaultRunLoopMode)
-        timer.fire()
     }
     
     @objc func changeCodeBtnTitle() {
