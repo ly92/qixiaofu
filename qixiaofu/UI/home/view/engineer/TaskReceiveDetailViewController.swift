@@ -123,6 +123,9 @@ class TaskReceiveDetailViewController: BaseTableViewController {
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)
         scroll.contentSize = CGSize.init(width: kScreenW, height: h)
+        if #available(iOS 11.0, *) {
+            scroll.contentInsetAdjustmentBehavior = .never
+        }
         UIApplication.shared.keyWindow?.addSubview(scroll)
         UIView.animate(withDuration: 0.5) {
             scroll.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH)
@@ -260,6 +263,12 @@ extension TaskReceiveDetailViewController{
             self.serverPriceLbl.isHidden = false
             self.serverPriceTitleLbl.isHidden = false
         }else{
+            self.isEnrolled = true
+            self.serverPriceLbl.isHidden = true
+            self.serverPriceTitleLbl.isHidden = true
+        }
+        //约定不显示价格
+        if resultDict["show_price"].stringValue.intValue == 0{
             self.isEnrolled = true
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true

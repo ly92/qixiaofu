@@ -1133,7 +1133,11 @@ extension MySendOrderDetailViewController{
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true
         }
-        
+        //约定不显示价格
+        if resultDict["show_price"].stringValue.intValue == 0{
+            self.serverPriceLbl.isHidden = true
+            self.serverPriceTitleLbl.isHidden = true
+        }
     }
 }
 

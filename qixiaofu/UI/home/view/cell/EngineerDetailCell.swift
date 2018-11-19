@@ -51,7 +51,7 @@ class EngineerDetailCell: UITableViewCell {
             }
             
             //经验值
-            self.levelCodeLbl.text = "经验值：" + jsonModel["levelscore"].stringValue
+            self.levelCodeLbl.text = "经验值：" + jsonModel["experience_value"].stringValue
             
         }
     }

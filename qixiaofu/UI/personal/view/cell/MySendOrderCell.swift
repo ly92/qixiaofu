@@ -941,6 +941,12 @@ extension MySendOrderCell{
             self.priceLbl.isHidden = true
         }
         
+        //约定不显示价格
+        if subJson["show_price"].stringValue.intValue == 0{
+            self.priceTitleLbl.isHidden = true
+            self.priceLbl.isHidden = true
+        }
+        
     }
     
     
