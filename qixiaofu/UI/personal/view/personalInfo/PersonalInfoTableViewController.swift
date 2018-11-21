@@ -25,10 +25,10 @@ class PersonalInfoTableViewController: BaseTableViewController {
     @IBOutlet weak var nickNameTF: UITextField!
     @IBOutlet weak var realNameLbl: UILabel!
     @IBOutlet weak var realNameArrowImgV: UIImageView!
-//    @IBOutlet weak var workYearLbl: UILabel!
-//    @IBOutlet weak var certView: UIView!
-//    @IBOutlet weak var techRangeLbl: UILabel!
-//    @IBOutlet weak var adaptBrandTF: UITextField!
+    @IBOutlet weak var workYearLbl: UILabel!
+    @IBOutlet weak var certView: UIView!
+    @IBOutlet weak var techRangeLbl: UILabel!
+    @IBOutlet weak var adaptBrandTF: UITextField!
     @IBOutlet weak var invoteCodeLbl: UILabel!
     @IBOutlet weak var levelCodeLbl: UILabel!
     @IBOutlet weak var levelImgV1: UIImageView!
@@ -53,14 +53,15 @@ class PersonalInfoTableViewController: BaseTableViewController {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: #imageLiteral(resourceName: "reminder_icon"), target: self, action: #selector(PersonalInfoTableViewController.rightItemAction))
         
-        self.setUpUIData()
-        self.tableView.reloadData()
+        
+        //准备数据
+        self.prepareData()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.loadMineInfoData()
+        self.loadMineInfoData()
     }
     
     //用户信息
@@ -68,7 +69,7 @@ class PersonalInfoTableViewController: BaseTableViewController {
         NetTools.requestData(type: .post, urlString: PersonalInfoApi, succeed: { (resultJson, msg) in
             self.personalInfo = resultJson
             self.setUpUIData()
-            self.tableView.reloadRows(at: [IndexPath.init(row: 4, section: 0)], with: .none)
+            self.tableView.reloadRows(at: [IndexPath.init(row: 8, section: 0)], with: .none)
         }) { (error) in
         }
     }
@@ -90,7 +91,13 @@ class PersonalInfoTableViewController: BaseTableViewController {
     }
     
     
-
+    //准备数据
+    func prepareData() {
+        NetTools.requestData(type: .post, urlString: ServerRangeListApi, succeed: { (result, msg) in
+            self.serverRangeJson = result
+        }) { (error) in
+        }
+    }
     
     //设置页面数据
     func setUpUIData() {
@@ -105,9 +112,9 @@ class PersonalInfoTableViewController: BaseTableViewController {
             self.realNameLbl.text = "审核中"
             self.realNameArrowImgV.isHidden = false
         }
-//        if !self.personalInfo["working_time"].stringValue.isEmpty{
-//            self.workYearLbl.text = Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)
-//        }
+        if !self.personalInfo["working_time"].stringValue.isEmpty{
+            self.workYearLbl.text = Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)
+        }
         
         
         self.photoView = LYPhotoBrowseView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW - 16, height: 50),superVC:self)
@@ -122,7 +129,7 @@ class PersonalInfoTableViewController: BaseTableViewController {
             addCertVC.depth = "\(self.personalInfo["cer_images"].arrayValue.count + 1)"
             self.navigationController?.pushViewController(addCertVC, animated: true)
         }
-//        self.certView.addSubview(self.photoView)
+        self.certView.addSubview(self.photoView)
         if self.personalInfo["cer_images"].arrayValue.count > 0{
             var imgUrlArray : Array<String> = Array<String>()
             var imgDescArray : Array<String> = Array<String>()
@@ -156,10 +163,10 @@ class PersonalInfoTableViewController: BaseTableViewController {
                 sectorArray.append(subJson["gc_name"].stringValue)
                 self.techRangeArray.append(subJson["gc_id"].stringValue)
             }
-//            self.techRangeLbl.text = sectorArray.joined(separator: ",")
+            self.techRangeLbl.text = sectorArray.joined(separator: ",")
         }
         if !self.personalInfo["service_brand"].stringValue.isEmpty{
-//            self.adaptBrandTF.text = self.personalInfo["service_brand"].stringValue
+            self.adaptBrandTF.text = self.personalInfo["service_brand"].stringValue
         }
         if !self.personalInfo["iv_code"].stringValue.isEmpty{
             self.invoteCodeLbl.text = self.personalInfo["iv_code"].stringValue
@@ -209,23 +216,30 @@ extension PersonalInfoTableViewController : UITextFieldDelegate{
                 self.changePersonalInfo()
             }
         }
+        //        else if textField == self.adaptBrandTF{
+        //            self.adaptBrand = textField.text!
+        //            if !self.adaptBrand.isEmpty{
+        //                self.changePersonalInfo()
+        //            }
+        //        }
+        
         return true
     }
     
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        if textField == self.adaptBrandTF{
-//            let editVC = PersonalEditInfoViewController()
-//            editVC.textView.text = self.adaptBrandTF.text
-//            editVC.editDoneBlock = {(str) in
-//                self.adaptBrand = str
-//                self.adaptBrandTF.text = str
-//                self.changePersonalInfo()
-//            }
-//            self.navigationController?.pushViewController(editVC, animated: true)
-//            return false
-//        }
-//        return true
-//    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == self.adaptBrandTF{
+            let editVC = PersonalEditInfoViewController()
+            editVC.textView.text = self.adaptBrandTF.text
+            editVC.editDoneBlock = {(str) in
+                self.adaptBrand = str
+                self.adaptBrandTF.text = str
+                self.changePersonalInfo()
+            }
+            self.navigationController?.pushViewController(editVC, animated: true)
+            return false
+        }
+        return true
+    }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -250,40 +264,33 @@ extension PersonalInfoTableViewController : UITextFieldDelegate{
                 let idVC = IdentityViewController.spwan()
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
-//        case 4:
+        case 4:
             //从业年限
-//            let datePicker = LYDatePicker.init(component: 1)
-//            datePicker.ly_datepickerWithOneComponent = {(date,year) in
-//                self.workYear = date
-////                self.workYearLbl.text = "\(year)年"
-//                self.changePersonalInfo()
-//            }
-//            datePicker.show()
-//        case 6:
-//            //技术领域
-//            let serverRangeVC = ServerRangeViewController.spwan()
-//            serverRangeVC.selectedIds = self.techRangeArray
-//            serverRangeVC.serverRangeBlock = {(selectedDictArray,titles,ids) in
-////                self.techRangeLbl.text = titles.joined(separator: ";")
-//                self.techRangeArray = ids
-//                self.changePersonalInfo()
-//            }
-//            serverRangeVC.dataArray = self.serverRangeJson.arrayValue
-//            self.navigationController?.pushViewController(serverRangeVC, animated: true)
+            let datePicker = LYDatePicker.init(component: 1)
+            datePicker.ly_datepickerWithOneComponent = {(date,year) in
+                self.workYear = date
+                self.workYearLbl.text = "\(year)年"
+                self.changePersonalInfo()
+            }
+            datePicker.show()
+        case 6:
+            //技术领域
+            let serverRangeVC = ServerRangeViewController.spwan()
+            serverRangeVC.selectedIds = self.techRangeArray
+            serverRangeVC.serverRangeBlock = {(selectedDictArray,titles,ids) in
+                self.techRangeLbl.text = titles.joined(separator: ";")
+                self.techRangeArray = ids
+                self.changePersonalInfo()
+            }
+            serverRangeVC.dataArray = self.serverRangeJson.arrayValue
+            self.navigationController?.pushViewController(serverRangeVC, animated: true)
             
-        case 5:
+        case 9:
             //评价列表
             let commentVC = CommentListViewController()
             commentVC.member_id = self.personalInfo["member_id"].stringValue
             commentVC.isFromPersonalInfo = true
             self.navigationController?.pushViewController(commentVC, animated: true)
-        case 6:
-            //工程师简历
-            let resumeVC = EngResumeTableViewController.spwan()
-            resumeVC.personalInfo = self.personalInfo
-//            commentVC.member_id = self.personalInfo["member_id"].stringValue
-//            commentVC.isFromPersonalInfo = true
-            self.navigationController?.pushViewController(resumeVC, animated: true)
         default:
             //
             print(indexPath.row)
@@ -293,7 +300,9 @@ extension PersonalInfoTableViewController : UITextFieldDelegate{
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0{
             return 71
-        }else if indexPath.row == 4{
+        }else if indexPath.row == 5{
+            return 88
+        }else if indexPath.row == 8{
             if self.personalInfo["member_level"].stringValue == "DA"{
                 return 0
             }else{
