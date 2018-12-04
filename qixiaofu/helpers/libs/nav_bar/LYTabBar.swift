@@ -48,7 +48,7 @@ class LYTabBar: UITabBar {
         
         
         self.btn.centerX = self.centerX
-        self.btn.centerY = self.height * 0.5 - 1.5 * 10 * 2
+        self.btn.centerY = self.height * 0.5 - 1.5 * 10
         
         self.btn.size = self.btn.currentBackgroundImage?.size
         

@@ -86,7 +86,6 @@ class HomeViewController: BaseViewController {
         self.bannerView1.timer?.invalidate()
         self.bannerView2.timer?.invalidate()
         self.removeTimer()
-        
     }
     
     override func didReceiveMemoryWarning() {
