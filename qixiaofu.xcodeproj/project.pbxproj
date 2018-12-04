@@ -688,6 +688,7 @@
 		08C205BA1F46D64900C13D12 /* scansound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 08C205B91F46D64900C13D12 /* scansound.wav */; };
 		08C205BC1F46D8C500C13D12 /* ScanActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C205BB1F46D8C500C13D12 /* ScanActionViewController.swift */; };
 		08C7FD8E20C7C6B50017883D /* have_breakfast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 08C7FD8C20C7C6B40017883D /* have_breakfast.mp3 */; };
+		08CB5D0221B6668700A198BE /* LYTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CB5D0121B6668600A198BE /* LYTabBar.swift */; };
 		08CCDA301F906468003732D1 /* LYPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CCDA2F1F906468003732D1 /* LYPhotosViewController.swift */; };
 		08CCDA341F9068A3003732D1 /* LYPhotoAlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CCDA331F9068A3003732D1 /* LYPhotoAlbumController.swift */; };
 		08CCDA371F907ADD003732D1 /* LYSelectePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CCDA351F907ADD003732D1 /* LYSelectePhotoCell.swift */; };
@@ -1782,6 +1783,7 @@
 		08C205B91F46D64900C13D12 /* scansound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scansound.wav; sourceTree = "<group>"; };
 		08C205BB1F46D8C500C13D12 /* ScanActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanActionViewController.swift; sourceTree = "<group>"; };
 		08C7FD8C20C7C6B40017883D /* have_breakfast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = have_breakfast.mp3; sourceTree = "<group>"; };
+		08CB5D0121B6668600A198BE /* LYTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYTabBar.swift; sourceTree = "<group>"; };
 		08CCDA2F1F906468003732D1 /* LYPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYPhotosViewController.swift; sourceTree = "<group>"; };
 		08CCDA331F9068A3003732D1 /* LYPhotoAlbumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYPhotoAlbumController.swift; sourceTree = "<group>"; };
 		08CCDA351F907ADD003732D1 /* LYSelectePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LYSelectePhotoCell.swift; sourceTree = "<group>"; };
@@ -3077,6 +3079,7 @@
 				0867ECA61EDC5A9E00377904 /* UIBUtton+Extension.swift */,
 				0867ECA21EDC5A7C00377904 /* LYNavigationController.swift */,
 				0867ECA31EDC5A7C00377904 /* LYTabBarController.swift */,
+				08CB5D0121B6668600A198BE /* LYTabBar.swift */,
 				08AB9CC81EF77F78004AFC3B /* UIBarButtonItem+Extension.swift */,
 			);
 			path = nav_bar;
@@ -5268,6 +5271,7 @@
 				089E4A31216CA0C5003C6583 /* UIResponder+HRouter.m in Sources */,
 				08EC31701F03576100BB340D /* HomeCertificateCell.swift in Sources */,
 				0897875E20A023B100503266 /* EPBillListViewController.swift in Sources */,
+				08CB5D0221B6668700A198BE /* LYTabBar.swift in Sources */,
 				089E4A35216CA0C5003C6583 /* HDEmojiEmoticons.m in Sources */,
 				084F8BFE1F2AC895003FAA37 /* SettingTableViewController.swift in Sources */,
 				08AC70092086F711008A3681 /* EnterpriseBillCell.swift in Sources */,

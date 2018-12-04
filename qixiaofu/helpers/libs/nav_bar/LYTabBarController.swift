@@ -26,7 +26,19 @@ class LYTabBarController: UITabBarController {
         
         
         
+//        let lyTabBar = LYTabBar()
+//        lyTabBar.delegate = self
+//        self.setValue(lyTabBar, forKey: "tabBar")
+        
+        
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//
+//        self.tabBar.tintColor =
+//    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -104,5 +116,13 @@ extension LYTabBarController{
             }
             return value
         }
+    }
+}
+
+
+
+extension LYTabBarController : LYTabBarDelegate{
+    func clickAction(tabbar: LYTabBar) {
+        print("12345678954321`12345678987654322345678987654321234567")
     }
 }
