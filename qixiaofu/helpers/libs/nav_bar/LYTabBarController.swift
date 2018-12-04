@@ -24,7 +24,8 @@ class LYTabBarController: UITabBarController {
         
         self.setUpAllChildViewControllers()
         
-        
+               tabBar.isTranslucent = false
+
         
 //        let lyTabBar = LYTabBar()
 //        lyTabBar.delegate = self
