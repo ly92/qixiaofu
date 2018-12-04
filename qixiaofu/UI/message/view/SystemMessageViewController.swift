@@ -55,6 +55,9 @@ class SystemMessageViewController: BaseViewController {
         LYProgressHUD.showLoading()
         
         self.addRefresh()
+        
+        
+        self.bottomViewBottomDis.constant = -45
     }
     
     //刷新
