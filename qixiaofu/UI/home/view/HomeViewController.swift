@@ -36,7 +36,7 @@ class HomeViewController: BaseViewController {
     fileprivate var currentOffsetY : CGFloat = 0//最新订单列表的offset
     var timer : Timer?
     fileprivate var isAutoScrolling = true
-    
+     
     fileprivate lazy var bannerView1 : LYAnimateBannerView = {
         let bannerView = LYAnimateBannerView.init(frame: CGRect(x: 0, y: 0, width: kScreenW, height: kScreenW * 320 / 750), delegate: self)
         bannerView.backgroundColor = UIColor.white

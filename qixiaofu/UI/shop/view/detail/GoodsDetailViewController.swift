@@ -656,11 +656,36 @@ extension GoodsDetailViewController : UITableViewDelegate,UITableViewDataSource{
             goodsLocationVC.goodsId = self.goodsId
             self.navigationController?.pushViewController(goodsLocationVC, animated: true)
         }else if indexPath.section == 0 && (indexPath.row == 2 || indexPath.row == 5) {
-            
-            let cell = self.tableView(self.tableView, cellForRowAt: indexPath)
             let cellRect = CGRect.init(origin: self.tableView.convert(self.tableView.rectForRow(at: indexPath).origin, to: self.view), size: self.tableView.rectForRow(at: indexPath).size)
             self.popoverSourceView.frame = CGRect.init(x: kScreenW / 2.0, y: cellRect.origin.y, width: 0, height: 0)
-            self.createPopoverView(self.popoverSourceView,cell.textLabel!.text!)
+            
+            var name = ""
+            var desc = ""
+            
+            if LocalData.getYesOrNotValue(key: KEnterpriseVersion){
+                name = resultJson["goods_name"].stringValue
+                var str = resultJson["goods_body"].stringValue
+                str = str.replacingOccurrences(of: "<div>", with: "")
+                str = str.replacingOccurrences(of: "</div>", with: "")
+                desc = str
+            }else{
+                name = resultJson["goods_info"]["goods_name"].stringValue
+                var str = resultJson["goods_info"]["mobile_body"].stringValue
+                str = str.replacingOccurrences(of: "<div>", with: "")
+                str = str.replacingOccurrences(of: "</div>", with: "")
+                desc = str
+            }
+            
+            var copyStr = ""
+            if desc.contains(name){
+                copyStr = desc
+            }else if name.contains(desc){
+                copyStr = name
+            }else{
+                copyStr = name + "\n" + desc
+            }
+            
+            self.createPopoverView(self.popoverSourceView,copyStr)
 
         }
     }

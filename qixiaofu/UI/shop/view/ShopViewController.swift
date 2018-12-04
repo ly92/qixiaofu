@@ -856,6 +856,12 @@ extension ShopViewController {
                 if str.hasPrefix("pn"){
                     str = pre_str.replacingOccurrences(of: "pn", with: "")
                 }
+                if str.hasPrefix("sn"){
+                    str = pre_str.replacingOccurrences(of: "sn", with: "")
+                }
+                if str.hasPrefix("."){
+                    str = pre_str.replacingOccurrences(of: ".", with: "")
+                }
                 
                 if str.count > 4 && str.count < 7{
                     //一般是5-6位 数字和字母混合
@@ -887,6 +893,10 @@ extension ShopViewController {
                 }else if str.count == 10{
                     //dell: 9FM066-057
                     if regexMach(str, "[0-9][A-Za-z]{2}[0-9]{3}-[0-9]{3}"){
+                        keys.append(str)
+                    }
+                    //364360-001
+                    if regexMach(str, "[0-9]{6}-[0-9]{3}"){
                         keys.append(str)
                     }
                 }else if str.count == 11{

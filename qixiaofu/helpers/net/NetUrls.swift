@@ -10,8 +10,8 @@ import UIKit
 
 let officialServer = "http://www.7xiaofu.com/"//正式服务器
 let testServer = "http://10.216.2.11/"//测试服务器（内网）
-let usedServer = officialServer
-//let usedServer = testServer
+//let usedServer = officialServer
+let usedServer = testServer
 let DeBug = false
 
 /************************************ 登录 ********************************************/
@@ -106,6 +106,29 @@ let NoticeDetailApi = "tp.php/Home/Notice/notice_info"
 let HaveBreakfastApi = "tp.php/Home/Member/fudou_deduct"
 //优惠券大礼包
 let CouponGiftBagApi = "tp.php/Home/Main/coupon_push"
+
+
+/************************************ 驻场招聘 ********************************************/
+//驻场招聘（搜索）列表
+let JobListApi = "tp.php/Home/Engineer/index"
+//职位类别
+let JobTypeListApi = "tp.php/Home/Engineer/job_type"
+//发布招聘&招聘详情编辑
+let PublishJobApi = "tp.php/Home/Engineer/send_job"
+//我的发布
+let MyJobListApi = "tp.php/Home/Engineer/sended_job"
+//招聘详情
+let JobDetailApi = "tp.php/Home/Engineer/job_details"
+//推荐工程师
+let JobRecommendEngListApi = "tp.php/Home/Engineer/engineer_recommend"
+//更改招聘状态  status  招聘状态，1招聘，2暂停，3删除
+let JobOperationApi = "tp.php/Home/Engineer/is_continue"
+//招聘时立即沟通
+let JobChatApi = "tp.php/Home/Engineer/chats"
+//沟通历史
+let JobChatHistoryApi = "tp.php/Home/Engineer/chat_history"
+
+
 
 /************************************ 优惠券 ********************************************/
 //七小服优惠券列表

@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import EventKit
 
 //屏幕尺寸
 let kScreenSize = UIScreen.main.bounds.size
@@ -69,6 +70,7 @@ func functionSkipAction(type:String,controller:UIViewController){
     
     switch type.intValue {
     case 1:
+        
 //        BaiDuMap.default.startTrace()
         //去发单
         UserViewModel.haveTrueName(parentVC: controller, {
@@ -252,6 +254,38 @@ func esmobChat(_ vc : UIViewController, _ to : String, _ type : Int, _ name : St
         vc.navigationController?.pushViewController(chatVC, animated: true)
     }
 }
+
+////添加日历事件
+//func entityAction(){
+//    let eventStore = EKEventStore()
+//    eventStore.requestAccess(to: .event) { (grand, error) in
+//        if error != nil{
+//            //出错
+//        }else if !grand{
+//            //用户拒绝
+//        }else{
+//            for i in 0...40{
+//                //创建事件
+//                let event = EKEvent.init(eventStore: eventStore)
+//                event.title = "办理进京证"
+//                event.location = "北京交警App"
+//
+//                event.isAllDay = false
+//
+//                event.startDate = Date.dateWithDaysAfterNow(days: Double(i * 7 - 1))
+//                event.endDate = Date.dateWithDaysAfterNow(days: Double(i * 7 - 0.9))
+//                //添加提醒
+//                event.addAlarm(EKAlarm.init(relativeOffset: 60.0 * -60.0 * 24))
+//                event.addAlarm(EKAlarm.init(relativeOffset: 60.0 * -15.0))
+//
+//                event.calendar = eventStore.defaultCalendarForNewEvents
+//                try? eventStore.save(event, span: EKSpan.thisEvent)
+//            }
+//
+//        }
+//    }
+//}
+
 
 class Macros: NSObject {
     

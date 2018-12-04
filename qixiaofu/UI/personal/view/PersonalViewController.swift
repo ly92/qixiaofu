@@ -219,6 +219,7 @@ class PersonalViewController: BaseTableViewController {
     //个人信息
     @IBAction func personalInfoAction() {
         let personalInfoVC = PersonalInfoTableViewController.spwan()
+        personalInfoVC.personalInfo = self.personalInfo
         self.navigationController?.pushViewController(personalInfoVC, animated: true)
     }
     

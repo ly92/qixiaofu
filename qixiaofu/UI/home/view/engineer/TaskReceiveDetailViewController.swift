@@ -123,6 +123,9 @@ class TaskReceiveDetailViewController: BaseTableViewController {
         imgV.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: h)
         scroll.addSubview(imgV)
         scroll.contentSize = CGSize.init(width: kScreenW, height: h)
+        if #available(iOS 11.0, *) {
+            scroll.contentInsetAdjustmentBehavior = .never
+        }
         UIApplication.shared.keyWindow?.addSubview(scroll)
         UIView.animate(withDuration: 0.5) {
             scroll.frame = CGRect.init(x: 0, y: 0, width: kScreenW, height: kScreenH)
@@ -264,6 +267,12 @@ extension TaskReceiveDetailViewController{
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true
         }
+        //约定不显示价格
+        if resultDict["show_price"].stringValue.intValue == 0{
+            self.isEnrolled = true
+            self.serverPriceLbl.isHidden = true
+            self.serverPriceTitleLbl.isHidden = true
+        }
         
         self.coreCodeImgV.image = UIImageView.createQrcodeWithImage(#imageLiteral(resourceName: "app_icon"), resultDict["share"].stringValue)
         
@@ -369,6 +378,14 @@ extension TaskReceiveDetailViewController{
         
         if indexPath.row == 2{
             let desc = resultDict["service_sector"].stringValue
+            let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+            if height > 25 {
+                return height
+            }
+        }
+        
+        if indexPath.row == 1{
+            let desc = resultDict["entry_name"].stringValue
             let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
             if height > 25 {
                 return height

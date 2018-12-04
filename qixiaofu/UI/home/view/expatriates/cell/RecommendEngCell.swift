@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RecommendEngCell: UITableViewCell {
 
@@ -31,10 +32,29 @@ class RecommendEngCell: UITableViewCell {
     
     @IBAction func engDetail() {
         let preResumeVC = EngResumeViewController.spwan()
+        preResumeVC.engId = self.subJson["member_id"].stringValue
         self.parentVC.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     @IBAction func chatEng() {
         print("联系工程师")
+        var params : [String : Any] = [:]
+        params["jobid"] = self.subJson["id"].stringValue
+        params["identity"] = "2"
+        params["engineer_id"] = self.subJson["member_id"].stringValue
+        NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+        }, failure: { (error) in
+        })
+    }
+    
+    
+    var subJson = JSON(){
+        didSet{
+            self.engIconImgV.setImageUrlStr(subJson["member_avatar"].stringValue)
+            self.engNameLbl.text = subJson["member_name"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue
+            self.engJobLbl.text = subJson["type_name"].stringValue
+            self.chatStateLbl.text = subJson["status"].stringValue.intValue == 1 ? "" : ""
+        }
     }
     
 }

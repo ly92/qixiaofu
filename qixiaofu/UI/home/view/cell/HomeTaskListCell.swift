@@ -98,6 +98,12 @@ class HomeTaskListCell: UITableViewCell {
                 self.serverPriceLbl.isHidden = true
             }
             
+            //约定不显示价格
+            if jsonModel["show_price"].stringValue.intValue == 0{
+                self.lbl5.isHidden = true
+                self.serverPriceLbl.isHidden = true
+            }
+            
 
             
             

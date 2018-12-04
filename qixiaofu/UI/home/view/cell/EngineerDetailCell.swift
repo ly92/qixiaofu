@@ -20,6 +20,7 @@ class EngineerDetailCell: UITableViewCell {
     @IBOutlet weak var levelLblLeftDis: NSLayoutConstraint!
     @IBOutlet weak var engXinImgV: UIImageView!
     @IBOutlet weak var engXinLbl: UILabel!
+    @IBOutlet weak var levelCodeLbl: UILabel!
     
     var jsonModel : JSON = [] {
         didSet{
@@ -48,6 +49,9 @@ class EngineerDetailCell: UITableViewCell {
                 self.engXinImgV.image = UIImage.init(named: "eng_xin_icon1")
                 self.engXinLbl.text = "未在平台中缴纳保证金"
             }
+            
+            //经验值
+            self.levelCodeLbl.text = "经验值：" + jsonModel["experience_value"].stringValue
             
         }
     }

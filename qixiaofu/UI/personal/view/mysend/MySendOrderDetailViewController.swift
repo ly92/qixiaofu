@@ -655,6 +655,13 @@ extension MySendOrderDetailViewController : LYMultiplePhotoBrowseViewDelegate, L
                     return 0
                 }
             }
+            if indexPath.row == 2{
+                let desc = modelJson["entry_name"].stringValue
+                let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
+                if height > 25 {
+                    return height
+                }
+            }
             if indexPath.row == 3{
                 let desc = modelJson["service_sector"].stringValue
                 let height = desc.sizeFit(width: kScreenW - 80, height: CGFloat.greatestFiniteMagnitude, fontSize: 14.0).height + 4
@@ -1126,7 +1133,11 @@ extension MySendOrderDetailViewController{
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true
         }
-        
+        //约定不显示价格
+        if resultDict["show_price"].stringValue.intValue == 0{
+            self.serverPriceLbl.isHidden = true
+            self.serverPriceTitleLbl.isHidden = true
+        }
     }
 }
 

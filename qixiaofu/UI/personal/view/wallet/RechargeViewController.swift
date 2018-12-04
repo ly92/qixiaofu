@@ -33,6 +33,7 @@ class RechargeViewController: BaseTableViewController {
     fileprivate var enableMoney : Double = 0//可用余额
 
     fileprivate var isWechat = false//是否为通过微信
+    fileprivate var zuidiedu : Double = 0//保证金额度
     
     fileprivate var rechargeLbl = UILabel.init(frame: CGRect.init(x: 10, y: 0, width: kScreenW - 20, height: 21))//可提现金额
     fileprivate var rechargeDescLbl = UILabel.init(frame: CGRect.init(x: 10, y: 21, width: kScreenW - 20, height: 29))//保证金提醒
@@ -90,6 +91,8 @@ class RechargeViewController: BaseTableViewController {
     
     
     @IBAction func submitAction() {
+        self.view.endEditing(true)
+        
         if self.vcType == 1{
             //充值零钱
             self.rechargeAction()
@@ -113,6 +116,7 @@ class RechargeViewController: BaseTableViewController {
             url = HaveSetPayPasswordApi
         }
         NetTools.requestData(type: .post, urlString: url, succeed: { (resultJson, error) in
+            self.zuidiedu = resultJson["zuidiedu"].stringValue.doubleValue
             if resultJson["statu"].stringValue.intValue == 1{
                 self.isSettedPayPwd = true
             }
@@ -268,42 +272,55 @@ extension RechargeViewController{
             LYProgressHUD.showError("你的提现金额不足")
             return
         }
-        if self.isWechat{
-            let bankAc = self.brankAccountTF.text
-            let bankName = self.bankNameTF.text
-            let userName = self.userNameTF.text
-            if (bankAc?.isEmpty)!{
-                LYProgressHUD.showError("请输入银行卡号")
-                return
+        
+        func withdraw(){
+            if self.isWechat{
+                let bankAc = self.brankAccountTF.text
+                let bankName = self.bankNameTF.text
+                let userName = self.userNameTF.text
+                if (bankAc?.isEmpty)!{
+                    LYProgressHUD.showError("请输入银行卡号")
+                    return
+                }
+                if (bankName?.isEmpty)!{
+                    LYProgressHUD.showError("请输入开户行名称")
+                    return
+                }
+                if (userName?.isEmpty)!{
+                    LYProgressHUD.showError("请输入开户人名称")
+                    return
+                }
+            }else{
+                let aliAc = self.aliAccountTF.text
+                if (aliAc?.isEmpty)!{
+                    LYProgressHUD.showError("请输入支付宝账号！")
+                    return
+                }
             }
-            if (bankName?.isEmpty)!{
-                LYProgressHUD.showError("请输入开户行名称")
-                return
+            //是否已设置密码
+            if self.isSettedPayPwd{
+                self.payByWallet()
+            }else{
+                //设置支付密码
+                let changePayPwdVc = ChangePasswordViewController.spwan()
+                changePayPwdVc.type = .setPayPwd
+                changePayPwdVc.setPayPwdSuccessBlock = {[weak self] () in
+                    self?.checkPayPassword()
+                }
+                self.navigationController?.pushViewController(changePayPwdVc, animated: true)
             }
-            if (userName?.isEmpty)!{
-                LYProgressHUD.showError("请输入开户人名称")
-                return
-            }
+        }
+
+        if self.enableMoney - money!.doubleValue < self.zuidiedu{//余额小于保证金
+            LYAlertView.show("提示", "提现后您的余额将不足保证金，保证金不足时可能会降低客户对您的信任度！", "确定提现", "先不提现",{
+                self.navigationController?.popViewController(animated: true)
+            },{
+                withdraw()
+            })
         }else{
-            let aliAc = self.aliAccountTF.text
-            if (aliAc?.isEmpty)!{
-                LYProgressHUD.showError("请输入支付宝账号！")
-                return
-            }
+            withdraw()
         }
         
-        //是否已设置密码
-        if self.isSettedPayPwd{
-            self.payByWallet()
-        }else{
-            //设置支付密码
-            let changePayPwdVc = ChangePasswordViewController.spwan()
-            changePayPwdVc.type = .setPayPwd
-            changePayPwdVc.setPayPwdSuccessBlock = {[weak self] () in
-                self?.checkPayPassword()
-            }
-            self.navigationController?.pushViewController(changePayPwdVc, animated: true)
-        }
     }
     
     //使用钱包
@@ -358,9 +375,9 @@ extension RechargeViewController{
         }) { (error) in
             LYProgressHUD.showError(error!)
         }
-        
-        
     }
+    
+    
     //使用支付宝付款
     func payByAli(_ aliJson : JSON) {
         let order = Order()

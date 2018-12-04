@@ -125,11 +125,8 @@ extension ForgetPasswordViewController{
             if resultDict["code"].stringValue.isEmpty{
                 self.codeBtn.isEnabled = true
             }else{
-                if #available(iOS 10.0, *) {
-                    self.setUpCodeTimer()
-                } else {
-                    self.setUpCodeTimer2()
-                }
+                self.setUpCodeTimer()
+                self.codeTF.becomeFirstResponder()
             }
         }) { (error) in
             self.codeBtn.isEnabled = true
@@ -253,9 +250,8 @@ extension ForgetPasswordViewController{
     
 }
 
-
-@available(iOS 10.0, *)
 extension ForgetPasswordViewController{
+    
     func setUpCodeTimer() {
         self.codeTime = 60
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
@@ -271,15 +267,6 @@ extension ForgetPasswordViewController{
                 timer.invalidate()
             }
         }
-    }
-}
-
-extension ForgetPasswordViewController{
-    func setUpCodeTimer2() {
-        self.codeTime = 60
-        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(ForgetPasswordViewController.changeCodeBtnTitle), userInfo: nil, repeats: true)
-        RunLoop.main.add(self.timer, forMode: .defaultRunLoopMode)
-        timer.fire()
     }
     
     @objc func changeCodeBtnTitle() {

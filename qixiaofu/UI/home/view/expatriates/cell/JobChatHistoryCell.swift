@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class JobChatHistoryCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UILabel!
@@ -32,17 +33,37 @@ class JobChatHistoryCell: UITableViewCell {
     
     @IBAction func engDetail() {
         let preResumeVC = EngResumeViewController.spwan()
+        preResumeVC.engId = self.subJson["engineer_id"].stringValue
         self.parentVC.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     
     @IBAction func engChat() {
          print("联系工程师")
+        var params : [String : Any] = [:]
+        params["jobid"] = self.subJson["id"].stringValue
+        params["identity"] = "2"
+        params["engineer_id"] = self.subJson["member_id"].stringValue
+        NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+        }, failure: { (error) in
+        })
     }
     
     @IBAction func jobDetail() {
         let jobDetailVC = JobDetailViewController.spwan()
+//        jobDetailVC.jobId = self.su
         jobDetailVC.idType = 2
         self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
     
+    
+    var subJson = JSON(){
+        didSet{
+            self.nameLbl.text = subJson["type_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
+            self.addressLbl.text = subJson["area_info"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
+            self.engIcon.setImageUrlStr(subJson["member_avatar"].stringValue)
+            self.engNameLbl.text = subJson["member_name"].stringValue
+            self.engTypeLbl.text = subJson["type_name"].stringValue
+        }
+    }
 }
