@@ -10,8 +10,8 @@ import UIKit
 
 let officialServer = "http://www.7xiaofu.com/"//正式服务器
 let testServer = "http://10.216.2.11/"//测试服务器（内网）
-//let usedServer = officialServer
-let usedServer = testServer
+let usedServer = officialServer
+//let usedServer = testServer
 let DeBug = false
 
 /************************************ 登录 ********************************************/
