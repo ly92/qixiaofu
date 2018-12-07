@@ -106,15 +106,18 @@ class JobListViewController: BaseViewController {
                 self.dataArray.append(json)
             }
             
+            
             if resultJson.arrayValue.count < 10{
                 self.tableView.es.noticeNoMoreData()
             }else{
                 self.tableView.es.resetNoMoreData()
             }
             
+            self.stopRefresh()
+            
             self.tableView.reloadData()
             
-            self.stopRefresh()
+            
         }) { (error) in
             self.stopRefresh()
             LYProgressHUD.showError(error ?? "网络请求错误！")

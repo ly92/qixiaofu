@@ -39,12 +39,13 @@ class EngJobChatHistoryCell: UITableViewCell {
     }
     
     @IBAction func chatAction() {
-        print("联系招聘官")
+        //联系招聘官
+        esmobChat(self.parentVC, self.subJson["mobile"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+        
         var params : [String : Any] = [:]
         params["jobid"] = self.subJson["id"].stringValue
         params["identity"] = "1"
         NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
-            
         }, failure: { (error) in
         })
         

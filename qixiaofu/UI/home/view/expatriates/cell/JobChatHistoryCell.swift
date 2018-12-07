@@ -50,7 +50,7 @@ class JobChatHistoryCell: UITableViewCell {
     
     @IBAction func jobDetail() {
         let jobDetailVC = JobDetailViewController.spwan()
-//        jobDetailVC.jobId = self.su
+        jobDetailVC.jobId = self.subJson["id"].stringValue
         jobDetailVC.idType = 2
         self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
