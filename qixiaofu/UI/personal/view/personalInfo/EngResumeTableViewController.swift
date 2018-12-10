@@ -14,7 +14,8 @@ class EngResumeTableViewController: BaseTableViewController {
         return self.loadFromStoryBoard(storyBoard: "Personal") as! EngResumeTableViewController
     }
     
-    var personalInfo : JSON = []
+    var engId = ""
+    
     
     @IBOutlet weak var curStateLbl: UILabel!
     @IBOutlet weak var jobNameLbl: UILabel!
@@ -29,7 +30,8 @@ class EngResumeTableViewController: BaseTableViewController {
     @IBOutlet weak var saveBtn: UIButton!
     
     
-    fileprivate var workYear : Date?//从业年限
+    fileprivate var personalInfo : JSON = []
+    
     fileprivate var techRangeArray : Array<String> = Array<String>()//技术领域
     fileprivate var adaptBrand : String = ""//擅长品牌
     fileprivate var cerImgs : String = ""//职业证书
@@ -39,6 +41,7 @@ class EngResumeTableViewController: BaseTableViewController {
     fileprivate var photoView = LYPhotoBrowseView()
     fileprivate var jobStatus = ""//当前状态
     fileprivate var jobType = ""//职位
+    fileprivate var workYear = ""//从业年限
     fileprivate var province_id = ""
     fileprivate var city_id = ""
     fileprivate var county_id = ""
@@ -46,16 +49,15 @@ class EngResumeTableViewController: BaseTableViewController {
     fileprivate var salary_heigh = ""//工资
     fileprivate var advantage = ""//我的优势
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "工程师简历"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "预览", target: self, action: #selector(EngResumeTableViewController.rightItemAction))
         
-        
+        self.loadEngResume()
         self.prepareData()
-        
-        self.setUpUIData()
     }
     
     @objc func rightItemAction(){
@@ -63,6 +65,15 @@ class EngResumeTableViewController: BaseTableViewController {
         preResumeVC.engId = self.personalInfo["member_id"].stringValue
 //        preResumeVC.personalInfo = self.personalInfo
         self.navigationController?.pushViewController(preResumeVC, animated: true)
+    }
+    
+    func loadEngResume() {
+        let params : [String : Any] = ["engineer_id" : self.engId]
+        NetTools.requestData(type: .post, urlString: PersonalInfoApi, parameters: params, succeed: { (resultJson, msg) in
+            self.personalInfo = resultJson
+            self.setUpUIData()
+        }) { (error) in
+        }
     }
     
     
@@ -86,11 +97,34 @@ class EngResumeTableViewController: BaseTableViewController {
     
     //设置页面数据
     func setUpUIData() {
-        
         self.saveBtn.layer.cornerRadius = 20
+        self.jobStatus = self.personalInfo["job_status"].stringValue
+        switch self.jobStatus.intValue {
+        case 1:
+            self.curStateLbl.text = "在职"
+        case 2:
+            self.curStateLbl.text = "已离职"
+        case 3:
+            self.curStateLbl.text = "在职-考虑机会"
+        default:
+            self.curStateLbl.text = "在职-月内到岗"
+        }
         
-        if !self.personalInfo["working_time"].stringValue.isEmpty{
-            self.workYearLbl.text = Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)
+        self.jobType = self.personalInfo["typeid"].stringValue
+        self.jobNameLbl.text = self.personalInfo["type_name"].stringValue
+        
+        self.province_id = self.personalInfo["province_id"].stringValue
+        self.county_id = self.personalInfo["county_id"].stringValue
+        self.city_id = self.personalInfo["city_id"].stringValue
+        self.addressLbl.text = self.personalInfo["area_info"].stringValue
+
+        self.salary_low = self.personalInfo["salary_low"].stringValue
+        self.salary_heigh = self.personalInfo["salary_heigh"].stringValue
+        self.jobPriceLbl.text = self.salary_low + "~" + self.salary_heigh + "K"
+        
+        if !self.personalInfo["job_start_time"].stringValue.isEmpty{
+            self.workYear = self.personalInfo["job_start_time"].stringValue
+            self.workYearLbl.text = self.personalInfo["job_start_time"].stringValue + "年"
         }
         
         self.photoView = LYPhotoBrowseView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW - 16, height: 50),superVC:self)
@@ -103,6 +137,9 @@ class EngResumeTableViewController: BaseTableViewController {
             //添加职业证书
             let addCertVC = AddCertificateViewController.spwan()
             addCertVC.depth = "\(self.personalInfo["cer_images"].arrayValue.count + 1)"
+            addCertVC.operationBlock = {() in
+                self.loadEngResume()
+            }
             self.navigationController?.pushViewController(addCertVC, animated: true)
         }
         self.certView.addSubview(self.photoView)
@@ -128,8 +165,15 @@ class EngResumeTableViewController: BaseTableViewController {
                 addCertVC.imgUrl = imgUrlArray[index]
                 addCertVC.depth = "\(index + 1)"
                 addCertVC.certId = self.personalInfo["cer_images"].arrayValue[index]["cer_id"].stringValue
+                addCertVC.operationBlock = {() in
+                    self.loadEngResume()
+                }
                 self.navigationController?.pushViewController(addCertVC, animated: true)
             }
+            
+            self.advantage = self.personalInfo["advantage"].stringValue
+            self.advantageTextView.text = self.advantage
+            self.advantageNumLbl.text = "\(self.advantage.count)/300"
         }
         
         self.techRangeArray.removeAll()
@@ -169,8 +213,8 @@ class EngResumeTableViewController: BaseTableViewController {
     @IBAction func saveAction() {
         self.view.endEditing(true)
         var params : [String : Any] = [:]
-        if self.workYear != nil{
-            params["job_start_time"] = self.workYear?.phpTimestamp()
+        if !self.workYear.isEmpty{
+            params["job_start_time"] = self.workYear
         }
         if !self.jobStatus.isEmpty{
             params["job_status"] = self.jobStatus
@@ -251,7 +295,7 @@ extension EngResumeTableViewController{
             //从业时间
             let datePicker = LYDatePicker.init(component: 1)
             datePicker.ly_datepickerWithOneComponent = {(date,year) in
-                self.workYear = date
+                self.workYear = "\(year)"
                 self.workYearLbl.text = "\(year)年"
                 self.saveAction()
             }
@@ -314,6 +358,12 @@ extension EngResumeTableViewController : UITextFieldDelegate, UITextViewDelegate
             text?.removeLast()
             textView.text = text
         }
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        self.advantage = textView.text
+        self.saveAction()
+        return true
     }
     
     

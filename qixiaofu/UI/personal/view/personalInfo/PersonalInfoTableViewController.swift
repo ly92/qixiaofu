@@ -25,16 +25,11 @@ class PersonalInfoTableViewController: BaseTableViewController {
     @IBOutlet weak var nickNameTF: UITextField!
     @IBOutlet weak var realNameLbl: UILabel!
     @IBOutlet weak var realNameArrowImgV: UIImageView!
-//    @IBOutlet weak var workYearLbl: UILabel!
-//    @IBOutlet weak var certView: UIView!
-//    @IBOutlet weak var techRangeLbl: UILabel!
-//    @IBOutlet weak var adaptBrandTF: UITextField!
     @IBOutlet weak var invoteCodeLbl: UILabel!
     @IBOutlet weak var levelCodeLbl: UILabel!
     @IBOutlet weak var levelImgV1: UIImageView!
     @IBOutlet weak var levelImgV2: UIImageView!
     @IBOutlet weak var levelImgV3: UIImageView!
-    fileprivate var photoView = LYPhotoBrowseView()
     fileprivate var serverRangeJson : JSON = []
     
     
@@ -104,49 +99,6 @@ class PersonalInfoTableViewController: BaseTableViewController {
         }else if self.personalInfo["is_real"].stringValue.intValue == 2{
             self.realNameLbl.text = "审核中"
             self.realNameArrowImgV.isHidden = false
-        }
-//        if !self.personalInfo["working_time"].stringValue.isEmpty{
-//            self.workYearLbl.text = Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)
-//        }
-        
-        
-        self.photoView = LYPhotoBrowseView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW - 16, height: 50),superVC:self)
-        self.photoView.backgroundColor = UIColor.white
-        self.photoView.showLogoImgV = true
-        self.photoView.maxPhotoNum = 5
-        self.photoView.canTakePhoto = true
-        self.photoView.showDeleteBtn = false
-        self.photoView.customBlock = {() in
-            //添加职业证书
-            let addCertVC = AddCertificateViewController.spwan()
-            addCertVC.depth = "\(self.personalInfo["cer_images"].arrayValue.count + 1)"
-            self.navigationController?.pushViewController(addCertVC, animated: true)
-        }
-//        self.certView.addSubview(self.photoView)
-        if self.personalInfo["cer_images"].arrayValue.count > 0{
-            var imgUrlArray : Array<String> = Array<String>()
-            var imgDescArray : Array<String> = Array<String>()
-            var imgLogoArray : Array<String> = Array<String>()
-            for subJson in self.personalInfo["cer_images"].arrayValue {
-                imgUrlArray.append(subJson["cer_image"].stringValue)
-                imgDescArray.append(subJson["cer_image_name"].stringValue)
-                //证书状态 【10 通过】【20 未通过】【30 待审核】cer_image_type
-                imgLogoArray.append(subJson["cer_image_type"].stringValue)
-            }
-            self.photoView.showImgUrlArray = imgUrlArray
-            self.photoView.imgDescArray = imgDescArray
-            self.photoView.imgLogoArray = imgLogoArray
-            self.photoView.longPressBlock = {(index) in
-                //长按操作
-                print(index)
-                let addCertVC = AddCertificateViewController.spwan()
-                addCertVC.certImg = self.photoView.imgArray[index]
-                addCertVC.certName = imgDescArray[index]
-                addCertVC.imgUrl = imgUrlArray[index]
-                addCertVC.depth = "\(index + 1)"
-                addCertVC.certId = self.personalInfo["cer_images"].arrayValue[index]["cer_id"].stringValue
-                self.navigationController?.pushViewController(addCertVC, animated: true)
-            }
         }
         
         self.techRangeArray.removeAll()
@@ -280,9 +232,7 @@ extension PersonalInfoTableViewController : UITextFieldDelegate{
         case 6:
             //工程师简历
             let resumeVC = EngResumeTableViewController.spwan()
-            resumeVC.personalInfo = self.personalInfo
-//            commentVC.member_id = self.personalInfo["member_id"].stringValue
-//            commentVC.isFromPersonalInfo = true
+            resumeVC.engId = self.personalInfo["member_id"].stringValue
             self.navigationController?.pushViewController(resumeVC, animated: true)
         default:
             //

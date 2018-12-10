@@ -31,7 +31,7 @@ class MyJobListViewController: BaseTableViewController {
         var params : [String : Any] = [:]
         params["curpage"] = self.curpage
         
-        NetTools.requestData(type: .get, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .get, urlString: MyJobListApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.dataArray.removeAll()
             }

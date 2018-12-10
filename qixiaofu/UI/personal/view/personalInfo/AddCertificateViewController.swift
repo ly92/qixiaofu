@@ -22,7 +22,7 @@ class AddCertificateViewController: BaseViewController {
     var isFromAddTest = false
     var addTestBlock : ((String,String) -> Void)?
     var deleteTestBlock : (() -> Void)?
-    
+    var operationBlock : (() -> Void)?
     
     var certName = ""
     var certImg : UIImage?
@@ -80,12 +80,18 @@ class AddCertificateViewController: BaseViewController {
         if self.isFromAddTest{
             if self.deleteTestBlock != nil{
                 self.deleteTestBlock!()
+                if self.operationBlock != nil{
+                    self.operationBlock!()
+                }
                 self.navigationController?.popViewController(animated: true)
             }
         }else{
             var params : [String : Any] = [:]
             params["depth"] = self.certId
             NetTools.requestData(type: .post, urlString: DeleteCertificateApi, parameters: params, succeed: { (result, msg) in
+                if self.operationBlock != nil{
+                    self.operationBlock!()
+                }
                 self.navigationController?.popViewController(animated: true)
             }) { (error) in
                 LYProgressHUD.showError(error!)
@@ -122,6 +128,9 @@ class AddCertificateViewController: BaseViewController {
                 }else{
                     self.addTestBlock!(self.certNameTextV.text!,self.imgUrl)
                 }
+                if self.operationBlock != nil{
+                    self.operationBlock!()
+                }
                 self.navigationController?.popViewController(animated: true)
             }
         }else{
@@ -130,11 +139,15 @@ class AddCertificateViewController: BaseViewController {
             params["cer_name"] = self.certNameTextV.text
             params["depth"] = self.depth
             NetTools.requestData(type: .post, urlString: AddCertificateApi, parameters: params, succeed: { (result, msg) in
+                if self.operationBlock != nil{
+                    self.operationBlock!()
+                }
                 self.navigationController?.popViewController(animated: true)
             }) { (error) in
                 LYProgressHUD.showError(error!)
             }
         }
+        
     }
 
     
