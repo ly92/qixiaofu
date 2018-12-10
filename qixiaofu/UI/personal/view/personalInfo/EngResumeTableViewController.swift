@@ -30,12 +30,21 @@ class EngResumeTableViewController: BaseTableViewController {
     
     
     fileprivate var workYear : Date?//从业年限
-    fileprivate var nickName : String = ""//昵称
     fileprivate var techRangeArray : Array<String> = Array<String>()//技术领域
     fileprivate var adaptBrand : String = ""//擅长品牌
     fileprivate var cerImgs : String = ""//职业证书
     fileprivate var serverRangeJson : JSON = []
+    fileprivate var jobTitleJson : JSON = []
+    fileprivate var jobTitleArray : Array<String> = Array<String>()//职位
     fileprivate var photoView = LYPhotoBrowseView()
+    fileprivate var jobStatus = ""//当前状态
+    fileprivate var jobType = ""//职位
+    fileprivate var province_id = ""
+    fileprivate var city_id = ""
+    fileprivate var county_id = ""
+    fileprivate var salary_low = ""//工资
+    fileprivate var salary_heigh = ""//工资
+    fileprivate var advantage = ""//我的优势
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +60,8 @@ class EngResumeTableViewController: BaseTableViewController {
     
     @objc func rightItemAction(){
         let preResumeVC = EngResumeViewController.spwan()
-        preResumeVC.personalInfo = self.personalInfo
+        preResumeVC.engId = self.personalInfo["member_id"].stringValue
+//        preResumeVC.personalInfo = self.personalInfo
         self.navigationController?.pushViewController(preResumeVC, animated: true)
     }
     
@@ -60,6 +70,16 @@ class EngResumeTableViewController: BaseTableViewController {
     func prepareData() {
         NetTools.requestData(type: .post, urlString: ServerRangeListApi, succeed: { (result, msg) in
             self.serverRangeJson = result
+        }) { (error) in
+        }
+        
+        //职位数据
+        NetTools.requestData(type: .get, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
+            self.jobTitleArray.removeAll()
+            self.jobTitleJson = resultJson
+            for json in resultJson.arrayValue{
+                self.jobTitleArray.append(json["type_name"].stringValue)
+            }
         }) { (error) in
         }
     }
@@ -72,7 +92,6 @@ class EngResumeTableViewController: BaseTableViewController {
         if !self.personalInfo["working_time"].stringValue.isEmpty{
             self.workYearLbl.text = Date.dateStringFromDate(format: Date.yearFormatString(), timeStamps: self.personalInfo["working_time"].stringValue)
         }
-        
         
         self.photoView = LYPhotoBrowseView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenW - 16, height: 50),superVC:self)
         self.photoView.backgroundColor = UIColor.white
@@ -131,16 +150,57 @@ class EngResumeTableViewController: BaseTableViewController {
     func changePersonalInfo() {
         self.view.endEditing(true)
         var params : [String : Any] = [:]
-        
-        //        NetTools.requestData(type: .post, urlString: ChangePersonalInfoApi, parameters: params, succeed: { (result, msg) in
-        //            LYProgressHUD.showSuccess("保存成功！")
-        //        }) { (error) in
-        //            LYProgressHUD.showError(error!)
-        //        }
+        if !self.techRangeArray.isEmpty{
+            params["service_sector"] = self.techRangeArray.joined(separator: ",")
+        }
+        if !self.adaptBrand.isEmpty{
+            params["service_brand"] = self.adaptBrand
+        }
+        if !self.cerImgs.isEmpty{
+            params["cer_images"] = self.cerImgs
+        }
+        NetTools.requestData(type: .post, urlString: ChangePersonalInfoApi, parameters: params, succeed: { (result, msg) in
+            LYProgressHUD.showSuccess("保存成功！")
+        }) { (error) in
+            LYProgressHUD.showError(error!)
+        }
     }
     
     @IBAction func saveAction() {
-
+        self.view.endEditing(true)
+        var params : [String : Any] = [:]
+        if self.workYear != nil{
+            params["job_start_time"] = self.workYear?.phpTimestamp()
+        }
+        if !self.jobStatus.isEmpty{
+            params["job_status"] = self.jobStatus
+        }
+        if !self.jobType.isEmpty{
+            params["typeid"] = self.jobType
+        }
+        if !self.province_id.isEmpty{
+            params["province_id"] = self.province_id
+        }
+        if !self.city_id.isEmpty{
+            params["city_id"] = self.city_id
+        }
+        if !self.county_id.isEmpty{
+            params["county_id"] = self.county_id
+        }
+        if !self.salary_low.isEmpty{
+            params["salary_low"] = self.salary_low
+        }
+        if !self.salary_heigh.isEmpty{
+            params["salary_heigh"] = self.salary_heigh
+        }
+        if !self.advantage.isEmpty{
+            params["advantage"] = self.advantage
+        }
+        NetTools.requestData(type: .post, urlString: ChangeResumeApi, parameters: params, succeed: { (result, msg) in
+            LYProgressHUD.showSuccess("保存成功！")
+        }) { (error) in
+            LYProgressHUD.showError(error!)
+        }
     }
     
     
@@ -152,11 +212,17 @@ extension EngResumeTableViewController{
             //当前状态
             LYPickerView.show(titles: ["在职","已离职","在职-考虑机会","在职-月内到岗"], selectBlock: {(title,index) in
                 self.curStateLbl.text = title
+                self.jobStatus = "\(index+1)"
+                self.saveAction()
             })
         }else if indexPath.row == 1{
             //职位
-            LYPickerView.show(titles: ["驻场工程师","职位1","职位2","职位3"], selectBlock: {(title,index) in
+            LYPickerView.show(titles: self.jobTitleArray, selectBlock: {(title,index) in
                 self.jobNameLbl.text = title
+                if self.jobTitleJson.arrayValue.count > index{
+                    self.jobType = self.jobTitleJson.arrayValue[index]["id"].stringValue
+                    self.saveAction()
+                }
             })
         }else if indexPath.row == 2{
             //工作地址
@@ -164,9 +230,10 @@ extension EngResumeTableViewController{
             chooseVc.chooseAeraBlock = {(provinceId,cityId,areaId,addressArray) in
 //                self.areaDict["city"] = addressArray[1]
                 self.addressLbl.text = addressArray.joined()
-//                self.provinceId = provinceId
-//                self.cityId = cityId
-//                self.areaId = areaId
+                self.province_id = provinceId
+                self.city_id = cityId
+                self.county_id = areaId
+                self.saveAction()
             }
             self.navigationController?.pushViewController(chooseVc, animated: true)
         }else if indexPath.row == 3{
@@ -175,6 +242,9 @@ extension EngResumeTableViewController{
             picker.show()
             picker.pickerViewBlock = {(first,second) in
                 self.jobPriceLbl.text = "\(first)~\(second)K"
+                self.salary_low = "\(first)"
+                self.salary_heigh = "\(second)"
+                self.saveAction()
             }
             
         }else if indexPath.row == 4{
@@ -183,7 +253,7 @@ extension EngResumeTableViewController{
             datePicker.ly_datepickerWithOneComponent = {(date,year) in
                 self.workYear = date
                 self.workYearLbl.text = "\(year)年"
-                self.changePersonalInfo()
+                self.saveAction()
             }
             datePicker.show()
         }else if indexPath.row == 6{
@@ -216,6 +286,7 @@ extension EngResumeTableViewController : UITextFieldDelegate, UITextViewDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //编辑完成
+        self.saveAction()
         return true
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

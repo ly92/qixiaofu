@@ -16,7 +16,6 @@ class EngResumeViewController: BaseTableViewController {
     
     
     var engId = ""
-    var personalInfo : JSON = []
     
     @IBOutlet weak var engImgV: UIImageView!
     @IBOutlet weak var baoImgV: UIImageView!
@@ -33,24 +32,23 @@ class EngResumeViewController: BaseTableViewController {
     @IBOutlet weak var certView: UIView!
     
     fileprivate var photoView = LYPhotoBrowseView()
+    fileprivate var personalInfo : JSON = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title =  self.personalInfo["member_truename"].stringValue + "的简历"
+        
         
         self.engImgV.layer.cornerRadius = 20
         
-        if engId.isEmpty{
-            self.setUpUI()
-        }else{
-            self.loadEngResume()
-        }
+        self.loadEngResume()
         
     }
     
     func loadEngResume() {
-        NetTools.requestData(type: .post, urlString: PersonalInfoApi, succeed: { (resultJson, msg) in
+        let params : [String : Any] = ["engineer_id" : self.engId]
+        NetTools.requestData(type: .post, urlString: PersonalInfoApi, parameters: params, succeed: { (resultJson, msg) in
             self.personalInfo = resultJson
             self.setUpUI()
         }) { (error) in
@@ -58,7 +56,12 @@ class EngResumeViewController: BaseTableViewController {
     }
     
     
+    
+    
     func setUpUI() {
+        
+        self.navigationItem.title =  self.personalInfo["member_truename"].stringValue + "的简历"
+        
         self.engImgV.setImageUrlStr(self.personalInfo["member_avatar"].stringValue)
         //保证金
         if self.personalInfo["is_bail"].stringValue.intValue == 1{

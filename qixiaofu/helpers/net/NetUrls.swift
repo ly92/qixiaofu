@@ -238,6 +238,8 @@ let PersonalInfoApi = "tp.php/Home/My/showMemberInfo"
 let UserInfoApi = "tp.php/Home/Public/getMemberInfoByPhone/"
 //修改个人信息
 let ChangePersonalInfoApi = "tp.php/Home/My/updateMemberInfo"
+//更改工程师简历
+let ChangeResumeApi = "tp.php/Home/Engineer/engineer_info"
 //服务领域数据
 let ServerRangeListApi = "tp.php/Home/Index/getClass"
 //加分请求
