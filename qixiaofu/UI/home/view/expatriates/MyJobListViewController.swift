@@ -115,6 +115,12 @@ class MyJobListViewController: BaseTableViewController {
         if self.dataArray.count > indexPath.row{
             let json = self.dataArray[indexPath.row]
             jobDetailVC.jobId = json["id"].stringValue
+            jobDetailVC.deleteBlock = {() in
+                if self.dataArray.count > indexPath.row{
+                    self.dataArray.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
         }
         self.navigationController?.pushViewController(jobDetailVC, animated: true)
     }

@@ -14,6 +14,8 @@ class JobDetailViewController: BaseViewController {
         return self.loadFromStoryBoard(storyBoard: "Home") as! JobDetailViewController
     }
     
+    var deleteBlock : (() -> Void)?
+    
     var idType = 1 //1工程师 2所属招聘方 3非所属招聘方
     var jobId = ""
     
@@ -58,6 +60,9 @@ class JobDetailViewController: BaseViewController {
     @objc func editJobAction(){
         let publishVC = PublishJobViewController.spwan()
         publishVC.editJson = self.resultJson
+        publishVC.publishSuccessBlock = {() in
+            self.loadJobDetail()
+        }
         self.navigationController?.pushViewController(publishVC, animated: true)
     }
     
@@ -92,6 +97,12 @@ class JobDetailViewController: BaseViewController {
                 self.employmentBottomView.isHidden = true
             }
             
+            if resultJson["status"].stringValue.intValue == 1{
+                self.operationBtn.setTitle("暂停/删除", for: .normal)
+            }else{
+                self.operationBtn.setTitle("开始招聘", for: .normal)
+            }
+            
         }) { (error) in
             LYProgressHUD.showError(error ?? "网络请求错误！")
         }
@@ -114,15 +125,19 @@ class JobDetailViewController: BaseViewController {
             if resultJson["status"].stringValue.intValue == 1{
                 LYAlertView.show("提示", "暂停后可重新开始招聘,删除后不可找回", "删除", "暂停",{
                     params["status"] = "2"
-                    NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                    NetTools.requestData(type: .post, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
                         LYProgressHUD.showSuccess("已暂停招聘！")
+                        self.loadJobDetail()
                     }, failure: { (error) in
                         LYProgressHUD.showError(error ?? "网络请求错误！")
                     })
                 },{
                     params["status"] = "3"
-                    NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                    NetTools.requestData(type: .post, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
                         LYProgressHUD.showSuccess("已删除！")
+                        if self.deleteBlock != nil{
+                            self.deleteBlock!()
+                        }
                         self.navigationController?.popViewController(animated: true)
                     }, failure: { (error) in
                         LYProgressHUD.showError(error ?? "网络请求错误！")
@@ -130,9 +145,9 @@ class JobDetailViewController: BaseViewController {
                 })
             }else{
                 params["status"] = "1"
-                NetTools.requestData(type: .get, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
+                NetTools.requestData(type: .post, urlString: JobOperationApi, parameters: params, succeed: { (resultJson, msg) in
                     LYProgressHUD.showSuccess("设置成功，已开始招聘！")
-                    self.navigationController?.popViewController(animated: true)
+                    self.loadJobDetail()
                 }, failure: { (error) in
                     LYProgressHUD.showError(error ?? "网络请求错误！")
                 })

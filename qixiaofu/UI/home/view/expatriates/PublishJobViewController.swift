@@ -19,6 +19,7 @@ class PublishJobViewController: BaseTableViewController {
     
     
     var editJson = JSON()
+    var publishSuccessBlock : (() -> Void)?
     
     
     @IBOutlet weak var jobNameLbl: UILabel!
@@ -227,7 +228,7 @@ class PublishJobViewController: BaseTableViewController {
         params["condition"] = qualification!
         params["nums"] = num!
         params["salary_low"] = self.min_salary
-        params["salary_height"] = self.max_salary
+        params["salary_heigh"] = self.max_salary
         params["is_show"] = self.isCompanyShow
         
         
@@ -238,13 +239,21 @@ class PublishJobViewController: BaseTableViewController {
         LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: PublishJobApi, parameters: params, succeed: { (result, msg) in
             LYProgressHUD.dismiss()
-            LYAlertView.show("提示", "发布成功！","知道了",{
-                self.navigationController?.popViewController(animated: true)
-            })
+            if !self.editJson["typeid"].stringValue.isEmpty{
+                LYAlertView.show("提示", "发布成功！","知道了",{
+                    self.navigationController?.popViewController(animated: true)
+                })
+            }else{
+                LYAlertView.show("提示", "更新成功！","知道了",{
+                    if self.publishSuccessBlock != nil{
+                        self.publishSuccessBlock!()
+                    }
+                    self.navigationController?.popViewController(animated: true)
+                })
+            }
         }) { (error) in
             LYProgressHUD.showError(error ?? "网络请求错误！")
         }
-        
     }
     
     
