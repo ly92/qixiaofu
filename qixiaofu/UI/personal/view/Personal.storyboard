@@ -11507,8 +11507,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4qW-zm-6wH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qW-zm-6wH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_next" translatesAutoresizingMaskIntoConstraints="NO" id="afn-zY-F2Q">
                                                             <rect key="frame" x="357" y="11" width="10" height="15"/>

@@ -86,7 +86,7 @@ class PublishJobViewController: BaseTableViewController {
         self.province_id = self.editJson["province_id"].stringValue
         self.city_id = self.editJson["city_id"].stringValue
         self.county_id = self.editJson["county_id"].stringValue
-        self.address_detail = self.editJson["area_info"].stringValue
+        self.address_detail = self.editJson["address_detail"].stringValue
         self.duty = self.editJson["duty"].stringValue
         self.condition = self.editJson["condition"].stringValue
         self.nums = self.editJson["nums"].stringValue
@@ -196,7 +196,7 @@ class PublishJobViewController: BaseTableViewController {
             LYProgressHUD.showError("请设置招聘人数")
             return
         }
-        if self.province_id.isEmpty || self.city_id.isEmpty || self.county_id.isEmpty || self.address_detail.isEmpty{
+        if self.province_id.isEmpty || self.city_id.isEmpty || self.county_id.isEmpty{
             LYProgressHUD.showError("请选择工作地址")
             return
         }
@@ -239,15 +239,15 @@ class PublishJobViewController: BaseTableViewController {
         LYProgressHUD.showLoading()
         NetTools.requestData(type: .post, urlString: PublishJobApi, parameters: params, succeed: { (result, msg) in
             LYProgressHUD.dismiss()
+            if self.publishSuccessBlock != nil{
+                self.publishSuccessBlock!()
+            }
             if !self.editJson["typeid"].stringValue.isEmpty{
                 LYAlertView.show("提示", "发布成功！","知道了",{
                     self.navigationController?.popViewController(animated: true)
                 })
             }else{
                 LYAlertView.show("提示", "更新成功！","知道了",{
-                    if self.publishSuccessBlock != nil{
-                        self.publishSuccessBlock!()
-                    }
                     self.navigationController?.popViewController(animated: true)
                 })
             }

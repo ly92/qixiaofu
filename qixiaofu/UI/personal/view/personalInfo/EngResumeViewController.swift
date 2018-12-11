@@ -47,7 +47,7 @@ class EngResumeViewController: BaseTableViewController {
     }
     
     func loadEngResume() {
-        let params : [String : Any] = ["engineer_id" : self.engId]
+        let params : [String : Any] = ["member_id" : self.engId]
         NetTools.requestData(type: .post, urlString: PersonalInfoApi, parameters: params, succeed: { (resultJson, msg) in
             self.personalInfo = resultJson
             self.setUpUI()
@@ -150,6 +150,8 @@ class EngResumeViewController: BaseTableViewController {
 //                addCertVC.certId = self.personalInfo["cer_images"].arrayValue[index]["cer_id"].stringValue
 //                self.navigationController?.pushViewController(addCertVC, animated: true)
 //            }
+            
+            self.tableView.reloadData()
         }
         
         

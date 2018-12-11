@@ -165,6 +165,10 @@ class JobListViewController: BaseViewController {
             self.navigationController?.pushViewController(myJobs, animated: true)
         }else if btn.tag == 22{
             let publishVC = PublishJobViewController.spwan()
+            publishVC.publishSuccessBlock = {() in
+                self.curpage = 1
+                self.loadData()
+            }
             self.navigationController?.pushViewController(publishVC, animated: true)
         }else if btn.tag == 33{
             let historyVC = ChatOrRecommendListViewController.spwan()
