@@ -98,12 +98,16 @@ class PublishJobViewController: BaseTableViewController {
         self.companyTF.text = self.editJson["company_name"].stringValue
         if self.isCompanyShow.intValue == 1{
             self.companyBtn1.isSelected = true
+            self.companyBtn2.isSelected = false
         }else{
+            self.companyBtn1.isSelected = false
             self.companyBtn2.isSelected = true
         }
         if self.typeid.intValue == 1{
             self.typeBtn1.isSelected = true
+            self.typeBtn2.isSelected = false
         }else{
+            self.typeBtn1.isSelected = false
             self.typeBtn2.isSelected = true
         }
         self.numberTF.text = self.nums

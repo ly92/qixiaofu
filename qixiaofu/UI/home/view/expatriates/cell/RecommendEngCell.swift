@@ -37,11 +37,19 @@ class RecommendEngCell: UITableViewCell {
     }
     @IBAction func chatEng() {
         print("联系工程师")
+        
+        func chat(){
+            DispatchQueue.main.async {
+            esmobChat(self.parentVC, self.subJson["phone"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+            }
+        }
+        
         var params : [String : Any] = [:]
         params["jobid"] = self.subJson["id"].stringValue
         params["identity"] = "2"
         params["engineer_id"] = self.subJson["member_id"].stringValue
-        NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+            chat()
         }, failure: { (error) in
         })
     }

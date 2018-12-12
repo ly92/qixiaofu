@@ -14,7 +14,7 @@ class JobListViewController: BaseViewController {
         return self.loadFromStoryBoard(storyBoard: "Home") as! JobListViewController
     }
     
-    var isEng = false
+    var isEng = true
     
     @IBOutlet weak var leftLbl: UILabel!
     @IBOutlet weak var leftImgV: UIImageView!
@@ -52,12 +52,12 @@ class JobListViewController: BaseViewController {
         self.navigationItem.title = "招聘大厅"
         
         if self.isEng{
+            self.bottomViewBottomDis.constant = 0
+            self.bottomView.isHidden = false
+        }else{
             self.bottomViewBottomDis.constant = -50
             self.bottomView.isHidden = true
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "沟通历史", target: self, action: #selector(JobListViewController.rightItemAction))
-        }else{
-            self.bottomViewBottomDis.constant = 0
-            self.bottomView.isHidden = false
         }
         
         self.tableView.register(UINib.init(nibName: "JobCell", bundle: Bundle.main), forCellReuseIdentifier: "JobCell")
@@ -81,7 +81,7 @@ class JobListViewController: BaseViewController {
     
     //分类数据
     func loadTypeData() {
-        NetTools.requestData(type: .get, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .post, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
             self.typeArray = resultJson
         }) { (error) in
         }
@@ -96,8 +96,8 @@ class JobListViewController: BaseViewController {
         params["city_id"] = self.city_id
         params["county_id"] = self.county_id
         params["curpage"] = self.curpage
-        params["identity"] = self.isEng ? "1" : "2"
-        NetTools.requestData(type: .get, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
+        params["identity"] = self.isEng ? "2" : "1"
+        NetTools.requestData(type: .post, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.dataArray.removeAll()
             }
@@ -297,11 +297,7 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
         if tableView == self.tableView{
             if self.dataArray.count > indexPath.row{
                 let jobDetailVC = JobDetailViewController.spwan()
-                if self.isEng{
-                    jobDetailVC.idType = 1
-                }else{
-                    jobDetailVC.idType = 2
-                }
+                jobDetailVC.isEng = self.isEng
                 let json = self.dataArray[indexPath.row]
                 jobDetailVC.jobId = json["id"].stringValue
                 self.navigationController?.pushViewController(jobDetailVC, animated: true)

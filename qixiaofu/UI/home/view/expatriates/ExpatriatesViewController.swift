@@ -116,6 +116,7 @@ class ExpatriatesViewController: BaseViewController {
     
     @objc func toFindEng(){
         let jobList = JobListViewController.spwan()
+        jobList.isEng = false
         self.navigationController?.pushViewController(jobList, animated: true)
     }
     

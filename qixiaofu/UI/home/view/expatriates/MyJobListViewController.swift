@@ -31,7 +31,7 @@ class MyJobListViewController: BaseTableViewController {
         var params : [String : Any] = [:]
         params["curpage"] = self.curpage
         
-        NetTools.requestData(type: .get, urlString: MyJobListApi, parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .post, urlString: MyJobListApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.dataArray.removeAll()
             }
@@ -111,7 +111,7 @@ class MyJobListViewController: BaseTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let jobDetailVC = JobDetailViewController.spwan()
-        jobDetailVC.idType = 2
+        jobDetailVC.isEng = false
         if self.dataArray.count > indexPath.row{
             let json = self.dataArray[indexPath.row]
             jobDetailVC.jobId = json["id"].stringValue

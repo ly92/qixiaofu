@@ -33,19 +33,26 @@ class EngJobChatHistoryCell: UITableViewCell {
     
     @IBAction func jobDetail() {
         let jobDetailVC = JobDetailViewController.spwan()
-        jobDetailVC.idType = 1
+        jobDetailVC.isEng = true
         jobDetailVC.jobId = self.subJson["id"].stringValue
         self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
     
     @IBAction func chatAction() {
         //联系招聘官
-        esmobChat(self.parentVC, self.subJson["mobile"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+        
+        func chat(){
+            //TODO
+            DispatchQueue.main.async {
+            esmobChat(self.parentVC, self.subJson["phone"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+            }
+        }
         
         var params : [String : Any] = [:]
         params["jobid"] = self.subJson["id"].stringValue
         params["identity"] = "1"
-        NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+            chat()
         }, failure: { (error) in
         })
         

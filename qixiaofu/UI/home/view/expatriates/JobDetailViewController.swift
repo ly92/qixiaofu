@@ -16,7 +16,7 @@ class JobDetailViewController: BaseViewController {
     
     var deleteBlock : (() -> Void)?
     
-    var idType = 1 //1工程师 2所属招聘方 3非所属招聘方
+    var isEng = true
     var jobId = ""
     
     @IBOutlet weak var jobNameLbl: UILabel!
@@ -40,21 +40,19 @@ class JobDetailViewController: BaseViewController {
 
         self.navigationItem.title = "招聘详情"
         
-        //1工程师 2所属招聘方 3非所属招聘方
-        if self.idType == 1{
-            self.employmentBottomView.isHidden = true
-            self.engineerBottomView.isHidden = false
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
-        }else if self.idType == 2{
-            
-            self.engineerBottomView.isHidden = true
-        }
+        
         
         self.loadJobDetail()
     }
     
     @objc func shareJobAction(){
-        print("分享")
+        let url = self.resultJson["link"].stringValue
+        let name = "七小服招聘 " + self.resultJson["type_name"].stringValue
+        if url.isEmpty{
+            LYProgressHUD.showError("本招聘信息不支持分享！")
+        }else{
+            ShareView.show(url: url, title: name, desc: "我分享了一个招聘信息，有需要的快过来看看吧", viewController: self)
+        }
     }
     
     @objc func editJobAction(){
@@ -89,12 +87,18 @@ class JobDetailViewController: BaseViewController {
             //本人发布的职位，1，是，2，不是
             if resultJson["send"].stringValue.intValue == 1{
                 self.employmentBottomView.isHidden = false
+                self.engineerBottomView.isHidden = true
                 let shareItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
                 let editItem = UIBarButtonItem.init(title: "编辑", target: self, action: #selector(JobDetailViewController.editJobAction))
                 self.navigationItem.rightBarButtonItems = [editItem,shareItem]
             }else{
+                if self.isEng{
+                    self.engineerBottomView.isHidden = false
+                }else{
+                    self.engineerBottomView.isHidden = true
+                    self.employmentBottomView.isHidden = true
+                }
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "分享", target: self, action: #selector(JobDetailViewController.shareJobAction))
-                self.employmentBottomView.isHidden = true
             }
             
             if resultJson["status"].stringValue.intValue == 1{
@@ -154,11 +158,19 @@ class JobDetailViewController: BaseViewController {
             }
         }else if btn.tag == 44{
             print("联系招聘官")
+            
+            func chat(){
+                //TODO
+                DispatchQueue.main.async {
+                esmobChat(self, self.resultJson["phone"].stringValue, 2, self.resultJson["member_name"].stringValue, self.resultJson["member_avatar"].stringValue)
+                }
+            }
+            
             var params : [String : Any] = [:]
             params["jobid"] = self.jobId
             params["identity"] = "1"
-            NetTools.requestData(type: .get, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
-                
+            NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
+                chat()
             }, failure: { (error) in
             })
             
