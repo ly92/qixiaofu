@@ -52,12 +52,12 @@ class JobListViewController: BaseViewController {
         self.navigationItem.title = "招聘大厅"
         
         if self.isEng{
-            self.bottomViewBottomDis.constant = 0
-            self.bottomView.isHidden = false
-        }else{
             self.bottomViewBottomDis.constant = -50
             self.bottomView.isHidden = true
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "沟通历史", target: self, action: #selector(JobListViewController.rightItemAction))
+        }else{
+            self.bottomViewBottomDis.constant = 0
+            self.bottomView.isHidden = false
         }
         
         self.tableView.register(UINib.init(nibName: "JobCell", bundle: Bundle.main), forCellReuseIdentifier: "JobCell")
