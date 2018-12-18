@@ -246,7 +246,7 @@ class PublishJobViewController: BaseTableViewController {
             if self.publishSuccessBlock != nil{
                 self.publishSuccessBlock!()
             }
-            if !self.editJson["typeid"].stringValue.isEmpty{
+            if self.editJson["typeid"].stringValue.isEmpty{
                 LYAlertView.show("提示", "发布成功！","知道了",{
                     self.navigationController?.popViewController(animated: true)
                 })

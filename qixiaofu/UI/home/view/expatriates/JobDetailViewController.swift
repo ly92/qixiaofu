@@ -68,7 +68,7 @@ class JobDetailViewController: BaseViewController {
     func loadJobDetail() {
         var params : [String : Any] = [:]
         params["id"] = self.jobId
-        NetTools.requestData(type: .post, urlString: JobDetailApi,parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .get, urlString: JobDetailApi,parameters: params, succeed: { (resultJson, msg) in
             self.resultJson = resultJson
             
             self.jobNameLbl.text = resultJson["type_name"].stringValue + "(" + (resultJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
