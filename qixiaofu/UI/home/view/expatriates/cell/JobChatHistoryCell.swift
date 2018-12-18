@@ -50,7 +50,7 @@ class JobChatHistoryCell: UITableViewCell {
         var params : [String : Any] = [:]
         params["jobid"] = self.subJson["id"].stringValue
         params["identity"] = "2"
-        params["engineer_id"] = self.subJson["member_id"].stringValue
+        params["engineer_id"] = self.subJson["engineer_id"].stringValue
         NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
             chat()
         }, failure: { (error) in
