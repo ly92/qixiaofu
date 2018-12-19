@@ -4204,7 +4204,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQG-9v-bAv">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQG-9v-bAv">
                                 <rect key="frame" x="0.0" y="692" width="414" height="44"/>
                                 <subviews>
                                     <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jt0-IN-AtN">
@@ -4258,7 +4258,7 @@
                                     <constraint firstItem="MpD-G8-6th" firstAttribute="width" secondItem="jt0-IN-AtN" secondAttribute="width" id="ztQ-lD-oIi"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zG-1V-4d2">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zG-1V-4d2">
                                 <rect key="frame" x="0.0" y="692" width="414" height="44"/>
                                 <subviews>
                                     <button opaque="NO" tag="44" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIK-pl-aQ1">

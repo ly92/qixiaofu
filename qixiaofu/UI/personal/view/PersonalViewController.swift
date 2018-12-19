@@ -339,7 +339,11 @@ extension PersonalViewController{
         case 12:
             //联系客服
             esmobChat(self, "kefu1", 1)
-        
+//            let rechargeAlert = UIAlertController.init(title: "充值", message: "请输入充值金额", preferredStyle: .alert)
+//            let tF = rechargeAlert.textFields?[0]
+//            tF?.keyboardType = .numberPad
+//            tF?.placeholder = "请输入整数"
+//            rechargeAlert.show(self, sender: nil)
         case 13:
             //关联用户
             let associationVC = AssociationViewController()

@@ -81,7 +81,7 @@ class JobListViewController: BaseViewController {
     
     //分类数据
     func loadTypeData() {
-        NetTools.requestData(type: .post, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .get, urlString: JobTypeListApi, succeed: { (resultJson, msg) in
             self.typeArray = resultJson
         }) { (error) in
         }
@@ -97,7 +97,7 @@ class JobListViewController: BaseViewController {
         params["county_id"] = self.county_id
         params["curpage"] = self.curpage
         params["identity"] = self.isEng ? "2" : "1"
-        NetTools.requestData(type: .post, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
+        NetTools.requestData(type: .get, urlString: JobListApi, parameters: params, succeed: { (resultJson, msg) in
             if self.curpage == 1{
                 self.dataArray.removeAll()
             }

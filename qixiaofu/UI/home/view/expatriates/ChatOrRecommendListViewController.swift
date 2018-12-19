@@ -185,6 +185,7 @@ extension ChatOrRecommendListViewController : UITableViewDataSource,UITableViewD
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecommendEngCell", for: indexPath) as! RecommendEngCell
             cell.parentVC = self
+            cell.jobId = self.JobId
             if self.recommendList.count > indexPath.row{
                 let json = self.recommendList[indexPath.row]
                 cell.subJson = json

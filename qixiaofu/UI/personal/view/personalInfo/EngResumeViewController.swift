@@ -52,6 +52,8 @@ class EngResumeViewController: BaseTableViewController {
             self.personalInfo = resultJson
             self.setUpUI()
         }) { (error) in
+            LYProgressHUD.showError("工程师简历获取失败！")
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -119,12 +121,6 @@ class EngResumeViewController: BaseTableViewController {
         self.photoView.maxPhotoNum = 5
         self.photoView.canTakePhoto = false
         self.photoView.showDeleteBtn = false
-//        self.photoView.customBlock = {() in
-//            //添加职业证书
-//            let addCertVC = AddCertificateViewController.spwan()
-//            addCertVC.depth = "\(self.personalInfo["cer_images"].arrayValue.count + 1)"
-//            self.navigationController?.pushViewController(addCertVC, animated: true)
-//        }
         self.certView.addSubview(self.photoView)
         if self.personalInfo["cer_images"].arrayValue.count > 0{
             var imgUrlArray : Array<String> = Array<String>()
@@ -139,23 +135,8 @@ class EngResumeViewController: BaseTableViewController {
             self.photoView.showImgUrlArray = imgUrlArray
             self.photoView.imgDescArray = imgDescArray
             self.photoView.imgLogoArray = imgLogoArray
-//            self.photoView.longPressBlock = {(index) in
-//                //长按操作
-//                print(index)
-//                let addCertVC = AddCertificateViewController.spwan()
-//                addCertVC.certImg = self.photoView.imgArray[index]
-//                addCertVC.certName = imgDescArray[index]
-//                addCertVC.imgUrl = imgUrlArray[index]
-//                addCertVC.depth = "\(index + 1)"
-//                addCertVC.certId = self.personalInfo["cer_images"].arrayValue[index]["cer_id"].stringValue
-//                self.navigationController?.pushViewController(addCertVC, animated: true)
-//            }
-            
-            self.tableView.reloadData()
         }
-        
-        
-        
+         self.tableView.reloadData()
     }
     
     
@@ -164,12 +145,15 @@ class EngResumeViewController: BaseTableViewController {
         if indexPath.row == 0{
             return 70
         }else if indexPath.row == 1{
+            print(self.advantageLbl.resizeHeight())
             return self.advantageLbl.resizeHeight() + 45
         }else if indexPath.row == 2{
             return 80
         }else if indexPath.row == 3{
+            print(self.techRangeLbl.resizeHeight())
             return self.techRangeLbl.resizeHeight() + 45
         }else if indexPath.row == 4{
+            print(self.brandLbl.resizeHeight())
             return self.brandLbl.resizeHeight() + 45
         }else if indexPath.row == 5{
             return 106

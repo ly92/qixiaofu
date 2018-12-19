@@ -18,10 +18,12 @@ class RecommendEngCell: UITableViewCell {
     @IBOutlet weak var chatStateLbl: UILabel!
     
     var parentVC = UIViewController()
+    var jobId = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.engIconImgV.layer.cornerRadius = 20
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,7 +47,7 @@ class RecommendEngCell: UITableViewCell {
         }
         
         var params : [String : Any] = [:]
-        params["jobid"] = self.subJson["id"].stringValue
+        params["jobid"] = self.jobId
         params["identity"] = "2"
         params["engineer_id"] = self.subJson["member_id"].stringValue
         NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
@@ -59,7 +61,7 @@ class RecommendEngCell: UITableViewCell {
         didSet{
             self.engIconImgV.setImageUrlStr(subJson["member_avatar"].stringValue)
             self.engNameLbl.text = subJson["member_name"].stringValue
-            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
             self.engJobLbl.text = subJson["type_name"].stringValue
             self.chatStateLbl.text = subJson["status"].stringValue.intValue == 1 ? "" : ""
         }

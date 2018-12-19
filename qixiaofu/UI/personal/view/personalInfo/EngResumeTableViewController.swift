@@ -204,7 +204,7 @@ class EngResumeTableViewController: BaseTableViewController {
             params["cer_images"] = self.cerImgs
         }
         NetTools.requestData(type: .post, urlString: ChangePersonalInfoApi, parameters: params, succeed: { (result, msg) in
-            LYProgressHUD.showSuccess("保存成功！")
+            
         }) { (error) in
             LYProgressHUD.showError(error!)
         }
@@ -241,7 +241,6 @@ class EngResumeTableViewController: BaseTableViewController {
             params["advantage"] = self.advantage
         }
         NetTools.requestData(type: .post, urlString: ChangeResumeApi, parameters: params, succeed: { (result, msg) in
-            LYProgressHUD.showSuccess("保存成功！")
         }) { (error) in
             LYProgressHUD.showError(error!)
         }

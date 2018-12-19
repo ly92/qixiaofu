@@ -61,9 +61,9 @@ class EngJobChatHistoryCell: UITableViewCell {
     
     var subJson = JSON(){
         didSet{
-            self.jobNameLbl.text = subJson["type_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
+            self.jobNameLbl.text = subJson["job_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
             self.stateLbl.text = subJson["status"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
-            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue
+            self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
             self.addressLbl.text = subJson["area_info"].stringValue
             self.iconImgV.setImageUrlStr(subJson["member_avatar"].stringValue)
             self.recruiterLbl.text = subJson["member_name"].stringValue

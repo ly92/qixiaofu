@@ -48,7 +48,7 @@ class JobChatHistoryCell: UITableViewCell {
         }
 
         var params : [String : Any] = [:]
-        params["jobid"] = self.subJson["id"].stringValue
+        params["jobid"] = self.subJson["jobid"].stringValue
         params["identity"] = "2"
         params["engineer_id"] = self.subJson["engineer_id"].stringValue
         NetTools.requestData(type: .post, urlString: JobChatApi, parameters: params, succeed: { (resultJson, msg) in
@@ -59,7 +59,7 @@ class JobChatHistoryCell: UITableViewCell {
     
     @IBAction func jobDetail() {
         let jobDetailVC = JobDetailViewController.spwan()
-        jobDetailVC.jobId = self.subJson["id"].stringValue
+        jobDetailVC.jobId = self.subJson["jobid"].stringValue
         jobDetailVC.isEng = false
         self.parentVC.navigationController?.pushViewController(jobDetailVC, animated: true)
     }
