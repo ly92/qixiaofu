@@ -62,7 +62,7 @@ class RecommendEngCell: UITableViewCell {
             self.engIconImgV.setImageUrlStr(subJson["member_avatar"].stringValue)
             self.engNameLbl.text = subJson["member_name"].stringValue
             self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
-            self.engJobLbl.text = subJson["type_name"].stringValue
+            self.engJobLbl.text = subJson["job_name"].stringValue
             self.chatStateLbl.text = subJson["status"].stringValue.intValue == 1 ? "" : ""
         }
     }

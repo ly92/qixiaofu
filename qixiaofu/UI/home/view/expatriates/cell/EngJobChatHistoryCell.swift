@@ -44,7 +44,7 @@ class EngJobChatHistoryCell: UITableViewCell {
         func chat(){
             //TODO
             DispatchQueue.main.async {
-            esmobChat(self.parentVC, self.subJson["phone"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+            esmobChat(self.parentVC, self.subJson["job_phone"].stringValue, 2, self.subJson["job_member_name"].stringValue, self.subJson["job_avatar"].stringValue)
             }
         }
         
@@ -65,8 +65,8 @@ class EngJobChatHistoryCell: UITableViewCell {
             self.stateLbl.text = subJson["status"].stringValue.intValue == 1 ? "招聘中" : "已暂停"
             self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
             self.addressLbl.text = subJson["area_info"].stringValue
-            self.iconImgV.setImageUrlStr(subJson["member_avatar"].stringValue)
-            self.recruiterLbl.text = subJson["member_name"].stringValue
+            self.iconImgV.setImageUrlStr(subJson["job_avatar"].stringValue)
+            self.recruiterLbl.text = subJson["job_member_name"].stringValue
         }
     }
 }

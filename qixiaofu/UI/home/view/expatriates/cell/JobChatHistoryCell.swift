@@ -21,7 +21,7 @@ class JobChatHistoryCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.engIcon.layer.cornerRadius = 20
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -43,7 +43,7 @@ class JobChatHistoryCell: UITableViewCell {
         func chat(){
             
             DispatchQueue.main.async {
-            esmobChat(self.parentVC, self.subJson["phone"].stringValue, 2, self.subJson["member_name"].stringValue, self.subJson["member_avatar"].stringValue)
+            esmobChat(self.parentVC, self.subJson["engineer_phone"].stringValue, 2, self.subJson["engineer_name"].stringValue, self.subJson["engineer_avatar"].stringValue)
             }
         }
 
@@ -67,12 +67,12 @@ class JobChatHistoryCell: UITableViewCell {
     
     var subJson = JSON(){
         didSet{
-            self.nameLbl.text = subJson["type_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
+            self.nameLbl.text = subJson["job_name"].stringValue + "(" + (subJson["nature"].stringValue.intValue == 1 ? "内部招聘" : "外派驻场") + ")"
             self.addressLbl.text = subJson["area_info"].stringValue
             self.priceLbl.text = subJson["salary_low"].stringValue + "~" + subJson["salary_heigh"].stringValue + "K"
-            self.engIcon.setImageUrlStr(subJson["member_avatar"].stringValue)
-            self.engNameLbl.text = subJson["member_name"].stringValue
-            self.engTypeLbl.text = subJson["type_name"].stringValue
+            self.engIcon.setImageUrlStr(subJson["engineer_avatar"].stringValue)
+            self.engNameLbl.text = subJson["engineer_name"].stringValue
+            self.engTypeLbl.text = subJson["eng_type_name"].stringValue
         }
     }
 }

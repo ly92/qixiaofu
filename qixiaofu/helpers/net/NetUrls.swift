@@ -145,7 +145,7 @@ let CouponCanShopUseApi = "tp.php/Home/Main/coupon_choice"//pay 本次支付所�
 /************************************ 商城 ********************************************/
 //左侧列表数据,banner数据
 let ShopCategoryDataApi = "api/index.php?act=goods_class"
-//悬浮列表数据
+//商品列表数据
 let ShopGoodsListApi = "api/index.php?act=goods&op=goods_list"
 //搜索商品列表数据
 let SearchShopGoodsListApi = "tp.php/Home/RepositoryType/seachgoods?op=goods_list&act=goods"

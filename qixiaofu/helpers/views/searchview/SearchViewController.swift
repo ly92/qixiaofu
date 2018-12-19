@@ -31,7 +31,7 @@ class SearchViewController: BaseViewController {
     let searchBar : UISearchBar = UISearchBar()
     
     fileprivate lazy var hotArray : Array<String> = {
-        let hotArray = ["IBM","HP","X86","LINUX","UNIX","监控设备"]
+        let hotArray = ["X86","LINUX","UNIX","监控设备"]
         return hotArray
     }()
     fileprivate lazy var historyArray : Array<String> = {
