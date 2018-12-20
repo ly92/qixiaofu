@@ -146,7 +146,8 @@ class PersonalViewController: BaseTableViewController {
             //保存姓名
             LocalData.saveUserName(userName: resultJson["member_nik_name"].stringValue)
             LocalData.saveTrueUserName(userName: resultJson["member_truename"].stringValue)
-            
+            //简历
+            LocalData.saveUserResume(resume: resultJson["resume_url"].stringValue)
             //是否为A用户
             if  resultJson["member_level"].stringValue == "A" || resultJson["member_level"].stringValue == "DA"{
                 LocalData.saveYesOrNotValue(value: "1", key: IsALevelUser)

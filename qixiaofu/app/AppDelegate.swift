@@ -753,7 +753,8 @@ extension AppDelegate{
             //保存姓名
             LocalData.saveUserName(userName: resultJson["member_nik_name"].stringValue)
             LocalData.saveTrueUserName(userName: resultJson["member_truename"].stringValue)
-            
+            //简历
+            LocalData.saveUserResume(resume: resultJson["resume_url"].stringValue)
             //保存邀请码
             LocalData.saveUserInviteCode(phone: resultJson["iv_code"].stringValue)
             

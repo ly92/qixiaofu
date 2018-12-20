@@ -196,6 +196,14 @@ extension ChatOrRecommendListViewController : UITableViewDataSource,UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.isChatHistory{
+            if self.chatList.count > indexPath.row{
+                let json = self.chatList[indexPath.row]
+                if json["resume_url"].stringValue.isEmpty{
+                    return 135
+                }else{
+                    return 180
+                }
+            }
             return 135
         }else{
             return 70

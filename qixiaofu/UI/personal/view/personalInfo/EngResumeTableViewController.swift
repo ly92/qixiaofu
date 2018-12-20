@@ -310,7 +310,18 @@ extension EngResumeTableViewController{
             }
             serverRangeVC.dataArray = self.serverRangeJson.arrayValue
             self.navigationController?.pushViewController(serverRangeVC, animated: true)
+        }else if indexPath.row == 8{
+            //简历附件
+            if LocalData.getUserResume().isEmpty{
+                LYProgressHUD.showError("您未上传简历附件 ！")
+            }else{
+                let webVC = BaseWebViewController.spwan()
+                webVC.titleStr = "附件简历"
+                webVC.urlStr = LocalData.getUserResume()
+                self.navigationController?.pushViewController(webVC, animated: true)
+            }
         }
+        
     }
     
     

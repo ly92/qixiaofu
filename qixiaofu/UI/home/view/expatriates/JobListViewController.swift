@@ -268,7 +268,7 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
             if self.filterType == 1{
                 if self.typeArray.count > indexPath.row{
                     let json = self.typeArray[indexPath.row]
-                    cell?.textLabel?.text = json["job_name"].stringValue
+                    cell?.textLabel?.text = json["type_name"].stringValue
                 }
                 
             }else if self.filterType == 2{
@@ -306,7 +306,7 @@ extension JobListViewController : UITableViewDelegate,UITableViewDataSource{
             if self.filterType == 1{
                 if self.typeArray.count > indexPath.row{
                     let json = self.typeArray[indexPath.row]
-                    self.leftLbl.text = json["job_name"].stringValue
+                    self.leftLbl.text = json["type_name"].stringValue
                     self.jobType = json["id"].stringValue
                 }
                 

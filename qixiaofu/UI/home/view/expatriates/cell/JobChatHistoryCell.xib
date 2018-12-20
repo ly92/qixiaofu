@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="135" id="KGk-i7-Jjw" customClass="JobChatHistoryCell" customModule="qixiaofu" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="179" id="KGk-i7-Jjw" customClass="JobChatHistoryCell" customModule="qixiaofu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="179"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="134.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="178.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCa-RR-niK">
@@ -129,6 +129,7 @@
                             <constraint firstAttribute="trailing" secondItem="9vT-fG-0dq" secondAttribute="trailing" constant="10" id="1OR-JN-MIL"/>
                             <constraint firstItem="GAc-9C-1vB" firstAttribute="centerY" secondItem="4Th-Jk-qhd" secondAttribute="centerY" id="1vP-rF-UjF"/>
                             <constraint firstItem="hTP-qX-X3J" firstAttribute="leading" secondItem="oCa-RR-niK" secondAttribute="leading" constant="10" id="4hf-5D-eVG"/>
+                            <constraint firstAttribute="height" constant="133.5" id="5IQ-tB-Sdm"/>
                             <constraint firstItem="R3m-Fi-acJ" firstAttribute="centerY" secondItem="krc-Js-zy8" secondAttribute="centerY" id="8uj-cy-vQW"/>
                             <constraint firstItem="E3y-tI-jhY" firstAttribute="leading" secondItem="udV-GX-CYs" secondAttribute="trailing" constant="10" id="9an-la-NHo"/>
                             <constraint firstItem="9vT-fG-0dq" firstAttribute="centerY" secondItem="krc-Js-zy8" secondAttribute="centerY" id="ESq-Of-MXu"/>
@@ -153,13 +154,44 @@
                             <constraint firstItem="udV-GX-CYs" firstAttribute="centerY" secondItem="hTP-qX-X3J" secondAttribute="centerY" id="zdg-FE-ZUt"/>
                         </constraints>
                     </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kcc-Hc-ZGI">
+                        <rect key="frame" x="0.0" y="133.5" width="320" height="45"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简历附件：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MEJ-cm-Ku9">
+                                <rect key="frame" x="8" y="14" width="72" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzJ-6h-kM2">
+                                <rect key="frame" x="88" y="9" width="50" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="招聘详情">
+                                    <color key="titleColor" red="0.80392156859999997" green="0.21960784310000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="resumeAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Y0n-9C-n3e"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="MEJ-cm-Ku9" firstAttribute="leading" secondItem="Kcc-Hc-ZGI" secondAttribute="leading" constant="8" id="I0R-iu-zPb"/>
+                            <constraint firstItem="MEJ-cm-Ku9" firstAttribute="centerY" secondItem="Kcc-Hc-ZGI" secondAttribute="centerY" id="RUy-IR-0he"/>
+                            <constraint firstItem="hzJ-6h-kM2" firstAttribute="centerY" secondItem="Kcc-Hc-ZGI" secondAttribute="centerY" id="arF-1B-Nie"/>
+                            <constraint firstItem="hzJ-6h-kM2" firstAttribute="leading" secondItem="MEJ-cm-Ku9" secondAttribute="trailing" constant="8" id="lBJ-eR-9j8"/>
+                            <constraint firstAttribute="height" constant="45" id="xcB-MY-rxT"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
+                    <constraint firstItem="Kcc-Hc-ZGI" firstAttribute="top" secondItem="oCa-RR-niK" secondAttribute="bottom" id="92j-0z-4He"/>
                     <constraint firstItem="oCa-RR-niK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Hem-vY-JAh"/>
+                    <constraint firstAttribute="trailing" secondItem="Kcc-Hc-ZGI" secondAttribute="trailing" id="Xm0-6X-zFR"/>
                     <constraint firstAttribute="trailing" secondItem="oCa-RR-niK" secondAttribute="trailing" id="ZHR-49-fbR"/>
+                    <constraint firstItem="Kcc-Hc-ZGI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dfK-jQ-NI2"/>
                     <constraint firstItem="oCa-RR-niK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="rxB-hk-PS9"/>
-                    <constraint firstAttribute="bottom" secondItem="oCa-RR-niK" secondAttribute="bottom" constant="1" id="vz8-5z-7xk"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -169,8 +201,10 @@
                 <outlet property="engTypeLbl" destination="uaE-QS-9Hl" id="arx-Cj-Du1"/>
                 <outlet property="nameLbl" destination="GAc-9C-1vB" id="bF4-1i-ijP"/>
                 <outlet property="priceLbl" destination="gaD-L7-yLB" id="ILU-jQ-nBw"/>
+                <outlet property="resumeBtn" destination="hzJ-6h-kM2" id="kUE-Q9-Svn"/>
+                <outlet property="resumeView" destination="Kcc-Hc-ZGI" id="EEG-I9-fGL"/>
             </connections>
-            <point key="canvasLocation" x="144" y="152.47376311844079"/>
+            <point key="canvasLocation" x="144" y="172.26386806596702"/>
         </tableViewCell>
     </objects>
     <resources>

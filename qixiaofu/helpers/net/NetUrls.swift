@@ -127,7 +127,8 @@ let JobOperationApi = "tp.php/Home/Engineer/is_continue"
 let JobChatApi = "tp.php/Home/Engineer/chats"
 //沟通历史
 let JobChatHistoryApi = "tp.php/Home/Engineer/chat_history"
-
+//发送简历
+let JobEngSendResumeApi = "tp.php/Home/Engineer/resume"
 
 
 /************************************ 优惠券 ********************************************/

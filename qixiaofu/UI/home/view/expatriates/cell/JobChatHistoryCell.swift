@@ -16,6 +16,8 @@ class JobChatHistoryCell: UITableViewCell {
     @IBOutlet weak var engIcon: UIImageView!
     @IBOutlet weak var engNameLbl: UILabel!
     @IBOutlet weak var engTypeLbl: UILabel!
+    @IBOutlet weak var resumeBtn: UIButton!
+    @IBOutlet weak var resumeView: UIView!
     
     var parentVC = UIViewController()
     
@@ -73,6 +75,29 @@ class JobChatHistoryCell: UITableViewCell {
             self.engIcon.setImageUrlStr(subJson["engineer_avatar"].stringValue)
             self.engNameLbl.text = subJson["engineer_name"].stringValue
             self.engTypeLbl.text = subJson["eng_type_name"].stringValue
+            
+            if subJson["resume_url"].stringValue.isEmpty{
+                self.resumeView.isHidden = true
+            }else{
+                self.resumeView.isHidden = false
+            }
+            self.resumeBtn.setTitle(subJson["engineer_name"].stringValue + "的附件简历", for: .normal)
         }
     }
+    
+    @IBAction func resumeAction(_ sender: Any) {
+        //简历附件
+        if subJson["resume_url"].stringValue.isEmpty{
+            LYProgressHUD.showError("简历附件为空 ！")
+        }else{
+            let webVC = BaseWebViewController.spwan()
+            webVC.titleStr = "附件简历"
+            webVC.urlStr = subJson["resume_url"].stringValue
+            self.parentVC.navigationController?.pushViewController(webVC, animated: true)
+        }
+        
+    }
+    
+    
+    
 }

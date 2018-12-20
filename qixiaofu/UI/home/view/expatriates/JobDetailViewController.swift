@@ -175,7 +175,15 @@ class JobDetailViewController: BaseViewController {
             })
             
         }else if btn.tag == 55{
-            LYAlertView.show("提示", "您未上传简历附件，可发送简历附件到邮箱qixiaofu@7xiaofu.com完成上传 ", "知道了")
+            if LocalData.getUserResume().isEmpty{
+                 LYAlertView.show("提示", "您未上传简历附件，可发送简历附件到邮箱qixiaofu@7xiaofu.com完成上传 ", "知道了")
+            }else{
+                NetTools.requestData(type: .get, urlString: JobEngSendResumeApi, parameters: ["jobid" : self.jobId], succeed: { (result, msg) in
+                    LYProgressHUD.showSuccess("简历发送成功，请耐心等待！")
+                }) { (error) in
+                    LYProgressHUD.showError(error ?? "简历发送失败！")
+                }
+            }
         }
     }
     

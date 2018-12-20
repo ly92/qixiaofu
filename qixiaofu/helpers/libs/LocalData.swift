@@ -55,6 +55,7 @@ let KUserIdNotMd5Key = "KUserIdNotMd5Key"
 let KUserNameKey = "KUserNameKey" + appVersion()
 let KUserTrueNameKey = "KUserTrueNameKey" + appVersion()
 let KUserPhoneKey = "KUserPhoneKey"
+let KUserResumeKey = "KUserResumeKey"
 let KUserInviteCodeKey = "KUserInviteCodeKey" + appVersion()
 let KSearchHistoryKey = "KSearchHistoryKey"
 let KSendTaskKey = "KSendTaskKey" + LocalData.getUserPhone()
@@ -255,6 +256,19 @@ class LocalData: NSObject {
             return ""
         }else{
             return phone as! String
+        }
+    }
+    // MARK: - 获取User resume
+    class func saveUserResume(resume: String){
+        UserDefaults.standard.setValue(resume, forKey: KUserResumeKey)
+        UserDefaults.standard.synchronize()
+    }
+    class func getUserResume() -> String{
+        let resume = UserDefaults.standard.value(forKey:KUserResumeKey)
+        if (resume == nil){
+            return ""
+        }else{
+            return resume as! String
         }
     }
     // MARK: - 获取User 邀请码

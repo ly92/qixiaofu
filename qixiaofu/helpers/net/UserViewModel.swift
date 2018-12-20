@@ -137,6 +137,8 @@ class UserViewModel: NSObject {
                 }
             }else{
                 NetTools.requestData(type: .post, urlString: PersonalInfoApi, succeed: { (resultJson, msg) in
+                    //简历
+                    LocalData.saveUserResume(resume: resultJson["resume_url"].stringValue)
                     //保存是否实名
                     if resultJson["is_real"].stringValue.intValue == 1{
                         //已实名
