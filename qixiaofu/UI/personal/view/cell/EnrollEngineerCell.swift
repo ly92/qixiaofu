@@ -26,6 +26,7 @@ class EnrollEngineerCell: UITableViewCell {
     @IBOutlet weak var moneyLbl: UILabel!
     @IBOutlet weak var offerPriceLbl: UILabel!
     @IBOutlet weak var engXinImgV: UIImageView!
+    @IBOutlet weak var chatBtn: UIButton!
     
     var jsonModel : JSON = [] {
         didSet{
@@ -58,6 +59,15 @@ class EnrollEngineerCell: UITableViewCell {
                 self.engXinImgV.image = UIImage.init(named: "eng_xin_icon2")
             }else{
                 self.engXinImgV.image = UIImage.init(named: "eng_xin_icon1")
+            }
+            
+            //是否可聊
+            if jsonModel[""].stringValue.intValue != 1{
+                self.chatBtn.setImage(UIImage.init(named: "enro_icon3"), for: .normal)
+                self.chatBtn.setTitleColor(UIColor.colorHex(hex: "cccccc"), for: .normal)
+            }else{
+                self.chatBtn.setImage(UIImage.init(named: "enro_icon2"), for: .normal)
+                self.chatBtn.setTitleColor(UIColor.colorHex(hex: "FF6700"), for: .normal)
             }
             
         }

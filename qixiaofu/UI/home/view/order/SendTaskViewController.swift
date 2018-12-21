@@ -34,6 +34,10 @@ class SendTaskViewController: BaseTableViewController {
     @IBOutlet weak var priceInfoLbl: UILabel!
     @IBOutlet weak var nextBtn: UIButton!
     
+    @IBOutlet weak var firstPayBtn: UIButton!
+    @IBOutlet weak var payLaterBtn: UIButton!
+    
+    
     fileprivate var sTime : Date?
     fileprivate var eTime : Date?
     fileprivate var lat : String = ""
@@ -92,6 +96,19 @@ class SendTaskViewController: BaseTableViewController {
             LocalData.saveYesOrNotValue(value: "1", key: "haveShowSendStep")
         }
     }
+    
+    @IBAction func payTimeBtnAction(_ btn: UIButton) {
+        if btn.tag == 11{
+            self.firstPayBtn.isSelected = true
+            self.payLaterBtn.isSelected = false
+        }else if btn.tag == 22{
+            self.firstPayBtn.isSelected = false
+            self.payLaterBtn.isSelected = true
+        }
+        self.tableView.reloadData()
+    }
+    
+    
     
     //重新发布订单时先加载订单详情
     func loadRedoOrderData() {
@@ -242,8 +259,10 @@ class SendTaskViewController: BaseTableViewController {
             self.paymentJson = resultJson["payment_list"]
             self.serverTypeJson = resultJson["service_type"]
             self.top_price = resultJson["top_price"].stringValue
+            let str = "预付款：先定价，工程师报名后可直接沟通，定价后价格可更改 \n先发单：暂不定价，工程师报名后需定价付款后才可联系工程师，定价后价格可更改"
+            self.priceInfoLbl.text = resultJson["price_info"].stringValue + "\n" + str
             
-            self.priceInfoLbl.text = resultJson["price_info"].stringValue
+            
             
             if !self.isRedoOrder{
                 //根据草稿填充信息
@@ -466,6 +485,30 @@ class SendTaskViewController: BaseTableViewController {
 
 //MARK: - UITableViewDelegate
 extension SendTaskViewController{
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 2{
+            if indexPath.row == 0{
+                if self.isRedoOrder{
+                    return 0
+                }else{
+                    return 44
+                }
+            }else if indexPath.row == 1{
+                if self.isRedoOrder{
+                    return 44
+                }
+                if self.firstPayBtn.isSelected{
+                    return 44
+                }else{
+                    return 0
+                }
+            }else if indexPath.row == 2{
+                return 400
+            }
+        }
+        return 44
+    }
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)

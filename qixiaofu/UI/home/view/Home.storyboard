@@ -1507,8 +1507,46 @@
                             </tableViewSection>
                             <tableViewSection id="LgR-We-quA">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="eQv-vI-DOo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="dnm-YG-ZZT">
                                         <rect key="frame" x="0.0" y="451" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dnm-YG-ZZT" id="yBa-HI-2Og">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" tag="11" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTf-uS-mZk">
+                                                    <rect key="frame" x="30" y="13.333333333333336" width="63" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="  预付款" image="pay_type2">
+                                                        <color key="titleColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <state key="selected" image="pay_type1"/>
+                                                    <connections>
+                                                        <action selector="payTimeBtnAction:" destination="qmh-O0-tlR" eventType="touchUpInside" id="QF5-WQ-uNJ"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00X-Hg-Jpf">
+                                                    <rect key="frame" x="133" y="13.333333333333336" width="63" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="  先发单" image="pay_type2">
+                                                        <color key="titleColor" red="0.12941176469999999" green="0.12941176469999999" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <state key="selected" image="pay_type1"/>
+                                                    <connections>
+                                                        <action selector="payTimeBtnAction:" destination="qmh-O0-tlR" eventType="touchUpInside" id="RVx-VC-Noc"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="00X-Hg-Jpf" firstAttribute="centerY" secondItem="yBa-HI-2Og" secondAttribute="centerY" id="GG1-tB-OsN"/>
+                                                <constraint firstItem="eTf-uS-mZk" firstAttribute="leading" secondItem="yBa-HI-2Og" secondAttribute="leading" constant="30" id="Rk0-q4-4v6"/>
+                                                <constraint firstItem="00X-Hg-Jpf" firstAttribute="leading" secondItem="eTf-uS-mZk" secondAttribute="trailing" constant="40" id="gqk-uq-KET"/>
+                                                <constraint firstItem="eTf-uS-mZk" firstAttribute="centerY" secondItem="yBa-HI-2Og" secondAttribute="centerY" id="yes-Bw-DbK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="eQv-vI-DOo">
+                                        <rect key="frame" x="0.0" y="495" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eQv-vI-DOo" id="LIk-rA-TMS">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1544,7 +1582,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="400" id="cHp-J2-9GK">
-                                        <rect key="frame" x="0.0" y="495" width="414" height="400"/>
+                                        <rect key="frame" x="0.0" y="539" width="414" height="400"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cHp-J2-9GK" id="45m-Xn-lcM">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="399.66666666666669"/>
@@ -1593,9 +1631,11 @@
                     </tableView>
                     <connections>
                         <outlet property="countTF" destination="VxD-BM-H98" id="UJt-Fq-rcG"/>
+                        <outlet property="firstPayBtn" destination="eTf-uS-mZk" id="65s-YP-kSO"/>
                         <outlet property="goodsBrandLbl" destination="A0i-cM-rMa" id="TKQ-wQ-h1f"/>
                         <outlet property="goodsBrandTF" destination="TPk-aL-ZWv" id="Gkd-uH-hkC"/>
                         <outlet property="nextBtn" destination="LR2-6I-Y1f" id="QDs-Zb-bh4"/>
+                        <outlet property="payLaterBtn" destination="00X-Hg-Jpf" id="3kG-3S-pBS"/>
                         <outlet property="priceInfoLbl" destination="OwG-wp-b7U" id="vcV-MI-Rcm"/>
                         <outlet property="priceTF" destination="qrl-J1-RWG" id="poQ-ZY-Hb6"/>
                         <outlet property="serverAreaLbl" destination="SJ4-rF-Y45" id="buN-o7-T8q"/>
@@ -5079,6 +5119,8 @@
         <image name="map_location_n" width="30" height="30"/>
         <image name="money" width="20" height="20"/>
         <image name="notice_icon" width="20" height="20"/>
+        <image name="pay_type1" width="12" height="12"/>
+        <image name="pay_type2" width="12" height="12"/>
         <image name="phone" width="20" height="20"/>
         <image name="search_history" width="20" height="20"/>
         <image name="voice_icon1" width="30" height="30"/>
