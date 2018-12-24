@@ -15,6 +15,8 @@ class EnrollEngineerCell: UITableViewCell {
     var detailActionBlock : (() -> Void)?
     var chatActionBlock : (() -> Void)?
     
+    var bill_type = ""
+    
     @IBOutlet weak var iconImgV: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var selectedBtn: UIButton!
@@ -27,6 +29,7 @@ class EnrollEngineerCell: UITableViewCell {
     @IBOutlet weak var offerPriceLbl: UILabel!
     @IBOutlet weak var engXinImgV: UIImageView!
     @IBOutlet weak var chatBtn: UIButton!
+    
     
     var jsonModel : JSON = [] {
         didSet{
@@ -62,7 +65,7 @@ class EnrollEngineerCell: UITableViewCell {
             }
             
             //是否可聊
-            if jsonModel[""].stringValue.intValue != 1{
+            if self.bill_type.intValue == 2{
                 self.chatBtn.setImage(UIImage.init(named: "enro_icon3"), for: .normal)
                 self.chatBtn.setTitleColor(UIColor.colorHex(hex: "cccccc"), for: .normal)
             }else{
@@ -99,8 +102,12 @@ class EnrollEngineerCell: UITableViewCell {
     
     
     @IBAction func chatAction() {
-        if self.chatActionBlock != nil{
-            self.chatActionBlock!()
+        if self.bill_type.intValue == 2{
+            LYProgressHUD.showError("您需要先定价才可联系工程师")
+        }else{
+            if self.chatActionBlock != nil{
+                self.chatActionBlock!()
+            }
         }
     }
     

@@ -1134,7 +1134,7 @@ extension MySendOrderDetailViewController{
             self.serverPriceTitleLbl.isHidden = true
         }
         //约定不显示价格
-        if resultDict["show_price"].stringValue.intValue == 0{
+        if resultDict["show_price"].stringValue.intValue == 0 || resultDict["bill_type"].stringValue.intValue == 2{
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true
         }
@@ -1150,8 +1150,9 @@ extension MySendOrderDetailViewController{
         switch modelJson["bill_statu"].stringValue.intValue {
         case 1:
             //指定接单人
-            let authorizedVC = AuthorizedEnrollerController()
+            let authorizedVC = AuthorizedEnrollerController.spwan()
             authorizedVC.billId = self.orderId
+            authorizedVC.bill_type = modelJson["bill_type"].stringValue
             authorizedVC.successBlock = {[weak self] () in
                 //刷新数据
                 if self?.refreshBlock != nil{
@@ -1430,6 +1431,13 @@ extension MySendOrderDetailViewController{
             self.stateLbl.text = "补单"
         default:
             self.stateLbl.text = "未知状态"
+        }
+        
+        
+        //约定不显示价格
+        if resultDict["bill_type"].stringValue.intValue == 2{
+            self.serverPriceLbl.isHidden = true
+            self.serverPriceTitleLbl.isHidden = true
         }
     }
     

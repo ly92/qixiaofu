@@ -521,6 +521,11 @@ extension MySendOrderCell{
             print("未知状态")
         }
         
+        //约定不显示价格
+        if subJson["bill_type"].stringValue.intValue == 2{
+            self.priceTitleLbl.isHidden = true
+            self.priceLbl.isHidden = true
+        }
     }
 }
 
@@ -942,7 +947,7 @@ extension MySendOrderCell{
         }
         
         //约定不显示价格
-        if subJson["show_price"].stringValue.intValue == 0{
+        if subJson["show_price"].stringValue.intValue == 0 || subJson["bill_type"].stringValue.intValue == 2{
             self.priceTitleLbl.isHidden = true
             self.priceLbl.isHidden = true
         }

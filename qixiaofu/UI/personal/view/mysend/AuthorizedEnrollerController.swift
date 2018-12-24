@@ -9,10 +9,17 @@
 import UIKit
 import SwiftyJSON
 
-class AuthorizedEnrollerController: BaseTableViewController {
-
+class AuthorizedEnrollerController: BaseViewController {
+    class func spwan() -> AuthorizedEnrollerController{
+        return self.loadFromStoryBoard(storyBoard: "Personal") as! AuthorizedEnrollerController
+    }
+    
     var successBlock : (() -> Void)?
     var billId = ""
+    var bill_type = ""//1.预付款  2.先发单
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var topViewH: NSLayoutConstraint!
     
     fileprivate var resultJson : JSON = []
     fileprivate var selectedId = ""
@@ -22,6 +29,7 @@ class AuthorizedEnrollerController: BaseTableViewController {
         super.viewDidLoad()
 
         self.navigationItem.title = "报名列表"
+        
         
         self.tableView.register(UINib.init(nibName: "EnrollEngineerCell", bundle: Bundle.main), forCellReuseIdentifier: "EnrollEngineerCell")
         self.tableView.separatorStyle = .none
@@ -33,6 +41,12 @@ class AuthorizedEnrollerController: BaseTableViewController {
         self.tableView.es.addPullToRefresh {
             self.loadData()
             self.tableView.es.stopPullToRefresh()
+        }
+        
+        if self.bill_type.intValue == 2{
+            self.topViewH.constant = 50
+        }else{
+            self.topViewH.constant = 0
         }
     }
     
@@ -90,32 +104,16 @@ class AuthorizedEnrollerController: BaseTableViewController {
             }
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-//        var params : [String : String] = [:]
-//        params["bill_id"] = self.billId
-//        params["ot_user_id"] = self.selectedId
-//        LYProgressHUD.showLoading()
-//        NetTools.requestData(type: .post, urlString: AuthorizedEngApi, parameters: params, succeed: { (result, msg) in
-//            LYProgressHUD.showSuccess("指定接单成功！")
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
-//                //刷新列表和详情
-//                if self.successBlock != nil{
-//                    self.successBlock!()
-//                }
-//                self.navigationController?.popViewController(animated: true)
-//            })
-//        }) { (error) in
-//            LYProgressHUD.showError(error!)
-//        }
     }
     
+    @IBAction func setPayAction() {
+        let customAlertView = UIAlertView.init(title: "我的定价", message: "请输入设定的价格", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "确定")
+        customAlertView.alertViewStyle = .plainTextInput
+        let nameField = customAlertView.textField(at: 0)
+        nameField?.keyboardType = .default
+        nameField?.placeholder = "输入设定价格"
+        customAlertView.show()
+    }
     
     //加载报名的工程师列表
     func loadData() {
@@ -136,20 +134,25 @@ class AuthorizedEnrollerController: BaseTableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+
+}
+
+extension AuthorizedEnrollerController : UITableViewDelegate, UITableViewDataSource{
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.resultJson.arrayValue.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EnrollEngineerCell", for: indexPath) as! EnrollEngineerCell
         if self.resultJson.arrayValue.count > indexPath.row{
             let subJson = self.resultJson.arrayValue[indexPath.row]
+            cell.bill_type = self.bill_type
             cell.jsonModel = subJson
             
             if self.selectedId == subJson["ot_user_id"].stringValue{
@@ -180,11 +183,11 @@ class AuthorizedEnrollerController: BaseTableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 110
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         if self.resultJson.arrayValue.count > indexPath.row{
             let subJson = self.resultJson.arrayValue[indexPath.row]
@@ -192,6 +195,43 @@ class AuthorizedEnrollerController: BaseTableViewController {
             esmobChat(self, subJson["phone_num"].stringValue, 2, subJson["ot_user_name"].stringValue, subJson["ot_user_avatar"].stringValue)
         }
     }
+}
 
 
+
+extension AuthorizedEnrollerController : UIAlertViewDelegate{
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        if buttonIndex == 1{
+            let nameField = alertView.textField(at: 0)
+            guard let price = nameField?.text else{
+                LYProgressHUD.showError("请重试！")
+                return
+            }
+            if price.isEmpty{
+                LYProgressHUD.showError("不可为空！")
+                return
+            }
+            if price.floatValue <= 0{
+                LYProgressHUD.showError("请输入大于0的正确的金额")
+                return
+            }
+            
+            
+            //去支付
+            let payVC = PaySendTaskViewController.spwan()
+            payVC.isJustPay = true
+            payVC.totalMoney = price.doubleValue
+            payVC.orderId = self.billId
+            payVC.isSetPrice = true
+            payVC.rePayOrderSuccessBlock = {[weak self] () in
+                //刷新数据
+                self?.bill_type = "1"
+                self?.tableView.reloadData()
+            }
+            self.navigationController?.pushViewController(payVC, animated: true)
+            
+        }
+    }
+    
+    
 }

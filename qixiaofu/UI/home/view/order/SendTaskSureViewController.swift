@@ -206,11 +206,29 @@ class SendTaskSureViewController: BaseTableViewController {
                 }
             }
             print(params.description)
-            let payVC = PaySendTaskViewController.spwan()
-            payVC.paymentJson = paymentJson
-            payVC.params = params
-            payVC.top_price = self.top_price
-            self.navigationController?.pushViewController(payVC, animated: true)
+            
+            
+            guard let bill_type = params["bill_type"] as? String else {
+                LYProgressHUD.showError("下单失败！")
+                return
+            }
+            if bill_type.intValue == 1{
+                let payVC = PaySendTaskViewController.spwan()
+                payVC.paymentJson = paymentJson
+                payVC.params = params
+                payVC.top_price = self.top_price
+                self.navigationController?.pushViewController(payVC, animated: true)
+            }else{
+                
+                NetTools.requestData(type: .post, urlString: SendTaskApi,parameters: params, succeed: { (resultJson, error) in
+                    LYAlertView.show("发布成功！", "在首页“我的发单”中可查看订单记录", "返回首页" ,{
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                }) { (error) in
+                    LYProgressHUD.dismiss()
+                    LYProgressHUD.showError(error!)
+                }
+            }
         }
         
 

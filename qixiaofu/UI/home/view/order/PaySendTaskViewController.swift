@@ -36,7 +36,7 @@ class PaySendTaskViewController: BaseViewController,WXApiDelegate {
     var newPrice = ""//调新的价格
     var imgArray = Array<UIImage>()//上传的图片地址
     var top_price = "100"//置顶费
-    
+    var isSetPrice = false//先发单的定价操作
     
     
     @IBOutlet weak var serverContentLbl: UILabel!
@@ -253,6 +253,9 @@ class PaySendTaskViewController: BaseViewController,WXApiDelegate {
                 }else if self.isPrepareToSeal{
                     //代卖仓储支付
                     self.sealStoragePay(pwd: "")
+                }else if self.isSetPrice{
+                    //先发单的定价操作
+                    self.setPricePay(pwd: "")
                 }else{
                     //普通支付
                     if self.paySn.isEmpty{
@@ -313,6 +316,9 @@ extension PaySendTaskViewController{
                         }else if self.isPrepareToSeal{
                             //代卖仓储支付
                             self.sealStoragePay(pwd: pwd)
+                        }else if self.isSetPrice{
+                            //先发单的定价操作
+                            self.setPricePay(pwd: pwd)
                         }else{
                             //普通支付
                             if self.paySn.isEmpty{
@@ -469,6 +475,45 @@ extension PaySendTaskViewController{
             LYProgressHUD.showError(error!)
         }
     }
+    
+    //MARK:去代卖设置价格购买仓储套餐的支付
+    func setPricePay(pwd:String) {
+        LYProgressHUD.showLoading()
+        var storageParams : [String : Any] = [:]
+        if self.walletSwitch.isOn && !pwd.isEmpty{
+            storageParams["member_paypwd"] = pwd.md5String()
+            storageParams["payment_id"] = "7"
+        }else if self.aliBtn.isSelected{
+            storageParams["payment_id"] = "2"
+        }else if self.wechatBtn.isSelected{
+            storageParams["payment_id"] = "6"
+        }
+        storageParams["id"] = self.orderId
+        storageParams["pricing_price"] = "\(totalMoney)"
+        
+        NetTools.requestData(type: .post, urlString: TaskSetPriceApi, parameters: storageParams, succeed: { (result, msg) in
+            LYProgressHUD.dismiss()
+            if result["is_pay"].stringValue.intValue == 1{
+                if self.aliBtn.isSelected{
+                    self.payByAli(result)
+                }else if self.wechatBtn.isSelected{
+                    self.payByWechat(result)
+                }
+            }else{
+                //支付成功
+                //支付成功后返回
+                LYProgressHUD.showSuccess("支付成功！")
+                if self.rePayOrderSuccessBlock != nil{
+                    self.rePayOrderSuccessBlock!()
+                }
+                self.navigationController?.popViewController(animated: true)
+            }
+        }) { (error) in
+            LYProgressHUD.showError(error!)
+        }
+    }
+    
+    
     
     //MARK:插件支付
     func enrollPay(pwd:String) {
@@ -793,6 +838,13 @@ extension PaySendTaskViewController{
                         self.rePayOrderSuccessBlock!()
                     }
                     self.navigationController?.popViewController(animated: true)
+                }else if self.isSetPrice{
+                    //先发单的定价操作
+                    LYProgressHUD.showSuccess("支付成功！")
+                    if self.rePayOrderSuccessBlock != nil{
+                        self.rePayOrderSuccessBlock!()
+                    }
+                    self.navigationController?.popViewController(animated: true)
                 }else{
                     //普通支付
                     if self.paySn.isEmpty{
@@ -912,6 +964,13 @@ extension PaySendTaskViewController{
                     self.navigationController?.popViewController(animated: true)
                 }else if self.isPrepareToSeal{
                     //代卖仓储支付
+                    LYProgressHUD.showSuccess("支付成功！")
+                    if self.rePayOrderSuccessBlock != nil{
+                        self.rePayOrderSuccessBlock!()
+                    }
+                    self.navigationController?.popViewController(animated: true)
+                }else if self.isSetPrice{
+                    //先发单的定价操作
                     LYProgressHUD.showSuccess("支付成功！")
                     if self.rePayOrderSuccessBlock != nil{
                         self.rePayOrderSuccessBlock!()

@@ -99,7 +99,7 @@ class HomeTaskListCell: UITableViewCell {
             }
             
             //约定不显示价格
-            if jsonModel["show_price"].stringValue.intValue == 0{
+            if jsonModel["show_price"].stringValue.intValue == 0 || jsonModel["bill_type"].stringValue.intValue == 2{
                 self.lbl5.isHidden = true
                 self.serverPriceLbl.isHidden = true
             }

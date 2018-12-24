@@ -158,41 +158,31 @@ class TaskReceiveDetailViewController: BaseTableViewController {
     
     @IBAction func receiveTaskAction() {
         UserViewModel.haveTrueName(parentVC: self) {
-            var memo = self.resultDict["price_info"].stringValue.trim
-            if memo.isEmpty{
-                memo = "完成订单时如使用七小服商城自营备件，平台另外奖励部分金额"
-            }
-            LYAlertView.show("确定报名？", memo, "取消", "确定", {
-                var params : [String:Any] = [:]
-                params["bill_id"] = self.task_id
-                params["bill_user_id"] = self.resultDict["bill_user_id"].stringValue
-                params["enroll_mobile"] = LocalData.getUserPhone()
-                params["offer_price"] = ""
-                //报名
-                NetTools.requestData(type: .post, urlString: requestEnrollApi, parameters: params, succeed: { (resultJson, error) in
-                    //检查是否已报名
-                    self.isEnrolled = true
-                    self.tableView.reloadData()
-                }) { (error) in
-                    LYProgressHUD.showError(error!)
+            if self.resultDict["bill_type"].stringValue.intValue == 2{
+                LYAlertView.show("客户未定价", "您需要输入一个期望价格才可报名", "取消", "确定", {
+                    self.changePriceAction()
+                })
+            }else{
+                var memo = self.resultDict["price_info"].stringValue.trim
+                if memo.isEmpty{
+                    memo = "完成订单时如使用七小服商城自营备件，平台另外奖励部分金额"
                 }
-                //                NetTools.requestData(type: .post, urlString: HomeReceiveTaskApi, parameters: params, succeed: { (resultJson, error) in
-                //                    LYAlertView.show("接单成功", "查看订单详情", "取消", "确定", {
-                //                        let orderDetailVC = MySendOrderDetailViewController.spwan()
-                //                        orderDetailVC.orderId = resultJson["bill_id"].stringValue
-                //                        orderDetailVC.isMyReceive = true
-                //                            orderDetailVC.moveState = resultJson["state"].stringValue
-                //                        self.navigationController?.pushViewController(orderDetailVC, animated: true)
-                //                    })
-                //                    //刷新数据
-                //                    self.loadDetailData()
-                //                    if self.baseRefreshBlock != nil{
-                //                        self.baseRefreshBlock!()
-                //                    }
-                //                }) { (error) in
-                //                    LYProgressHUD.showError(error!)
-                //                }
-            })
+                LYAlertView.show("确定报名？", memo, "取消", "确定", {
+                    var params : [String:Any] = [:]
+                    params["bill_id"] = self.task_id
+                    params["bill_user_id"] = self.resultDict["bill_user_id"].stringValue
+                    params["enroll_mobile"] = LocalData.getUserPhone()
+                    params["offer_price"] = ""
+                    //报名
+                    NetTools.requestData(type: .post, urlString: requestEnrollApi, parameters: params, succeed: { (resultJson, error) in
+                        //检查是否已报名
+                        self.isEnrolled = true
+                        self.tableView.reloadData()
+                    }) { (error) in
+                        LYProgressHUD.showError(error!)
+                    }
+                })
+            }
         }
     }
     
@@ -268,7 +258,7 @@ extension TaskReceiveDetailViewController{
             self.serverPriceTitleLbl.isHidden = true
         }
         //约定不显示价格
-        if resultDict["show_price"].stringValue.intValue == 0{
+        if resultDict["show_price"].stringValue.intValue == 0 || resultDict["bill_type"].stringValue.intValue == 2{
             self.isEnrolled = true
             self.serverPriceLbl.isHidden = true
             self.serverPriceTitleLbl.isHidden = true

@@ -59,7 +59,7 @@ let HomeTaskListApi = "tp.php/Home/Index/BillList/"
 //小七推荐订单列表
 let HomeRecommandTaskListApi = "tp.php/Home/Index/reMore/"
 //接单订单详情
-let HomeTaskDetailApi = "tp.php/Home/Index/BillDetail/"
+let HomeTaskDetailApi = "tp.php/Home/Index/BillDetail"
 //检查是否已报名
 let CheckEnrollApi = "tp.php/Home/Member/isenroll"
 //点击接单
@@ -82,6 +82,8 @@ let HomeOrderCommentListApi = "tp.php/Home/My/orderComment"
 let SendTaskEssentialDataApi = "tp.php/Home/Member/showaddbill"
 //发单
 let SendTaskApi = "tp.php/Home/Member/addbill"
+//先发单的定价
+let TaskSetPriceApi = "tp.php/Home/My/pricing"
 //发单时的分类和型号
 let SendTaskFacilityTypeApi = "tp.php/Home/Member/facility_type"
 //上传图片

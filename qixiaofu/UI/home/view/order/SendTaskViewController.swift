@@ -97,6 +97,7 @@ class SendTaskViewController: BaseTableViewController {
         }
     }
     
+    //选择先付款还是后付款
     @IBAction func payTimeBtnAction(_ btn: UIButton) {
         if btn.tag == 11{
             self.firstPayBtn.isSelected = true
@@ -435,20 +436,26 @@ class SendTaskViewController: BaseTableViewController {
         }
         params["number_unit"] = unit
         
-        if price.isEmpty{
-            if showError {
-                LYProgressHUD.showError("请输入价格")
-            }
-            return false
-        }
-        if price.doubleValue <= 0{
-            if showError {
-                LYProgressHUD.showError("请输入标准价格")
-            }
-            return false
-        }
-        params["service_price"] = price
         
+        if self.firstPayBtn.isSelected{
+            if price.isEmpty{
+                if showError {
+                    LYProgressHUD.showError("请输入价格")
+                }
+                return false
+            }
+            if price.doubleValue <= 0{
+                if showError {
+                    LYProgressHUD.showError("请输入标准价格")
+                }
+                return false
+            }
+            params["service_price"] = price
+            params["bill_type"] = "1"//1.预付款  2.先发单
+        }else{
+            params["bill_type"] = "2"
+        }
+
         return true
     }
     
