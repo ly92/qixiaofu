@@ -226,7 +226,12 @@ extension AuthorizedEnrollerController : UIAlertViewDelegate{
             payVC.rePayOrderSuccessBlock = {[weak self] () in
                 //刷新数据
                 self?.bill_type = "1"
+                self?.topViewH.constant = 0
                 self?.tableView.reloadData()
+                //刷新列表和详情
+                if self?.successBlock != nil{
+                    self?.successBlock!()
+                }
             }
             self.navigationController?.pushViewController(payVC, animated: true)
             
